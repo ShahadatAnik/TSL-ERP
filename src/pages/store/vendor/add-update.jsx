@@ -84,18 +84,13 @@ export default function Index({
 			onClose={onClose}
 			isSmall={true}>
 			<Input label='name' {...{ register, errors }} />
+			<Input label='person' title='Person' {...{ register, errors }} />
 			<Input
-				label='contact_name'
-				title='Person'
-				{...{ register, errors }}
-			/>
-			<Input
-				label='contact_number'
+				label='phone'
 				title='Phone Number'
 				{...{ register, errors }}
 			/>
-			<Input label='email' {...{ register, errors }} />
-			<Input label='office_address' {...{ register, errors }} />
+			<Input label='address' {...{ register, errors }} />
 			<Input label='remarks' {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>

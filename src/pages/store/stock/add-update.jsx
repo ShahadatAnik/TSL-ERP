@@ -1,6 +1,5 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-
 import { useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
@@ -104,19 +103,19 @@ export default function Index({
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
-				<FormField label='section_id' title='Section' errors={errors}>
+				<FormField label='article_uuid' title='Article' errors={errors}>
 					<Controller
-						name={'section_uuid'}
+						name={'article_uuid'}
 						control={control}
 						render={({ field: { onChange } }) => {
 							return (
 								<ReactSelect
-									placeholder='Select Section'
+									placeholder='Select Article'
 									options={section}
 									value={section?.filter(
 										(item) =>
 											item.value ===
-											getValues('section_uuid')
+											getValues('article_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
 									isDisabled={
@@ -127,19 +126,22 @@ export default function Index({
 						}}
 					/>
 				</FormField>
-				<FormField label='type_uuid' title='Type' errors={errors}>
+				<FormField
+					label='category_uuid'
+					title='Category'
+					errors={errors}>
 					<Controller
-						name={'type_uuid'}
+						name={'category_uuid'}
 						control={control}
 						render={({ field: { onChange } }) => {
 							return (
 								<ReactSelect
-									placeholder='Select Material Type'
+									placeholder='Select Category'
 									options={materialType}
 									value={materialType?.filter(
 										(item) =>
 											item.value ===
-											getValues('type_uuid')
+											getValues('category_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
 									isDisabled={
@@ -153,18 +155,10 @@ export default function Index({
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='name' {...{ register, errors }} />
-				<Input label='short_name' {...{ register, errors }} />
-				<JoinInputSelect
-					//defaultUnitValue='kg'
-					label='threshold'
-					join='unit'
-					option={selectUnit}
-					{...{ register, errors }}
-				/>
+				<Input label='color' {...{ register, errors }} />
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='remarks' {...{ register, errors }} />
-				<Textarea label='description' {...{ register, errors }} />
 			</div>
 		</AddModal>
 	);

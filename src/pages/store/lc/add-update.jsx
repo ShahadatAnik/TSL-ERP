@@ -2,6 +2,8 @@ import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import { useOtherMaterialSection, useOtherMaterialType } from '@/state/other';
 import { useMaterialInfo, useMaterialInfoByUUID } from '@/state/store';
+import { DevTool } from '@hookform/devtools';
+import DatePicker from 'react-datepicker';
 import { useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
@@ -88,11 +90,33 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update ' : ''}
+			title={update?.uuid !== null ? 'Update LC' : 'LC'}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
+			<Input label='number' {...{ register, errors }} />
+			<FormField
+				label='delivery_date'
+				title='Delivery Date'
+				errors={errors}>
+				<Controller
+					name={'delivery_date'}
+					control={control}
+					render={({ field: { onChange } }) => {
+						return (
+							<DatePicker
+								className='h-12 w-full rounded-md border bg-primary/5 px-2 text-primary'
+								placeholderText='Select Delivery Date'
+								dateFormat='dd/MM/yyyy'
+								selected={getValues('delivery_date')}
+								onChange={(date) => onChange(date)}
+							/>
+						);
+					}}
+				/>
+			</FormField>
 			<Input label='remarks' {...{ register, errors }} />
+			<DevTool control={control} />
 		</AddModal>
 	);
 }

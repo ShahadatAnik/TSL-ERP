@@ -10,6 +10,7 @@ import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
 import { _NULL, _SCHEMA } from '@/util/schema';
+import { DevTool } from '@hookform/devtools';
 
 export default function Index({
 	modalId = '',
@@ -88,11 +89,13 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update ' : ''}
+			title={update?.uuid !== null ? 'Update Buyer ' : 'Buyer'}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
+			<Input label='name' {...{ register, errors }} />
 			<Input label='remarks' {...{ register, errors }} />
+			<DevTool context={context} />
 		</AddModal>
 	);
 }

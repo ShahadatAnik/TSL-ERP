@@ -88,10 +88,32 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update ' : ''}
+			title={update?.uuid !== null ? 'Update Article' : 'Article'}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
+			<Input label='name' {...{ register, errors }} />
+			<FormField label='buyer_uuid' {...{ register, errors }}>
+				<Controller
+					name='buyer_uuid'
+					control={control}
+					render={({ field: { onChange } }) => {
+						return (
+							<ReactSelect
+								placeholder='Select Buyer'
+								options={buyer}
+								value={buyer?.find(
+									(item) =>
+										item.value === getValues('buyer_uuid')
+								)}
+								onChange={(e) => {
+									onChange(e.value);
+								}}
+							/>
+						);
+					}}
+				/>
+			</FormField>
 			<Input label='remarks' {...{ register, errors }} />
 		</AddModal>
 	);
