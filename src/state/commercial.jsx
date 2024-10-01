@@ -1,5 +1,5 @@
 import createGlobalState from '.';
-import { commercialQK } from './QueryKeys';
+import { commercialQK } from './query-keys';
 
 // * Bank * //
 export const useCommercialBank = () =>

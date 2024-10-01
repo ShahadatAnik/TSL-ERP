@@ -2,8 +2,12 @@ import { useEffect } from 'react';
 
 export default function Index() {
 	useEffect(() => {
-		document.title = 'Store: Log';
+		document.title = 'Dyeing and Iron Log';
 	}, []);
-
-	return <div className='flex flex-col gap-6'>hello</div>;
+	return (
+		<div>
+			<hr className='my-6 border-2 border-dashed border-secondary-content' />
+			{/* <RMOrderAgainstLog /> */}
+		</div>
+	);
 }

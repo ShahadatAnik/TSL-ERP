@@ -1,10 +1,15 @@
 // * Store
+
+// * Purchase
+import Article from '@/pages/store/article';
+import Buyer from '@/pages/store/buyer';
+import Category from '@/pages/store/category';
+import LC from '@/pages/store/lc';
 import MaterialLog from '@/pages/store/Log';
 import Purchase from '@/pages/store/receive';
 import PurchaseInd from '@/pages/store/receive/details/by-purchase-description-uuid';
 import PurchaseEntry from '@/pages/store/receive/entry';
 import Stock from '@/pages/store/stock';
-// * Purchase
 import Vendor from '@/pages/store/vendor';
 
 export const StoreRoutes = [
@@ -30,6 +35,34 @@ export const StoreRoutes = [
 				path: '/store/vendor',
 				element: <Vendor />,
 				page_name: 'store__vendor',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Article',
+				path: '/store/article',
+				element: <Article />,
+				page_name: 'store__article',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'LC',
+				path: '/store/lc',
+				element: <LC />,
+				page_name: 'store__lc',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Buyer',
+				path: '/store/buyer',
+				element: <Buyer />,
+				page_name: 'store__buyer',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Category',
+				path: '/store/category',
+				element: <Category />,
+				page_name: 'store__category',
 				actions: ['create', 'read', 'update', 'delete'],
 			},
 			{

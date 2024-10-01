@@ -1,5 +1,4 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { useMaterialInfo } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -15,7 +14,7 @@ export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useMaterialInfo();
 	const info = new PageInfo('Store / Stock', url, 'store__stock');
 	const haveAccess = useAccess('store__stock');
-	console.log(haveAccess);
+
 
 	const columns = useMemo(
 		() => [

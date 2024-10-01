@@ -1,5 +1,6 @@
 import createGlobalState from '@/state';
-import { adminQK } from './QueryKeys';
+
+import { adminQK } from './query-keys';
 
 // * User
 export const useAdminUsers = () =>

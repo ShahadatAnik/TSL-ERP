@@ -1,5 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { usePurchaseVendor } from '@/state/store';
+
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';

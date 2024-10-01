@@ -1,14 +1,12 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherMaterialSection, useOtherMaterialType } from '@/state/other';
-import { useMaterialInfo, useMaterialInfoByUUID } from '@/state/store';
+
 import { useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
-import { MATERIAL_NULL, MATERIAL_SCHEMA } from '@util/Schema';
 import GetDateTime from '@/util/GetDateTime';
 
 export default function Index({
