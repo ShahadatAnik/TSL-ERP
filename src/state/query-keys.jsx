@@ -3,49 +3,63 @@
  ** https://tkdodo.eu/blog/effective-react-query-keys#use-query-key-factories
  ** https://tkdodo.eu/blog/leveraging-the-query-function-context#query-key-factories
  **/
+
+//* Admin
 export const adminQK = {
 	all: () => ['admin'],
 
-	// departments
+	//* departments
 	departments: () => [...adminQK.all(), 'departments'],
 	department: (uuid) => [...adminQK.departments(), uuid],
 
-	// designation
+	//* designation
 	designations: () => [...adminQK.all(), 'designations'],
 	designation: (uuid) => [...adminQK.designations(), uuid],
 
-	// users
+	//* users
 	users: () => [...adminQK.all(), 'users'],
 	user: (uuid) => [...adminQK.users(), uuid],
 };
 
-export const storeQK = {
+//* Store
 
+export const storeQK = {
 	//* Stock
-	store: () => ['store'],
-	
-	stock: () => [...storeQK.store(), 'stock'],
+	all: () => ['store'],
+
+	stock: () => [...storeQK.all(), 'stock'],
 	stockByUUID: (uuid) => [...storeQK.stock(), uuid],
 
 	//* Article
-	article: () => [...storeQK.store(), 'article'],
+	article: () => [...storeQK.all(), 'article'],
 	articleByUUID: (uuid) => [...storeQK.article(), uuid],
 
 	//* Category
-	category: () => [...storeQK.store(), 'category'],
+	category: () => [...storeQK.all(), 'category'],
 	categoryByUUID: (uuid) => [...storeQK.category(), uuid],
 
 	//* LC
-	lc: () => [...storeQK.store(), 'lc'],
+	lc: () => [...storeQK.all(), 'lc'],
 	lcByUUID: (uuid) => [...storeQK.lc(), uuid],
 
 	//* Buyer
-	buyer: () => [...storeQK.store(), 'buyer'],
+	buyer: () => [...storeQK.all(), 'buyer'],
 	buyerByUUID: (uuid) => [...storeQK.buyer(), uuid],
 
 	//* Vendor
-	vendor: () => [...storeQK.store(), 'vendor'],
+	vendor: () => [...storeQK.all(), 'vendor'],
 	vendorByUUID: (uuid) => [...storeQK.vendor(), uuid],
+};
+//* Other
+export const otherQK = {
+	all: () => ['other'],
 
+	//*Buyer Value Label
+	buyerValueLabel: () => [...otherQK.all(), 'buyer-value-label'],
 
+	//*Category Value Label
+	categoryValueLabel: () => [...otherQK.all(), 'category-value-label'],
+
+	//*Article Value Label
+	articleValueLabel: () => [...otherQK.all(), 'article-value-label'],
 };

@@ -1,4 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
+import { useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -13,9 +14,10 @@ const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData, refetch } = useMaterialInfo();
+	const { data, isLoading, url, deleteData, refetch } = useStoreStock();
 	const info = new PageInfo('Store / Stock', url, 'store__stock');
 	const haveAccess = useAccess('store__stock');
+	console.log(haveAccess);
 
 	// Fetching data from server
 	useEffect(() => {
@@ -47,26 +49,6 @@ export default function Index() {
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
 
-	const handleTrx = (idx) => {
-		setUpdateMaterialDetails((prev) => ({
-			...prev,
-			uuid: data[idx].uuid,
-			stock: data[idx].stock,
-			name: data[idx].name,
-		}));
-		window['MaterialTrx'].showModal();
-	};
-
-	const handleTrxAgainstOrder = (idx) => {
-		setUpdateMaterialDetails((prev) => ({
-			...prev,
-			uuid: data[idx].uuid,
-			stock: data[idx].stock,
-			name: data[idx].name,
-		}));
-		window['MaterialTrxAgainstOrder'].showModal();
-	};
-
 	// Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
@@ -81,7 +63,7 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
-	const columns = StockColumns(haveAccess, handelUpdate, handelDelete);
+	const columns = StockColumns(haveAccess, handelUpdate, handelDelete, data);
 
 	return (
 		<div>

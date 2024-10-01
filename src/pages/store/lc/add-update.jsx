@@ -1,17 +1,16 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherMaterialSection, useOtherMaterialType } from '@/state/other';
-import { useMaterialInfo, useMaterialInfoByUUID } from '@/state/store';
+import { useStoreLC } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import DatePicker from 'react-datepicker';
-import { useRHF } from '@/hooks';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { _NULL, _SCHEMA } from '@/util/schema';
+import { LC_NULL, LC_SCHEMA } from '@/util/schema';
 
 export default function Index({
 	modalId = '',
@@ -23,8 +22,7 @@ export default function Index({
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useMaterialInfo();
-	const { data } = useMaterialInfoByUUID(update?.uuid);
+	const { url, updateData, postData } = useStoreLC();
 
 	const {
 		register,
@@ -35,13 +33,8 @@ export default function Index({
 		control,
 		getValues,
 		context,
-	} = useRHF(_SCHEMA, _NULL);
-
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
+	} = useRHF(LC_SCHEMA, LC_NULL);
+	useFetchForRhfReset(url, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -50,7 +43,7 @@ export default function Index({
 			section_uuid: null,
 			type_uuid: null,
 		}));
-		reset(_NULL);
+		reset(LC_NULL);
 		window[modalId].close();
 	};
 

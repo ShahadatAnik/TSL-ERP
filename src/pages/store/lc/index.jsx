@@ -1,4 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
+import { useStoreLC } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -14,7 +15,7 @@ const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData, refetch } = use();
+	const { data, isLoading, url, deleteData, refetch } = useStoreLC();
 	const info = new PageInfo('', url, '');
 	const haveAccess = useAccess('');
 
@@ -42,16 +43,6 @@ export default function Index() {
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
-
-	const handleTrx = (idx) => {
-		setUpdate((prev) => ({
-			...prev,
-			uuid: data[idx].uuid,
-			name: data[idx].name,
-		}));
-		window['MaterialTrx'].showModal();
-	};
-
 	// Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,

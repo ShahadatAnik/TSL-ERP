@@ -5,81 +5,81 @@ import { storeQK } from './query-keys';
 export const useStoreBuyer = () =>
 	createGlobalState({
 		queryKey: storeQK.buyer(),
-		url: '',
+		url: '/public/buyer',
 	});
 
 export const useStoreBuyerByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.buyerByUUID(uuid),
-		url: '',
-		enabled: !!uuid,
+		url: `/public/buyer/${uuid}`,
+		//enabled: !!uuid,
 	});
 
 // * Article
 export const useStoreArticle = () =>
 	createGlobalState({
 		queryKey: storeQK.article(),
-		url: '',
+		url: 'public/article',
 	});
 
 export const useStoreArticleByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.articleByUUID(uuid),
-		url: '',
-		enabled: !!uuid,
+		url: `/public/article/${uuid}`,
+		//enabled: !!uuid,
 	});
 
 // * Category
 export const useStoreCategory = () =>
 	createGlobalState({
 		queryKey: storeQK.category(),
-		url: '',
+		url: `/public/category`,
 	});
 
 export const useStoreCategoryByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.categoryByUUID(uuid),
-		url: '',
-		enabled: !!uuid,
+		url: `/public/category/${uuid}`,
+		//enabled: !!uuid,
 	});
 
 // * LC
 export const useStoreLC = () =>
 	createGlobalState({
 		queryKey: storeQK.lc(),
-		url: '',
+		url: '/commercial/lc',
 	});
 
 export const useStoreLCByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.lcByUUID(uuid),
-		url: '',
-		enabled: !!uuid,
+		url: `/commercial/lc/${uuid}`,
+		//enabled: !!uuid,
 	});
 
 // * Vendor
 export const useStoreVendor = () =>
 	createGlobalState({
 		queryKey: storeQK.vendor(),
-		url: '',
+		url: '/store/vendor',
 	});
 
 export const useStoreVendorByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.vendorByUUID(uuid),
-		url: '',
-		enabled: !!uuid,
+		url: `/store/vendor/${uuid}`,
+		//enabled: !!uuid,
 	});
 // * stock
 export const useStoreStock = () =>
 	createGlobalState({
 		queryKey: storeQK.stock(),
-		url: '',
+		url: `/store/material`,
 	});
 
 export const useStoreStockByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.stockByUUID(uuid),
-		url: '',
-		enabled: !!uuid,
+		url: `/store/material/${uuid}`,
+		//enabled: !!uuid,
 	});

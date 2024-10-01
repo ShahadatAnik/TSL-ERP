@@ -36,15 +36,15 @@ export const DEFAULT_COLUMNS = ({
 		enableColumnFilter: false,
 		enableSorting: false,
 		hidden:
-			!haveAccess.includes('update') && !haveAccess.includes('delete'),
+			!haveAccess?.includes('update') && !haveAccess?.includes('delete'),
 		width: 'w-24',
 		cell: (info) => (
 			<EditDelete
 				idx={info.row.index}
 				handelUpdate={handelUpdate}
 				handelDelete={handelDelete}
-				showUpdate={haveAccess.includes('update')}
-				showDelete={haveAccess.includes('delete')}
+				showUpdate={haveAccess?.includes('update')}
+				showDelete={haveAccess?.includes('delete')}
 			/>
 		),
 	},

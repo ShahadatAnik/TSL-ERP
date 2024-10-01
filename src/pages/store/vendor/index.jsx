@@ -1,108 +1,23 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-
+import { useStoreVendor } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
-import { DateTime, EditDelete } from '@/ui';
+import { DateTime, EditDelete, Transfer } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
+import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
+
+import {  VendorColumns } from '../coloums';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData } = usePurchaseVendor();
-	const info = new PageInfo('Store / Vendor', url, 'store__vendor');
-	const haveAccess = useAccess('store__vendor');
-
-	const columns = useMemo(
-		() => [
-			{
-				accessorKey: 'name',
-				header: 'Name',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'contact_name',
-				header: 'Person',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'contact_number',
-				header: 'Phone',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'email',
-				header: 'Email',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'office_address',
-				header: 'Address',
-				enableColumnFilter: false,
-				width: 'w-40',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'created_by_name',
-				header: 'Created By',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'created_at',
-				header: 'Created At',
-				enableColumnFilter: false,
-				filterFn: 'isWithinRange',
-				width: 'w-32',
-				cell: (info) => <DateTime date={info.getValue()} />,
-			},
-			{
-				accessorKey: 'updated_at',
-				header: 'Updated At',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => <DateTime date={info.getValue()} />,
-			},
-			{
-				accessorKey: 'remarks',
-				header: 'Remarks',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'actions',
-				header: 'Actions',
-				enableColumnFilter: false,
-				enableSorting: false,
-				hidden: !haveAccess.includes('update'),
-				width: 'w-24',
-				cell: (info) => {
-					return (
-						<EditDelete
-							idx={info.row.index}
-							handelUpdate={handelUpdate}
-							handelDelete={handelDelete}
-							showDelete={haveAccess.includes('delete')}
-						/>
-					);
-				},
-			},
-		],
-		[data]
-	);
+	const { data, isLoading, url, deleteData, refetch } = useStoreVendor();
+	const info = new PageInfo('', url, '');
+	const haveAccess = useAccess('');
 
 	// Fetching data from server
 	useEffect(() => {
@@ -115,18 +30,19 @@ export default function Index() {
 	};
 
 	// Update
-	const [updateVendor, setUpdateVendor] = useState({
+	const [update, setUpdate] = useState({
 		uuid: null,
 	});
 
 	const handelUpdate = (idx) => {
-		setUpdateVendor((prev) => ({
+		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
+			section_uuid: data[idx].section_uuid,
+			type_uuid: data[idx].type_uuid,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
-
 	// Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
@@ -136,20 +52,25 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
-			itemName: data[idx].name,
+			itemName: data[idx].name.replace(/#/g, '').replace(/\//g, '-'),
 		}));
 
 		window[info.getDeleteModalId()].showModal();
 	};
-
-	if (isLoading)
-		return <span className='loading loading-dots loading-lg z-50' />;
+	const columns = VendorColumns({
+		handelUpdate,
+		handelDelete,
+		haveAccess,
+		data,
+	});
 
 	return (
-		<>
+		<div>
 			<ReactTable
 				title={info.getTitle()}
+				isLoading={isLoading}
 				handelAdd={handelAdd}
+				handleReload={refetch}
 				accessor={haveAccess.includes('create')}
 				data={data}
 				columns={columns}
@@ -159,12 +80,10 @@ export default function Index() {
 				<AddOrUpdate
 					modalId={info.getAddOrUpdateModalId()}
 					{...{
-						updateVendor,
-						setUpdateVendor,
+						update,
+						setUpdate,
 					}}
 				/>
-			</Suspense>
-			<Suspense>
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
@@ -176,6 +95,6 @@ export default function Index() {
 					}}
 				/>
 			</Suspense>
-		</>
+		</div>
 	);
 }

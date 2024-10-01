@@ -1,16 +1,15 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherMaterialSection, useOtherMaterialType } from '@/state/other';
-import { useMaterialInfo, useMaterialInfoByUUID } from '@/state/store';
-import { useRHF } from '@/hooks';
+import { useStoreBuyer } from '@/state/store';
+import { DevTool } from '@hookform/devtools';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { _NULL, _SCHEMA } from '@/util/schema';
-import { DevTool } from '@hookform/devtools';
+import { BUYER_NULL, BUYER_SCHEMA } from '@/util/schema';
 
 export default function Index({
 	modalId = '',
@@ -22,8 +21,7 @@ export default function Index({
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useMaterialInfo();
-	const { data } = useMaterialInfoByUUID(update?.uuid);
+	const { url, updateData, postData } = useStoreBuyer();
 
 	const {
 		register,
@@ -34,13 +32,8 @@ export default function Index({
 		control,
 		getValues,
 		context,
-	} = useRHF(_SCHEMA, _NULL);
-
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
+	} = useRHF(BUYER_SCHEMA, BUYER_NULL);
+	useFetchForRhfReset(url, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -49,13 +42,13 @@ export default function Index({
 			section_uuid: null,
 			type_uuid: null,
 		}));
-		reset(_NULL);
+		reset(BUYER_NULL);
 		window[modalId].close();
 	};
 
 	const onSubmit = async (data) => {
 		// Update item
-		if (update?.uuid !== null) {
+		if (update?.uuid !== null && update?.uuid !== undefined) {
 			const updatedData = {
 				...data,
 				updated_at: GetDateTime(),
@@ -95,7 +88,7 @@ export default function Index({
 			onClose={onClose}>
 			<Input label='name' {...{ register, errors }} />
 			<Input label='remarks' {...{ register, errors }} />
-			<DevTool context={context} />
+			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);
 }

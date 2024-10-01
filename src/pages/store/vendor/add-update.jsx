@@ -1,13 +1,15 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
+import { useStoreVendor } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
-import { useRHF } from '@/hooks';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { Input } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
+import { VENDOR_NULL, VENDOR_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
@@ -17,19 +19,13 @@ export default function Index({
 	setUpdateVendor,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = usePurchaseVendor();
-	const { data } = usePurchaseVendorByUUID(updateVendor?.uuid);
+	const { url, updateData, postData } = useStoreVendor();
 
 	const { register, handleSubmit, errors, reset, context, control } = useRHF(
 		VENDOR_SCHEMA,
 		VENDOR_NULL
 	);
-
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
+	useFetchForRhfReset(url, updateVendor?.uuid, reset);
 
 	const onClose = () => {
 		setUpdateVendor((prev) => ({
