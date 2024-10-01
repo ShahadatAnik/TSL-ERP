@@ -1,5 +1,4 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { usePurchaseDescription } from '@/state/store';
 import { useNavigate } from 'react-router-dom';
 import { useAccess } from '@/hooks';
 

@@ -1,5 +1,4 @@
 import { useEffect } from 'react';
-import { usePurchaseDetailsByUUID } from '@/state/store';
 import { useParams } from 'react-router-dom';
 
 import Information from './Information';

@@ -1,4 +1,4 @@
-import { useOtherVendor } from '@/state/other';
+
 import { useParams } from 'react-router-dom';
 
 import {
