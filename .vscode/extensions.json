@@ -1,0 +1,12 @@
+{
+	"recommendations": [
+		"aaron-bond.better-comments",
+		"vivaxy.vscode-conventional-commits",
+		"GitHub.vscode-pull-request-github",
+		"ms-vsliveshare.vsliveshare",
+		"esbenp.prettier-vscode",
+		"bradlc.vscode-tailwindcss",
+		"stivo.tailwind-fold",
+		"streetsidesoftware.code-spell-checker"
+	]
+}
