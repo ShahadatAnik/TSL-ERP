@@ -7,6 +7,7 @@ import { DateTime, EditDelete, Transfer } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
+import { CategoryColumns } from '../coloums';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
@@ -15,16 +16,7 @@ export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = use();
 	const info = new PageInfo('', url, '');
 	const haveAccess = useAccess('');
-	const columns = useMemo(
-		() => [
-			...DEFAULT_COLUMNS({
-				handelUpdate: handelUpdate,
-				handelDelete: handelDelete,
-				haveAccess,
-			}),
-		],
-		[data, haveAccess]
-	);
+
 
 	// Fetching data from server
 	useEffect(() => {
@@ -74,6 +66,7 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
+	const columns= CategoryColumns({ handelUpdate, handelDelete, haveAccess });
 
 	return (
 		<div>
