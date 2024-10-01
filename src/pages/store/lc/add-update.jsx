@@ -8,8 +8,8 @@ import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
-import { _NULL, _SCHEMA } from '@util/Schema';
 import GetDateTime from '@/util/GetDateTime';
+import { _NULL, _SCHEMA } from '@/util/schema';
 
 export default function Index({
 	modalId = '',
@@ -33,7 +33,7 @@ export default function Index({
 		control,
 		getValues,
 		context,
-	} = useRHF(_SCHEMA,_NULL);
+	} = useRHF(_SCHEMA, _NULL);
 
 	useEffect(() => {
 		if (data) {

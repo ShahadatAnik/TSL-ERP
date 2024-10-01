@@ -6,7 +6,7 @@ import { useRHF } from '@/hooks';
 
 import { Input, PasswordInput } from '@/ui';
 
-import { LOGIN_NULL, LOGIN_SCHEMA } from '@/util/Schema';
+import { LOGIN_NULL, LOGIN_SCHEMA } from '@/util/schema';
 
 export default function Index() {
 	const { Login, signed } = useAuth();

@@ -11,8 +11,8 @@ import { AddModal } from '@/components/Modal';
 import { Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
-import { USER_DEPARTMENT_NULL, USER_DEPARTMENT_SCHEMA } from '@util/Schema';
 import GetDateTime from '@/util/GetDateTime';
+import { USER_DEPARTMENT_NULL, USER_DEPARTMENT_SCHEMA } from '@/util/schema';
 
 export default function Index({
 	modalId = '',
