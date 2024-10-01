@@ -15,8 +15,6 @@ export default function Index({
 	modalId = '',
 	update = {
 		uuid: null,
-		section_uuid: null,
-		type_uuid: null,
 	},
 	setUpdate,
 }) {
@@ -33,14 +31,12 @@ export default function Index({
 		getValues,
 		context,
 	} = useRHF(BUYER_SCHEMA, BUYER_NULL);
-	useFetchForRhfReset(url, update?.uuid, reset);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: null,
-			section_uuid: null,
-			type_uuid: null,
 		}));
 		reset(BUYER_NULL);
 		window[modalId].close();
@@ -83,6 +79,7 @@ export default function Index({
 		<AddModal
 			id={modalId}
 			title={update?.uuid !== null ? 'Update Buyer ' : 'Buyer'}
+			isSmall={true}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>

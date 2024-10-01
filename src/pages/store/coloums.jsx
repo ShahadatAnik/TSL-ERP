@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 
-import { DateTime, LinkWithCopy, Progress, StatusButton } from '@/ui';
+import { DateTime, LinkWithCopy, Progress, StatusButton, Transfer } from '@/ui';
 
 import { DEFAULT_COLUMNS } from '@/util/Table/default-columns';
 
@@ -129,14 +129,15 @@ export const CategoryColumns = ({
 export const StockColumns = ({
 	handelUpdate,
 	handelDelete,
+	handleIssue,
 	haveAccess,
 	data,
 }) => {
 	return useMemo(
 		() => [
 			{
-				accessorKey: 'vendor_name',
-				header: 'Vendor',
+				accessorKey: 'name',
+				header: 'Name',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -157,6 +158,17 @@ export const StockColumns = ({
 				header: 'Quantity',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'action_trx',
+				header: 'Issue',
+				enableColumnFilter: false,
+				enableSorting: false,
+				hidden: !haveAccess.includes('click_issue'),
+				width: 'w-24',
+				cell: (info) => (
+					<Transfer onClick={() => handleIssue(info.row.index)} />
+				),
 			},
 			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
 		],

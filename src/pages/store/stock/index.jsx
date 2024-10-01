@@ -15,9 +15,8 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreStock();
-	const info = new PageInfo('Store / Stock', url, 'store__stock');
+	const info = new PageInfo('Store/Stock', url, 'store__stock');
 	const haveAccess = useAccess('store__stock');
-	console.log(haveAccess);
 
 	// Fetching data from server
 	useEffect(() => {
@@ -30,21 +29,14 @@ export default function Index() {
 	};
 
 	// Update
-	const [updateMaterialDetails, setUpdateMaterialDetails] = useState({
+	const [update, setUpdate] = useState({
 		uuid: null,
-		stock: null,
-		name: null,
-		section_uuid: null,
-		type_uuid: null,
 	});
 
 	const handelUpdate = (idx) => {
-		setUpdateMaterialDetails((prev) => ({
+		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
-			stock: data[idx].stock,
-			section_uuid: data[idx].section_uuid,
-			type_uuid: data[idx].type_uuid,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
@@ -63,7 +55,12 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
-	const columns = StockColumns(haveAccess, handelUpdate, handelDelete, data);
+	const columns = StockColumns({
+		handelUpdate,
+		handelDelete,
+		haveAccess,
+		data,
+	});
 
 	return (
 		<div>
@@ -81,8 +78,8 @@ export default function Index() {
 				<AddOrUpdate
 					modalId={info.getAddOrUpdateModalId()}
 					{...{
-						updateMaterialDetails,
-						setUpdateMaterialDetails,
+						update,
+						setUpdate,
 					}}
 				/>
 				<DeleteModal

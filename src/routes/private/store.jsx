@@ -21,14 +21,7 @@ export const StoreRoutes = [
 				path: '/store/stock',
 				element: <Stock />,
 				page_name: 'store__stock',
-				actions: [
-					'create',
-					'read',
-					'update',
-					'delete',
-					'click_trx_against_order',
-					'click_action',
-				],
+				actions: ['create', 'read', 'update', 'delete', 'click_issue'],
 			},
 			{
 				name: 'Vendor',

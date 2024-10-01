@@ -161,14 +161,13 @@ export const ARTICLE_NULL = {
 
 //* Store -> LC
 export const LC_SCHEMA = {
-	Number: STRING_REQUIRED,
-	remarks: STRING.nullable(),
+	number: STRING_REQUIRED,
 	date: yup.date().required('Required'),
 	remarks: STRING.nullable(),
 };
 export const LC_NULL = {
 	uuid: null,
-	Number: '',
+	number: '',
 	date: null,
 	remarks: null,
 };
@@ -198,9 +197,9 @@ export const BUYER_NULL = {
 export const STOCK_SCHEMA = {
 	article_uuid: STRING_REQUIRED,
 	category_uuid: STRING_REQUIRED,
-	name: NAME_REQUIRED,
+	name: STRING_REQUIRED,
 	color: STRING_REQUIRED,
-	quantity: NUMBER_REQUIRED,
+	quantity: NUMBER_REQUIRED.default(0.0),
 	remarks: STRING.nullable(),
 };
 export const STOCK_NULL = {
@@ -209,7 +208,7 @@ export const STOCK_NULL = {
 	category_uuid: null,
 	name: '',
 	color: '',
-	quantity: null,
+	quantity: 0.0,
 	remarks: null,
 };
 //* Store -> Issue

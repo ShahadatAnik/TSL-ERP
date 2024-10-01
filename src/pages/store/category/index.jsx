@@ -16,8 +16,8 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreCategory();
-	const info = new PageInfo('', url, '');
-	const haveAccess = useAccess('');
+	const info = new PageInfo('Store/Category', url, 'store__category');
+	const haveAccess = useAccess('store__category');
 
 	// Fetching data from server
 	useEffect(() => {
@@ -38,12 +38,9 @@ export default function Index() {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
-			section_uuid: data[idx].section_uuid,
-			type_uuid: data[idx].type_uuid,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
-
 
 	// Delete
 	const [deleteItem, setDeleteItem] = useState({

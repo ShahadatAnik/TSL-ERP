@@ -13,10 +13,10 @@ import { VENDOR_NULL, VENDOR_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
-	updateVendor = {
+	update = {
 		uuid: null,
 	},
-	setUpdateVendor,
+	setUpdate,
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreVendor();
@@ -25,10 +25,10 @@ export default function Index({
 		VENDOR_SCHEMA,
 		VENDOR_NULL
 	);
-	useFetchForRhfReset(url, updateVendor?.uuid, reset);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
-		setUpdateVendor((prev) => ({
+		setUpdate((prev) => ({
 			...prev,
 			uuid: null,
 		}));
@@ -38,15 +38,15 @@ export default function Index({
 
 	const onSubmit = async (data) => {
 		// Update item
-		if (updateVendor?.uuid !== null) {
+		if (update?.uuid !== null) {
 			const updatedData = {
 				...data,
 				updated_at: GetDateTime(),
 			};
 
 			await updateData.mutateAsync({
-				url: `${url}/${updateVendor?.uuid}`,
-				uuid: updateVendor?.uuid,
+				url: `${url}/${update?.uuid}`,
+				uuid: update?.uuid,
 				updatedData,
 				onClose,
 			});
@@ -72,9 +72,7 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={
-				updateVendor?.uuid !== null ? 'Update Vendor' : 'Create Vendor'
-			}
+			title={update?.uuid !== null ? 'Update Vendor' : 'Create Vendor'}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}

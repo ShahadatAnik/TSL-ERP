@@ -22,7 +22,7 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreArticle();
-	const { buyer } = useOtherBuyerValueLabel();
+	const { data: buyer } = useOtherBuyerValueLabel();
 	const {
 		register,
 		handleSubmit,
@@ -33,7 +33,7 @@ export default function Index({
 		getValues,
 		context,
 	} = useRHF(ARTICLE_SCHEMA, ARTICLE_NULL);
-	useFetchForRhfReset(url, update?.uuid, reset);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -84,6 +84,7 @@ export default function Index({
 			id={modalId}
 			title={update?.uuid !== null ? 'Update Article' : 'Article'}
 			formContext={context}
+			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<Input label='name' {...{ register, errors }} />

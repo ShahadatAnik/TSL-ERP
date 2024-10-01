@@ -1,7 +1,11 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherCategoryValueLabel } from '@/state/other';
+import {
+	useOtherArticleValueLabel,
+	useOtherCategoryValueLabel,
+} from '@/state/other';
 import { useStoreStock } from '@/state/store';
+import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
@@ -15,15 +19,13 @@ export default function Index({
 	modalId = '',
 	update = {
 		uuid: null,
-		article_uuid: null,
-		type_uuid: null,
 	},
 	setUpdate,
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreStock();
 	const { data: category } = useOtherCategoryValueLabel();
-	const { data: article } = useOtherCategoryValueLabel();
+	const { data: article } = useOtherArticleValueLabel();
 
 	const {
 		register,
@@ -36,14 +38,12 @@ export default function Index({
 		context,
 	} = useRHF(STOCK_SCHEMA, STOCK_NULL);
 
-	useFetchForRhfReset(update?.uuid, url, reset);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, url, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: null,
-			article_uuid: null,
-			type_uuid: null,
 		}));
 		reset(STOCK_NULL);
 		window[modalId].close();
@@ -81,13 +81,6 @@ export default function Index({
 			onClose,
 		});
 	};
-
-	const selectUnit = [
-		{ label: 'kg', value: 'kg' },
-		{ label: 'Litre', value: 'ltr' },
-		{ label: 'Meter', value: 'mtr' },
-		{ label: 'Piece', value: 'pcs' },
-	];
 
 	return (
 		<AddModal
@@ -146,10 +139,12 @@ export default function Index({
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='name' {...{ register, errors }} />
 				<Input label='color' {...{ register, errors }} />
+				<Input label='quantity' {...{ register, errors }} />
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='remarks' {...{ register, errors }} />
 			</div>
+			<DevTool control={control} />
 		</AddModal>
 	);
 }

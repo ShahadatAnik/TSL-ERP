@@ -9,15 +9,15 @@ import { DateTime, EditDelete, Transfer } from '@/ui';
 import PageInfo from '@/util/PageInfo';
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
-import {  VendorColumns } from '../coloums';
+import { VendorColumns } from '../coloums';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreVendor();
-	const info = new PageInfo('', url, '');
-	const haveAccess = useAccess('');
+	const info = new PageInfo('Store/Vendor', url, 'store__vendor');
+	const haveAccess = useAccess('store__vendor');
 
 	// Fetching data from server
 	useEffect(() => {
@@ -38,8 +38,6 @@ export default function Index() {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
-			section_uuid: data[idx].section_uuid,
-			type_uuid: data[idx].type_uuid,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};

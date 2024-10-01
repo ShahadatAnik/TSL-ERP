@@ -16,8 +16,6 @@ export default function Index({
 	modalId = '',
 	update = {
 		uuid: null,
-		section_uuid: null,
-		type_uuid: null,
 	},
 	setUpdate,
 }) {
@@ -34,14 +32,12 @@ export default function Index({
 		getValues,
 		context,
 	} = useRHF(LC_SCHEMA, LC_NULL);
-	useFetchForRhfReset(url, update?.uuid, reset);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: null,
-			section_uuid: null,
-			type_uuid: null,
 		}));
 		reset(LC_NULL);
 		window[modalId].close();
@@ -85,23 +81,21 @@ export default function Index({
 			id={modalId}
 			title={update?.uuid !== null ? 'Update LC' : 'LC'}
 			formContext={context}
+			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<Input label='number' {...{ register, errors }} />
-			<FormField
-				label='delivery_date'
-				title='Delivery Date'
-				errors={errors}>
+			<FormField label='date' title='Delivery Date' errors={errors}>
 				<Controller
-					name={'delivery_date'}
+					name={'date'}
 					control={control}
 					render={({ field: { onChange } }) => {
 						return (
 							<DatePicker
 								className='h-12 w-full rounded-md border bg-primary/5 px-2 text-primary'
-								placeholderText='Select Delivery Date'
+								placeholderText='Select Date'
 								dateFormat='dd/MM/yyyy'
-								selected={getValues('delivery_date')}
+								selected={getValues('date')}
 								onChange={(date) => onChange(date)}
 							/>
 						);
