@@ -31,7 +31,7 @@ export const StoreRoutes = [
 				children: [
 					{
 						name: 'Details',
-						path: '/store/receive/:receive_description_uuid',
+						path: '/store/receive/:receive_entry_description_uuid',
 						element: <ReceiveInd />,
 						hidden: true,
 						page_name: 'store__receive_by_uuid',
@@ -47,7 +47,7 @@ export const StoreRoutes = [
 					},
 					{
 						name: 'Entry',
-						path: '/store/receive/:receive_description_uuid/update',
+						path: '/store/receive/:receive_entry_description_uuid/update',
 						element: <ReceiveEntry />,
 						hidden: true,
 						page_name: 'store__receive_update',

@@ -19,109 +19,6 @@ export default function Index() {
 	const info = new PageInfo('Store/Stock', url, 'store__stock');
 	const haveAccess = useAccess('store__stock');
 
-	const columns = useMemo(
-		() => [
-			{
-				accessorKey: 'name',
-				header: 'Name',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'article_name',
-				header: 'Article',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'buyer_name',
-				header: 'Buyer',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'category_name',
-				header: 'Category',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'color',
-				header: 'Color',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'unit',
-				header: 'Unit',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'quantity',
-				header: 'Quantity',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'action_trx',
-				header: 'Issue',
-				enableColumnFilter: false,
-				enableSorting: false,
-				hidden: !haveAccess.includes('click_issue'),
-				width: 'w-24',
-				cell: (info) => (
-					<Transfer onClick={() => handleIssue(info.row.index)} />
-				),
-			},
-			{
-				accessorKey: 'remarks',
-				header: 'Remarks',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'created_by_name',
-				header: 'Created By',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'created_at',
-				header: 'Created',
-				enableColumnFilter: false,
-				filterFn: 'isWithinRange',
-				cell: (info) => <DateTime date={info.getValue()} />,
-			},
-			{
-				accessorKey: 'updated_at',
-				header: 'Updated',
-				enableColumnFilter: false,
-				cell: (info) => <DateTime date={info.getValue()} />,
-			},
-			{
-				accessorKey: 'actions',
-				header: 'Actions',
-				enableColumnFilter: false,
-				enableSorting: false,
-				hidden:
-					!haveAccess.includes('update') &&
-					!haveAccess.includes('delete'),
-				width: 'w-24',
-				cell: (info) => (
-					<EditDelete
-						idx={info.row.index}
-						handelUpdate={handelUpdate}
-						handelDelete={handelDelete}
-						showUpdate={haveAccess.includes('update')}
-						showDelete={haveAccess.includes('delete')}
-					/>
-				),
-			},
-		],
-		[data]
-	);
-
 	// Fetching data from server
 	useEffect(() => {
 		document.title = info.getTabName();
@@ -170,13 +67,13 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
-	// const columns = StockColumns({
-	// 	handelUpdate,
-	// 	handelDelete,
-	// 	//handleIssue,
-	// 	haveAccess,
-	// 	data,
-	// });
+	const columns = StockColumns({
+		handelUpdate,
+		handelDelete,
+		handleIssue,
+		haveAccess,
+		data,
+	});
 
 	return (
 		<div>

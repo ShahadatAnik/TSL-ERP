@@ -38,3 +38,15 @@ export const useOtherVendorValueLabel = () =>
 		queryKey: otherQK.vendorValueLabel(),
 		url: '/other/vendor/value/label',
 	});
+//* GET MATERIAL VALUE LABEL
+export const useOtherMaterialValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.materialValueLabel(),
+		url: '/other/material/value/label',
+	});
+//* GET LC VALUE LABEL
+export const useOtherLcValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.lcValueLabel(),
+		url: '/other/lc/value/label',
+	});

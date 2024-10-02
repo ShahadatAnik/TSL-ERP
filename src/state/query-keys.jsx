@@ -61,7 +61,6 @@ export const storeQK = {
 	//* Receive Entry
 	receiveEntry: () => [...storeQK.all(), 'receive-entry'],
 	receiveEntryByUUID: (uuid) => [...storeQK.receiveEntry(), uuid],
-
 };
 //* Other
 export const otherQK = {
@@ -78,4 +77,10 @@ export const otherQK = {
 
 	//*Vendor Value Label
 	vendorValueLabel: () => [...otherQK.all(), 'vendor-value-label'],
+
+	//*Material Value Label
+	materialValueLabel: () => [...otherQK.all(), 'material-value-label'],
+
+	//*LC Value Label
+	lcValueLabel: () => [...otherQK.all(), 'lc-value-label'],
 };
