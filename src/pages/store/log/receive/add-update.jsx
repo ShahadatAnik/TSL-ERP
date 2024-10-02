@@ -22,6 +22,7 @@ export default function Index({
 	modalId = '',
 	update = {
 		uuid: null,
+		material_name: null,
 	},
 	setUpdate,
 }) {
@@ -72,7 +73,7 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={`Purchase log of ${update?.material_name}`}
+			title={`Receive log of ${update?.material_name} `}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}

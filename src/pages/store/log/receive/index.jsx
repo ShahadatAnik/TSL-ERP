@@ -46,6 +46,7 @@ export default function Index() {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
+			material_name: data[idx].material_name
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};

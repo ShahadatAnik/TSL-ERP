@@ -33,6 +33,7 @@ export default function Index() {
 		uuid: null,
 		quantity: null,
 		issue_quantity: null,
+		material_name: null,
 	});
 
 	const handelUpdate = (idx) => {
@@ -40,7 +41,8 @@ export default function Index() {
 			...prev,
 			uuid: data[idx].uuid,
 			quantity: data[idx].quantity,
-			issue_quantity: data[idx].issue_quantity
+			issue_quantity: data[idx].issue_quantity,
+			material_name: data[idx].material_name
 			
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();

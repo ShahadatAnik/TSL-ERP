@@ -17,6 +17,7 @@ export default function Index({
 		uuid: null,
 		quantity: null,
 		issue_quantity: null,
+		material_name: null,
 	},
 	setUpdate,
 }) {
@@ -25,7 +26,7 @@ export default function Index({
 	const schema = {
 		...ISSUE_SCHEMA,
 		issue_quantity: ISSUE_SCHEMA.issue_quantity.max(
-			update?.quantity,
+			Number(update?.quantity) + Number(update?.issue_quantity),
 			`Quantity cannot be greater than ${update?.quantity}`
 		),
 	};
@@ -48,6 +49,7 @@ export default function Index({
 			uuid: null,
 			quantity: 0,
 			issue_quantity: 0,
+			material_name: null,
 		}));
 		reset(ISSUE_NULL);
 		window[modalId].close();
@@ -75,7 +77,7 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update Issue Log ' : 'Issue Log'}
+			title={`Update ${update?.material_name} Issue`}
 			isSmall={true}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
