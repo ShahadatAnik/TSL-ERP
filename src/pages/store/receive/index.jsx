@@ -1,4 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
+import { useStoreReceive } from '@/state/store';
 import { useNavigate } from 'react-router-dom';
 import { useAccess } from '@/hooks';
 
@@ -13,7 +14,7 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 export default function Index() {
 	const navigate = useNavigate();
 	const haveAccess = useAccess('store__receive');
-	const { data, isLoading, url, deleteData } = usePurchaseDescription();
+	const { data, isLoading, url, deleteData } = useStoreReceive();
 	const info = new PageInfo(
 		'Store / Material Receive',
 		url,
@@ -48,8 +49,20 @@ export default function Index() {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'challan_number',
-				header: 'Challan No',
+				accessorKey: 'commercial_invoice_number',
+				header: 'Commercial Invoice Number',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'commercial_invoice_value',
+				header: 'Commercial Invoice Value',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'convention_rate',
+				header: 'Convention Rate',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},

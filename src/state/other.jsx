@@ -32,3 +32,9 @@ export const useOtherArticleValueLabel = () =>
 		queryKey: otherQK.articleValueLabel(),
 		url: '/other/article/value/label',
 	});
+//* GET VENDOR VALUE LABEL
+export const useOtherVendorValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.vendorValueLabel(),
+		url: '/other/vendor/value/label',
+	});

@@ -133,6 +133,7 @@ export const StockColumns = ({
 	haveAccess,
 	data,
 }) => {
+	
 	return useMemo(
 		() => [
 			{

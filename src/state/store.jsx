@@ -83,3 +83,29 @@ export const useStoreStockByUUID = (uuid) =>
 		url: `/store/material/${uuid}`,
 		//enabled: !!uuid,
 	});
+// * Receive
+export const useStoreReceive = () =>
+	createGlobalState({
+		queryKey: storeQK.receive(),
+		url: `/store/receive`,
+	});
+
+export const useStoreReceiveByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.receiveByUUID(uuid),
+		url: `/store/receive/${uuid}`,
+		//enabled: !!uuid,
+	});
+
+export const useStoreReceiveEntry = () =>
+	createGlobalState({
+		queryKey: storeQK.receiveEntry(),
+		url: `/store/receive-entry`,
+	});
+
+export const useStoreReceiveEntryByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.receiveEntryByUUID(uuid),
+		url: `/store/receive-entry/${uuid}`,
+		//enabled: !!uuid,
+	});

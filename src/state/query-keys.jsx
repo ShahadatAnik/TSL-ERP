@@ -49,6 +49,14 @@ export const storeQK = {
 	//* Vendor
 	vendor: () => [...storeQK.all(), 'vendor'],
 	vendorByUUID: (uuid) => [...storeQK.vendor(), uuid],
+
+	//* Receive
+	receive: () => [...storeQK.all(), 'receive'],
+	receiveByUUID: (uuid) => [...storeQK.receive(), uuid],
+
+	//* Receive Entry
+	receiveEntry: () => [...storeQK.all(), 'receive-entry'],
+	receiveEntryByUUID: (uuid) => [...storeQK.receiveEntry(), uuid],
 };
 //* Other
 export const otherQK = {
@@ -62,4 +70,7 @@ export const otherQK = {
 
 	//*Article Value Label
 	articleValueLabel: () => [...otherQK.all(), 'article-value-label'],
+
+	//*Vendor Value Label
+	vendorValueLabel: () => [...otherQK.all(), 'vendor-value-label'],
 };

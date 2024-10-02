@@ -1,6 +1,7 @@
+import { format } from 'date-fns';
+
 import SectionContainer from '@/ui/Others/SectionContainer';
 import RenderTable from '@/ui/Others/Table/RenderTable';
-import { format } from 'date-fns';
 
 export default function Information({
 	purchase = {
@@ -8,8 +9,10 @@ export default function Information({
 		purchase_id: null,
 		vendor_uuid: null,
 		vendor_name: null,
-		challan_number: null,
-		is_local: null,
+		commercial_invoice_number: null,
+		commercial_invoice_value: null,
+		convention_rate: null,
+		is_import: null,
 		lc_number: null,
 		created_by: null,
 		created_by_name: null,
@@ -20,12 +23,13 @@ export default function Information({
 }) {
 	const {
 		vendor_name,
-		lc_number,
-		challan_number,
-		is_local,
+		commercial_invoice_number,
+		commercial_invoice_value,
+		is_import,
+		convention_rate,
 		created_at,
 		created_by_name,
-		purchase_id,
+		id,
 		remarks,
 		updated_at,
 	} = purchase;
@@ -34,7 +38,7 @@ export default function Information({
 		const items = [
 			{
 				label: 'Invoice Number',
-				value: purchase_id,
+				value: id,
 			},
 
 			{
@@ -42,16 +46,20 @@ export default function Information({
 				value: vendor_name,
 			},
 			{
-				label: 'LC Number',
-				value: lc_number,
+				label: 'Commercial Invoice Number',
+				value: commercial_invoice_number,
 			},
 			{
-				label: 'Challan Number',
-				value: challan_number,
+				label: 'Commercial Invoice Value',
+				value: commercial_invoice_value,
+			},
+			{
+				label: 'Conversion Rate',
+				value: convention_rate,
 			},
 			{
 				label: 'LC/Local',
-				value: is_local == 1 ? 'Local' : 'LC',
+				value: is_import == 1 ? 'Local' : 'LC',
 			},
 
 			{

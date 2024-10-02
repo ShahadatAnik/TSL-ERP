@@ -2,13 +2,20 @@ import { lazy, useEffect, useMemo, useState } from 'react';
 import { useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 
+
+
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
 import { DateTime, EditDelete, Transfer } from '@/ui';
 
+
+
 import PageInfo from '@/util/PageInfo';
 
+
+
 import { StockColumns } from '../coloums';
+
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
@@ -40,7 +47,13 @@ export default function Index() {
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
-
+	const handleIssue = (idx) => {
+		setUpdate((prev) => ({
+			...prev,
+			uuid: data[idx].uuid,
+		}));
+		window['Issue'].showModal();
+	};
 	// Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
@@ -58,6 +71,7 @@ export default function Index() {
 	const columns = StockColumns({
 		handelUpdate,
 		handelDelete,
+		//handleIssue,
 		haveAccess,
 		data,
 	});

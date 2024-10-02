@@ -1,9 +1,9 @@
-import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
-
-import { DateTime } from '@/ui';
 import { useMemo } from 'react';
 
-export default function Index({ purchase }) {
+import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
+import { DateTime } from '@/ui';
+
+export default function Index({ receive_entry }) {
 	const columns = useMemo(
 		() => [
 			{
@@ -62,13 +62,13 @@ export default function Index({ purchase }) {
 				cell: (info) => info.getValue(),
 			},
 		],
-		[purchase]
+		[receive_entry]
 	);
 
 	return (
 		<ReactTableTitleOnly
 			title='Details'
-			data={purchase}
+			data={receive_entry}
 			columns={columns}
 		/>
 	);
