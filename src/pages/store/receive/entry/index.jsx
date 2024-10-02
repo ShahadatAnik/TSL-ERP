@@ -129,9 +129,8 @@ export default function Index() {
 
 			const receive_entry_entries_promise = data.receive_entry.map(
 				async (item) => {
-					if (item.uuid === undefined) {
-						item.receive_entry_description_uuid =
-							receive_entry_description_uuid;
+					if (item.uuid === undefined || item.uuid === null) {
+						item.receive_uuid = receive_entry_description_uuid;
 						item.created_at = GetDateTime();
 						item.created_by = user?.uuid;
 						item.uuid = nanoid();
@@ -342,10 +341,6 @@ export default function Index() {
 															}}
 															menuPortalTarget={
 																document.body
-															}
-															isDisabled={
-																receive_entry_description_uuid !==
-																undefined
 															}
 														/>
 													);

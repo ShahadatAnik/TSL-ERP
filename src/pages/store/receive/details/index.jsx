@@ -6,11 +6,11 @@ import Information from './Information';
 import Table from './table';
 
 export default function Index() {
-	const { purchase_description_uuid } = useParams();
+	const { receive_entry_description_uuid } = useParams();
 
 	const { value: data, loading } = useFetch(
-		`/store/receive-entry-details/by/${purchase_description_uuid}`,
-		[purchase_description_uuid]
+		`/store/receive-entry-details/by/${receive_entry_description_uuid}`,
+		[receive_entry_description_uuid]
 	);
 
 	useEffect(() => {

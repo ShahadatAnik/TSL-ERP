@@ -1,7 +1,13 @@
 import { format } from 'date-fns';
 
+
+
 import SectionContainer from '@/ui/Others/SectionContainer';
 import RenderTable from '@/ui/Others/Table/RenderTable';
+
+
+
+
 
 export default function Information({
 	purchase = {
@@ -30,7 +36,7 @@ export default function Information({
 		convention_rate,
 		created_at,
 		created_by_name,
-		id,
+		receive_id,
 		remarks,
 		updated_at,
 	} = purchase;
@@ -39,7 +45,7 @@ export default function Information({
 		const items = [
 			{
 				label: 'Invoice Number',
-				value: id,
+				value: receive_id,
 			},
 
 			{
@@ -78,11 +84,15 @@ export default function Information({
 			},
 			{
 				label: 'Created At',
-				value: format(new Date(created_at), 'dd/MM/yyyy - hh:mm a'),
+				value: created_at
+					? format(new Date(created_at), 'dd/MM/yyyy')
+					: null,
 			},
 			{
 				label: 'Updated At',
-				value: format(new Date(updated_at), 'dd/MM/yyyy - hh:mm a'),
+				value: updated_at
+					? format(new Date(updated_at), 'dd/MM/yyyy')
+					: null,
 			},
 			{
 				label: 'Remarks',

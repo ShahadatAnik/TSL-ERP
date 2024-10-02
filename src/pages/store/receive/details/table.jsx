@@ -3,7 +3,7 @@ import { useMemo } from 'react';
 import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
 import { DateTime } from '@/ui';
 
-export default function Index({ receive_entry }) {
+export default function Index({ receive_entry, convention_rate }) {
 	const columns = useMemo(
 		() => [
 			{
@@ -44,9 +44,15 @@ export default function Index({ receive_entry }) {
 			},
 			{
 				accessorKey: 'price',
-				header: 'Price',
+				header: 'Price($US)',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'price',
+				header: 'Price(BDT)',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue() * convention_rate,
 			},
 			{
 				accessorKey: 'remarks',
@@ -73,21 +79,27 @@ export default function Index({ receive_entry }) {
 				enableColumnFilter: false,
 				cell: (info) => <DateTime date={info.getValue()} />,
 			},
-			{
-				accessorKey: 'remarks',
-				header: 'Remarks',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
 		],
 		[receive_entry]
 	);
+	const totalValue = receive_entry.reduce((a, b) => a + Number(b.price), 0);
 
 	return (
 		<ReactTableTitleOnly
 			title='Details'
 			data={receive_entry}
-			columns={columns}
-		/>
+			columns={columns}>
+			<tr className='text-sm'>
+				<td colSpan='5' className='py-2 text-right'>
+					Total Price($US)
+				</td>
+				<td className='pl-3 text-left font-semibold'>{totalValue}</td>
+
+				<td className='text-right'>Total Price(BDT)</td>
+				<td className='pl-3 text-left font-semibold'>
+					${Number(totalValue * convention_rate).toLocaleString()}
+				</td>
+			</tr>
+		</ReactTableTitleOnly>
 	);
 }

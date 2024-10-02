@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import {
 	DateTime,
 	EditDelete,
+	LinkOnly,
 	LinkWithCopy,
 	Progress,
 	StatusButton,
@@ -70,7 +71,9 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 				header: 'Date',
 				accessorKey: 'date',
 				enableColumnFilter: false,
-				cell: (info) => <DateTime date={info.getValue()} />,
+				cell: (info) => (
+					<DateTime date={info.getValue()} isTime={false} />
+				),
 			},
 			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
 		],
@@ -308,6 +311,21 @@ export const ReceiveLogColumns = ({
 }) => {
 	return useMemo(
 		() => [
+			{
+				accessorKey: 'receive_id',
+				header: 'ID',
+				enableColumnFilter: false,
+				cell: (info) => {
+					const { receive_uuid } = info.row.original;
+					return (
+						<LinkOnly
+							uri='/store/receive'
+							id={receive_uuid}
+							title={info.getValue()}
+						/>
+					);
+				},
+			},
 			{
 				accessorKey: 'material_name',
 				header: 'Name',
