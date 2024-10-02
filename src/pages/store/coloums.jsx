@@ -3,6 +3,7 @@ import { useMemo } from 'react';
 import {
 	DateTime,
 	EditDelete,
+	LinkOnly,
 	LinkWithCopy,
 	Progress,
 	StatusButton,
@@ -311,10 +312,19 @@ export const ReceiveLogColumns = ({
 	return useMemo(
 		() => [
 			{
-				accessorKey: 'id',
+				accessorKey: 'receive_id',
 				header: 'ID',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => {
+					const { receive_uuid } = info.row.original;
+					return (
+						<LinkOnly
+							uri='/store/receive'
+							id={receive_uuid}
+							title={info.getValue()}
+						/>
+					);
+				},
 			},
 			{
 				accessorKey: 'material_name',
