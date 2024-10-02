@@ -1,13 +1,7 @@
 import { useMemo } from 'react';
 
-
-
 import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
 import { DateTime } from '@/ui';
-
-
-
-
 
 export default function Index({ receive_entry }) {
 	const columns = useMemo(

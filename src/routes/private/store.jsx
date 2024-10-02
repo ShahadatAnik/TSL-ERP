@@ -1,14 +1,11 @@
-// * Store
-
-// * Purchase
 import Article from '@/pages/store/article';
 import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
 import LC from '@/pages/store/lc';
-import MaterialLog from '@/pages/store/Log';
-import Purchase from '@/pages/store/receive';
-import PurchaseInd from '@/pages/store/receive/details/by-purchase-description-uuid';
-import PurchaseEntry from '@/pages/store/receive/entry';
+import Log from '@/pages/store/Log';
+import Receive from '@/pages/store/receive';
+import ReceiveInd from '@/pages/store/receive/details';
+import ReceiveEntry from '@/pages/store/receive/entry';
 import Stock from '@/pages/store/stock';
 import Vendor from '@/pages/store/vendor';
 
@@ -22,6 +19,41 @@ export const StoreRoutes = [
 				element: <Stock />,
 				page_name: 'store__stock',
 				actions: ['create', 'read', 'update', 'delete', 'click_issue'],
+			},
+
+			{
+				name: 'Receive',
+				path: '/store/receive',
+				element: <Receive />,
+				page_name: 'store__receive',
+				actions: ['create', 'read', 'update'],
+				disableCollapse: true,
+				children: [
+					{
+						name: 'Details',
+						path: '/store/receive/:receive_description_uuid',
+						element: <ReceiveInd />,
+						hidden: true,
+						page_name: 'store__receive_by_uuid',
+						actions: ['create', 'read', 'update'],
+					},
+					{
+						name: 'Entry',
+						path: '/store/receive/entry',
+						element: <ReceiveEntry />,
+						hidden: true,
+						page_name: 'store__receive_entry',
+						actions: ['create', 'read', 'update'],
+					},
+					{
+						name: 'Entry',
+						path: '/store/receive/:receive_description_uuid/update',
+						element: <ReceiveEntry />,
+						hidden: true,
+						page_name: 'store__receive_update',
+						actions: ['create', 'read', 'update'],
+					},
+				],
 			},
 			{
 				name: 'Vendor',
@@ -37,13 +69,7 @@ export const StoreRoutes = [
 				page_name: 'store__article',
 				actions: ['create', 'read', 'update', 'delete'],
 			},
-			{
-				name: 'LC',
-				path: '/store/lc',
-				element: <LC />,
-				page_name: 'store__lc',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
+
 			{
 				name: 'Buyer',
 				path: '/store/buyer',
@@ -59,44 +85,16 @@ export const StoreRoutes = [
 				actions: ['create', 'read', 'update', 'delete'],
 			},
 			{
-				name: 'Receive',
-				path: '/store/receive',
-				element: <Purchase />,
-				page_name: 'store__receive',
-				actions: ['create', 'read', 'update'],
-				disableCollapse: true,
-				children: [
-					{
-						name: 'Details',
-						path: '/store/receive/:purchase_description_uuid',
-						element: <PurchaseInd />,
-						hidden: true,
-						page_name: 'store__receive_by_uuid',
-						actions: ['create', 'read', 'update'],
-					},
-					{
-						name: 'Entry',
-						path: '/store/receive/entry',
-						element: <PurchaseEntry />,
-						hidden: true,
-						page_name: 'store__receive_entry',
-						actions: ['create', 'read', 'update'],
-					},
-					{
-						name: 'Entry',
-						path: '/store/receive/:purchase_description_uuid/update',
-						element: <PurchaseEntry />,
-						hidden: true,
-						page_name: 'store__receive_update',
-						actions: ['create', 'read', 'update'],
-					},
-				],
+				name: 'LC',
+				path: '/store/lc',
+				element: <LC />,
+				page_name: 'store__lc',
+				actions: ['create', 'read', 'update', 'delete'],
 			},
-
 			{
 				name: 'Log',
 				path: '/store/log',
-				element: <MaterialLog />,
+				element: <Log />,
 				page_name: 'store__log',
 				actions: [
 					'read',
