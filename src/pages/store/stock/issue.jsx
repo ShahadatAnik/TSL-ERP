@@ -1,22 +1,10 @@
-import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import {
-	useOtherArticleValueLabel,
-	useOtherCategoryValueLabel,
-} from '@/state/other';
-import { useStoreIssue, useStoreStock } from '@/state/store';
+import { useStoreIssue } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
-import { useFetch, useFetchForRhfReset, useRHF } from '@/hooks';
+import { useFetch, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import {
-	FormField,
-	Input,
-	JoinInput,
-	JoinInputSelect,
-	ReactSelect,
-	Textarea,
-} from '@/ui';
+import { Input, JoinInput, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -39,16 +27,10 @@ export default function Index({
 			`Quantity cannot be greater than ${updateIssue?.quantity}`
 		),
 	};
-	const {
-		register,
-		handleSubmit,
-		errors,
-		reset,
-		Controller,
-		control,
-		getValues,
-		context,
-	} = useRHF(schema, ISSUE_NULL);
+	const { register, handleSubmit, errors, reset, control, context } = useRHF(
+		schema,
+		ISSUE_NULL
+	);
 
 	const onClose = () => {
 		setUpdateIssue((prev) => ({
@@ -96,7 +78,7 @@ export default function Index({
 				}
 				{...{ register, errors }}
 			/>
-			<Input label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);

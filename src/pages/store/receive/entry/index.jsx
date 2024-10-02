@@ -3,10 +3,9 @@ import { useOtherMaterialValueLabel } from '@/state/other';
 import { useStoreReceive, useStoreReceiveEntry } from '@/state/store';
 import { useAuth } from '@context/auth';
 import { DevTool } from '@hookform/devtools';
-import { get } from 'react-hook-form';
 import { configure, HotKeys } from 'react-hotkeys';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useFetch, useFetchForRhfReset, useRHF } from '@/hooks';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { DeleteModal } from '@/components/Modal';
 import {
@@ -16,6 +15,7 @@ import {
 	JoinInput,
 	ReactSelect,
 	RemoveButton,
+	Textarea,
 } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
@@ -391,7 +391,7 @@ export default function Index() {
 										{`${watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
 									</td>
 									<td className={`w-48 ${rowClass}`}>
-										<Input
+										<Textarea
 											title='remarks'
 											label={`receive_entry[${index}].remarks`}
 											is_title_needed='false'

@@ -1,10 +1,10 @@
 import { useOtherLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
 import { useParams } from 'react-router-dom';
-import { useFetch } from '@/hooks';
 
 import {
 	FormField,
 	Input,
+	JoinInput,
 	ReactSelect,
 	SectionEntryBody,
 	Textarea,
@@ -21,7 +21,6 @@ export default function Header({
 	const { purchase_description_uuid } = useParams();
 	const { data: vendor } = useOtherVendorValueLabel();
 	const { data: lc } = useOtherLcValueLabel();
-	//const { value: lc } = useFetch('/other/lc/value/label');
 
 	const purchaseOptions = [
 		{ label: 'Import', value: 1 },
@@ -102,18 +101,24 @@ export default function Header({
 					</FormField>
 				)}
 				{watch('is_import') === 0 && (
-					<Input
-						label='commercial_invoice_number'
-						{...{ register, errors }}
-					/>
+					<>
+						<Input
+							label='commercial_invoice_number'
+							{...{ register, errors }}
+						/>
+						<JoinInput
+							label='commercial_invoice_value'
+							unit='$'
+							{...{ register, errors }}
+						/>
+					</>
 				)}
-				{watch('is_import') === 0 && (
-					<Input
-						label='commercial_invoice_value'
-						{...{ register, errors }}
-					/>
-				)}
-				<Input label='convention_rate' {...{ register, errors }} />
+
+				<JoinInput
+					label='convention_rate'
+					unit='BDT'
+					{...{ register, errors }}
+				/>
 				<Textarea label='remarks' {...{ register, errors }} />
 			</div>
 		</SectionEntryBody>

@@ -3,7 +3,7 @@ import {
 	BuyerColumns,
 	IssueLogColumns,
 	ReceiveLogColumns,
-} from '@/pages/store/coloums';
+} from '@/pages/store/columns';
 import {
 	useStoreBuyer,
 	useStoreIssue,
@@ -46,7 +46,7 @@ export default function Index() {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
-			material_name: data[idx].material_name
+			material_name: data[idx].material_name,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};

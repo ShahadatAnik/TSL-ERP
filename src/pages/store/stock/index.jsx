@@ -1,14 +1,13 @@
-import { lazy, useEffect, useMemo, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
-import { DateTime, EditDelete, Transfer } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
 
-import { StockColumns } from '../coloums';
+import { StockColumns } from '../columns';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const Issue = lazy(() => import('./issue'));
@@ -19,17 +18,17 @@ export default function Index() {
 	const info = new PageInfo('Store/Stock', url, 'store__stock');
 	const haveAccess = useAccess('store__stock');
 
-	// Fetching data from server
+	//* Fetching data from server
 	useEffect(() => {
 		document.title = info.getTabName();
 	}, []);
 
-	// Add
+	//* Add
 	const handelAdd = () => {
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
 
-	// Update
+	//* Update
 	const [update, setUpdate] = useState({
 		uuid: null,
 	});
@@ -53,7 +52,7 @@ export default function Index() {
 		}));
 		window['Issue'].showModal();
 	};
-	// Delete
+	//* Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
 		itemName: null,
