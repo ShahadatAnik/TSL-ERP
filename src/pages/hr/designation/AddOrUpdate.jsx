@@ -91,7 +91,7 @@ export default function Index({
 			onClose={onClose}
 			isSmall={true}>
 			<Input label='designation' {...{ register, errors }} />
-			<Textarea label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);

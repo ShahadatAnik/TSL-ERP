@@ -161,7 +161,7 @@ export default function Index({
 				/>
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
-				<Input label='remarks' {...{ register, errors }} />
+				<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			</div>
 			<DevTool control={control} />
 		</AddModal>

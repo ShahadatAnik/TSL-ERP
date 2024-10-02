@@ -147,7 +147,7 @@ export default function Index({
 			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<Input label='ext' {...{ register, errors }} />
 				<Input label='phone' {...{ register, errors }} />
-				<Textarea label='remarks' {...{ register, errors }} />
+				<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			</div>
 
 			{updateUser?.uuid === null && (

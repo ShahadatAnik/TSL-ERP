@@ -78,11 +78,15 @@ export default function Information({
 			},
 			{
 				label: 'Created At',
-				value: format(new Date(created_at), 'dd/MM/yyyy - hh:mm a'),
+				value: created_at
+					? format(new Date(created_at), 'dd/MM/yyyy')
+					: null,
 			},
 			{
 				label: 'Updated At',
-				value: format(new Date(updated_at), 'dd/MM/yyyy - hh:mm a'),
+				value: updated_at
+					? format(new Date(updated_at), 'dd/MM/yyyy')
+					: null,
 			},
 			{
 				label: 'Remarks',

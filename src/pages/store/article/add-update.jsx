@@ -109,7 +109,7 @@ export default function Index({
 					}}
 				/>
 			</FormField>
-			<Input label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 		</AddModal>
 	);
 }

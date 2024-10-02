@@ -114,7 +114,7 @@ export default function Header({
 					/>
 				)}
 				<Input label='convention_rate' {...{ register, errors }} />
-				<Textarea label='remarks' {...{ register, errors }} />
+				<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			</div>
 		</SectionEntryBody>
 	);

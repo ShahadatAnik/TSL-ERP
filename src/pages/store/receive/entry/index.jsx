@@ -16,6 +16,7 @@ import {
 	JoinInput,
 	ReactSelect,
 	RemoveButton,
+	Textarea
 } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
@@ -391,7 +392,7 @@ export default function Index() {
 										{`${watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
 									</td>
 									<td className={`w-48 ${rowClass}`}>
-										<Input
+										<Textarea
 											title='remarks'
 											label={`receive_entry[${index}].remarks`}
 											is_title_needed='false'

@@ -87,7 +87,7 @@ export default function Index({
 				sub_label={`Max: ${Number(update?.quantity) + Number(update?.issue_quantity)}`}
 				{...{ register, errors }}
 			/>
-			<Input label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);

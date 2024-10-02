@@ -70,7 +70,9 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 				header: 'Date',
 				accessorKey: 'date',
 				enableColumnFilter: false,
-				cell: (info) => <DateTime date={info.getValue()} />,
+				cell: (info) => (
+					<DateTime date={info.getValue()} isTime={false} />
+				),
 			},
 			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
 		],
@@ -308,6 +310,12 @@ export const ReceiveLogColumns = ({
 }) => {
 	return useMemo(
 		() => [
+			{
+				accessorKey: 'id',
+				header: 'ID',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
 			{
 				accessorKey: 'material_name',
 				header: 'Name',

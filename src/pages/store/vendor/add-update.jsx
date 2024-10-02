@@ -5,7 +5,7 @@ import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { Input } from '@/ui';
+import { Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -85,7 +85,7 @@ export default function Index({
 				{...{ register, errors }}
 			/>
 			<Input label='address' {...{ register, errors }} />
-			<Input label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);

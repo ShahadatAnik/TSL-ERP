@@ -84,7 +84,7 @@ export default function Index({
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<Input label='name' {...{ register, errors }} />
-			<Input label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);

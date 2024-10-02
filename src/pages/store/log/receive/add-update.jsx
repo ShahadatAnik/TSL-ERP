@@ -114,7 +114,7 @@ export default function Index({
 			/>
 
 			<Input title='price' label={`price`} {...{ register, errors }} />
-			<Input label='remarks' {...{ register, errors }} />
+			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
 	);
