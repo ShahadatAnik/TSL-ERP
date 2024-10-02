@@ -1,5 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { BuyerColumns, IssueLogColumns } from '@/pages/store/coloums';
+import { BuyerColumns, IssueLogColumns } from '@/pages/store/columns';
 import { useStoreBuyer, useStoreIssue } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -42,8 +42,7 @@ export default function Index() {
 			uuid: data[idx].uuid,
 			quantity: data[idx].quantity,
 			issue_quantity: data[idx].issue_quantity,
-			material_name: data[idx].material_name
-			
+			material_name: data[idx].material_name,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};

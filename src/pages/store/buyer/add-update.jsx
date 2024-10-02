@@ -1,11 +1,10 @@
-import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import { useStoreBuyer } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
+import { Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -21,16 +20,10 @@ export default function Index({
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreBuyer();
 
-	const {
-		register,
-		handleSubmit,
-		errors,
-		reset,
-		Controller,
-		control,
-		getValues,
-		context,
-	} = useRHF(BUYER_SCHEMA, BUYER_NULL);
+	const { register, handleSubmit, errors, reset, control, context } = useRHF(
+		BUYER_SCHEMA,
+		BUYER_NULL
+	);
 	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {

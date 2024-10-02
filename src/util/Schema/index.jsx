@@ -1,4 +1,3 @@
-import { add } from 'date-fns';
 import * as yup from 'yup';
 
 import {
@@ -199,7 +198,6 @@ export const STOCK_SCHEMA = {
 	category_uuid: STRING_REQUIRED,
 	name: STRING_REQUIRED,
 	color: STRING_REQUIRED,
-	quantity: NUMBER_REQUIRED.default(0.0),
 	remarks: STRING.nullable(),
 };
 export const STOCK_NULL = {

@@ -9,7 +9,7 @@ import { DateTime, EditDelete, Transfer } from '@/ui';
 import PageInfo from '@/util/PageInfo';
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
-import { LcColumns } from '../coloums';
+import { LcColumns } from '../columns';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));

@@ -1,4 +1,5 @@
-import { Slide, ToastContainer, toast } from 'react-toastify';
+import { Slide, toast, ToastContainer } from 'react-toastify';
+
 import 'react-toastify/dist/ReactToastify.min.css';
 
 const ToastBody = ({ text }) => (
@@ -19,6 +20,7 @@ const ShowLocalToast = ({ type, message }) => {
 			break;
 		case 'delete':
 		case 'error':
+		case 'remove':
 			ErrorToast(message);
 			break;
 		case 'warning':

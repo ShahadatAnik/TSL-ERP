@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import { useStoreVendor } from '@/state/store';
 import { DevTool } from '@hookform/devtools';

@@ -1,15 +1,13 @@
-import { lazy, useEffect, useMemo, useState } from 'react';
+import { lazy, useEffect, useState } from 'react';
 import { useStoreVendor } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
-import { DateTime, EditDelete, Transfer } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
-import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
-import { VendorColumns } from '../coloums';
+import { VendorColumns } from '../columns';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
@@ -19,17 +17,17 @@ export default function Index() {
 	const info = new PageInfo('Store/Vendor', url, 'store__vendor');
 	const haveAccess = useAccess('store__vendor');
 
-	// Fetching data from server
+	//* Fetching data from server
 	useEffect(() => {
 		document.title = info.getTabName();
 	}, []);
 
-	// Add
+	//* Add
 	const handelAdd = () => {
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
 
-	// Update
+	//* Update
 	const [update, setUpdate] = useState({
 		uuid: null,
 	});
@@ -41,7 +39,7 @@ export default function Index() {
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
-	// Delete
+	//* Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
 		itemName: null,

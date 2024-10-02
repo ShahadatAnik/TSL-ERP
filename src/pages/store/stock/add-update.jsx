@@ -1,4 +1,3 @@
-import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import {
 	useOtherArticleValueLabel,
@@ -9,14 +8,7 @@ import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import {
-	FormField,
-	Input,
-	JoinInput,
-	JoinInputSelect,
-	ReactSelect,
-	Textarea,
-} from '@/ui';
+import { FormField, Input, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -89,10 +81,19 @@ export default function Index({
 		});
 	};
 	const selectUnit = [
-		{ label: 'kg', value: 'kg' },
-		{ label: 'Litre', value: 'ltr' },
+		{ label: 'KG', value: 'kg' },
+		{ label: 'Box', value: 'box' },
+		{ label: 'Cone', value: 'cone' },
 		{ label: 'Meter', value: 'mtr' },
-		{ label: 'Piece', value: 'pcs' },
+		{ label: 'Pair', value: 'pair' },
+		{ label: 'Pak', value: 'pak' },
+		{ label: 'Pcs', value: 'pcs' },
+		{ label: 'Roll', value: 'roll' },
+		{ label: 'S.Fit', value: 's_fit' },
+		{ label: 'S.Mtr', value: 's_mtr' },
+		{ label: 'Set', value: 'set' },
+		{ label: 'Sheet', value: 'sheet' },
+		{ label: 'Yard', value: 'yard' },
 	];
 
 	return (
@@ -152,13 +153,26 @@ export default function Index({
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='name' {...{ register, errors }} />
 				<Input label='color' {...{ register, errors }} />
-				<JoinInputSelect
-					//defaultUnitValue='kg'
-					label='quantity'
-					join='unit'
-					option={selectUnit}
-					{...{ register, errors }}
-				/>
+				<FormField label='unit' title='Unit' errors={errors}>
+					<Controller
+						name={'unit'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Unit'
+									options={selectUnit}
+									value={selectUnit?.filter(
+										(item) =>
+											item.value === getValues('unit')
+									)}
+									onChange={(e) => onChange(e.value)}
+									isDisabled={update?.uuid !== null}
+								/>
+							);
+						}}
+					/>
+				</FormField>
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Textarea label='remarks' rows={2} {...{ register, errors }} />

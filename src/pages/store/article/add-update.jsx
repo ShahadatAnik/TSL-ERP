@@ -88,7 +88,10 @@ export default function Index({
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<Input label='name' {...{ register, errors }} />
-			<FormField label='buyer_uuid' {...{ register, errors }}>
+			<FormField
+				label='buyer_uuid'
+				title='Buyer'
+				{...{ register, errors }}>
 				<Controller
 					name='buyer_uuid'
 					control={control}
@@ -97,7 +100,7 @@ export default function Index({
 							<ReactSelect
 								placeholder='Select Buyer'
 								options={buyer}
-								value={buyer?.find(
+								value={buyer?.filter(
 									(item) =>
 										item.value === getValues('buyer_uuid')
 								)}
