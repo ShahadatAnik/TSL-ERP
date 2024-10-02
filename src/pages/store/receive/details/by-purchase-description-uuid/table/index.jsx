@@ -1,14 +1,38 @@
-import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
-
-import { DateTime } from '@/ui';
 import { useMemo } from 'react';
 
-export default function Index({ purchase }) {
+
+
+import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
+import { DateTime } from '@/ui';
+
+
+
+
+
+export default function Index({ receive_entry }) {
 	const columns = useMemo(
 		() => [
 			{
 				accessorKey: 'material_name',
 				header: 'Material',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'article_name',
+				header: 'Article',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'buyer_name',
+				header: 'Buyer',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'category_name',
+				header: 'Category',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -19,7 +43,7 @@ export default function Index({ purchase }) {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'unit',
+				accessorKey: 'material_unit',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -62,13 +86,13 @@ export default function Index({ purchase }) {
 				cell: (info) => info.getValue(),
 			},
 		],
-		[purchase]
+		[receive_entry]
 	);
 
 	return (
 		<ReactTableTitleOnly
 			title='Details'
-			data={purchase}
+			data={receive_entry}
 			columns={columns}
 		/>
 	);

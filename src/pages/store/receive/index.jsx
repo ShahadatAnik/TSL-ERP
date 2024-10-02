@@ -1,4 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
+import { useStoreReceive } from '@/state/store';
 import { useNavigate } from 'react-router-dom';
 import { useAccess } from '@/hooks';
 
@@ -13,7 +14,7 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 export default function Index() {
 	const navigate = useNavigate();
 	const haveAccess = useAccess('store__receive');
-	const { data, isLoading, url, deleteData } = usePurchaseDescription();
+	const { data, isLoading, url, deleteData } = useStoreReceive();
 	const info = new PageInfo(
 		'Store / Material Receive',
 		url,
@@ -27,7 +28,7 @@ export default function Index() {
 	const columns = useMemo(
 		() => [
 			{
-				accessorKey: 'purchase_id',
+				accessorKey: 'id',
 				header: 'ID',
 				enableColumnFilter: false,
 				cell: (info) => {
@@ -47,19 +48,47 @@ export default function Index() {
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
+
 			{
-				accessorKey: 'challan_number',
-				header: 'Challan No',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'is_local',
-				header: 'Local/LC',
+				accessorKey: 'is_import',
+				header: 'Local/Import',
 				enableColumnFilter: false,
 				cell: (info) => {
-					return info.getValue() == 1 ? 'Local' : 'LC';
+					return info.getValue() === 1 ? 'Import' : 'Local';
 				},
+			},
+			{
+				accessorKey: 'lc_number',
+				header: 'LC',
+				enableColumnFilter: false,
+				cell: (info) =>
+					info.row.original?.is_import === 0
+						? 'N/A'
+						: info.getValue(),
+			},
+			{
+				accessorKey: 'commercial_invoice_number',
+				header: 'Commercial Invoice Number',
+				enableColumnFilter: false,
+				cell: (info) =>
+					info.row.original?.is_import === 1
+						? 'N/A'
+						: info.getValue(),
+			},
+			{
+				accessorKey: 'commercial_invoice_value',
+				header: 'Commercial Invoice Value',
+				enableColumnFilter: false,
+				cell: (info) =>
+					info.row.original?.is_import === 1
+						? 'N/A'
+						: info.getValue(),
+			},
+			{
+				accessorKey: 'convention_rate',
+				header: 'Convention Rate',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'created_by_name',

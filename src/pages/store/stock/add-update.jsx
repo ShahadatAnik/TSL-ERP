@@ -1,28 +1,38 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-
-import { useRHF } from '@/hooks';
+import {
+	useOtherArticleValueLabel,
+	useOtherCategoryValueLabel,
+} from '@/state/other';
+import { useStoreStock } from '@/state/store';
+import { DevTool } from '@hookform/devtools';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
+import {
+	FormField,
+	Input,
+	JoinInput,
+	JoinInputSelect,
+	ReactSelect,
+	Textarea,
+} from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
+import { STOCK_NULL, STOCK_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
-	updateMaterialDetails = {
+	update = {
 		uuid: null,
-		section_uuid: null,
-		type_uuid: null,
 	},
-	setUpdateMaterialDetails,
+	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useMaterialInfo();
-	const { data } = useMaterialInfoByUUID(updateMaterialDetails?.uuid);
-	const { data: section } = useOtherMaterialSection();
-	const { data: materialType } = useOtherMaterialType();
+	const { url, updateData, postData } = useStoreStock();
+	const { data: category } = useOtherCategoryValueLabel();
+	const { data: article } = useOtherArticleValueLabel();
 
 	const {
 		register,
@@ -33,36 +43,30 @@ export default function Index({
 		control,
 		getValues,
 		context,
-	} = useRHF(MATERIAL_SCHEMA, MATERIAL_NULL);
+	} = useRHF(STOCK_SCHEMA, STOCK_NULL);
 
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
-		setUpdateMaterialDetails((prev) => ({
+		setUpdate((prev) => ({
 			...prev,
 			uuid: null,
-			section_uuid: null,
-			type_uuid: null,
 		}));
-		reset(MATERIAL_NULL);
+		reset(STOCK_NULL);
 		window[modalId].close();
 	};
 
 	const onSubmit = async (data) => {
 		// Update item
-		if (updateMaterialDetails?.uuid !== null) {
+		if (update?.uuid !== null) {
 			const updatedData = {
 				...data,
 				updated_at: GetDateTime(),
 			};
 
 			await updateData.mutateAsync({
-				url: `${url}/${updateMaterialDetails?.uuid}`,
-				uuid: updateMaterialDetails?.uuid,
+				url: `${url}/${update?.uuid}`,
+				uuid: update?.uuid,
 				updatedData,
 				onClose,
 			});
@@ -84,7 +88,6 @@ export default function Index({
 			onClose,
 		});
 	};
-
 	const selectUnit = [
 		{ label: 'kg', value: 'kg' },
 		{ label: 'Litre', value: 'ltr' },
@@ -95,56 +98,51 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={
-				updateMaterialDetails?.uuid !== null
-					? 'Update Material'
-					: 'Material'
-			}
+			title={update?.uuid !== null ? 'Update Material' : 'Material'}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
-				<FormField label='section_id' title='Section' errors={errors}>
+				<FormField label='article_uuid' title='Article' errors={errors}>
 					<Controller
-						name={'section_uuid'}
+						name={'article_uuid'}
 						control={control}
 						render={({ field: { onChange } }) => {
 							return (
 								<ReactSelect
-									placeholder='Select Section'
-									options={section}
-									value={section?.filter(
+									placeholder='Select Article'
+									options={article}
+									value={article?.filter(
 										(item) =>
 											item.value ===
-											getValues('section_uuid')
+											getValues('article_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={
-										updateMaterialDetails?.uuid !== null
-									}
+									isDisabled={update?.uuid !== null}
 								/>
 							);
 						}}
 					/>
 				</FormField>
-				<FormField label='type_uuid' title='Type' errors={errors}>
+				<FormField
+					label='category_uuid'
+					title='Category'
+					errors={errors}>
 					<Controller
-						name={'type_uuid'}
+						name={'category_uuid'}
 						control={control}
 						render={({ field: { onChange } }) => {
 							return (
 								<ReactSelect
-									placeholder='Select Material Type'
-									options={materialType}
-									value={materialType?.filter(
+									placeholder='Select Category'
+									options={category}
+									value={category?.filter(
 										(item) =>
 											item.value ===
-											getValues('type_uuid')
+											getValues('category_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={
-										updateMaterialDetails?.uuid !== null
-									}
+									isDisabled={update?.uuid !== null}
 								/>
 							);
 						}}
@@ -153,10 +151,10 @@ export default function Index({
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='name' {...{ register, errors }} />
-				<Input label='short_name' {...{ register, errors }} />
+				<Input label='color' {...{ register, errors }} />
 				<JoinInputSelect
 					//defaultUnitValue='kg'
-					label='threshold'
+					label='quantity'
 					join='unit'
 					option={selectUnit}
 					{...{ register, errors }}
@@ -164,8 +162,8 @@ export default function Index({
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='remarks' {...{ register, errors }} />
-				<Textarea label='description' {...{ register, errors }} />
 			</div>
+			<DevTool control={control} />
 		</AddModal>
 	);
 }

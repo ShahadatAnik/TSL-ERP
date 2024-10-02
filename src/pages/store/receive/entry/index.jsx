@@ -1,5 +1,5 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
-
+import { useStoreReceive, useStoreReceiveEntry } from '@/state/store';
 import { useAuth } from '@context/auth';
 import { DevTool } from '@hookform/devtools';
 import { get } from 'react-hook-form';
@@ -18,9 +18,9 @@ import {
 } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
-
 import { exclude } from '@/util/Exclude';
 import GetDateTime from '@/util/GetDateTime';
+import { RECEIVE_NULL, RECEIVE_SCHEMA } from '@/util/Schema';
 
 import Header from './header';
 
@@ -28,25 +28,25 @@ export default function Index() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const { purchase_description_uuid } = useParams();
+	const receive_entry_description_uuid = purchase_description_uuid;
 
-	const { url: purchaseEntryUrl } = usePurchaseEntry();
+	const { url: receive_entryEntryUrl } = useStoreReceiveEntry();
 	const {
-		url: purchaseDescriptionUrl,
+		url: receive_entryDescriptionUrl,
 		updateData,
 		postData,
 		deleteData,
-	} = usePurchaseDescription();
-	const { invalidateQuery: invalidateMaterialInfo } = useMaterialInfo();
-	const { data: material } = useOtherMaterial();
-	const { invalidateQuery: invalidatePurchaseLog } = usePurchaseLog();
-	const { data } = usePurchaseDetailsByUUID(purchase_description_uuid);
+	} = useStoreReceive();
 
 	const [unit, setUnit] = useState({});
+	const { value: material } = useFetch('/other/material/value/label');
+	const { value: lc } = useFetch('/other/lc/value/label');
 
 	useEffect(() => {
-		purchase_description_uuid !== undefined
-			? (document.title = 'Update Purchase: ' + purchase_description_uuid)
-			: (document.title = 'Purchase Entry');
+		receive_entry_description_uuid !== undefined
+			? (document.title =
+					'Update Receive Entry: ' + receive_entry_description_uuid)
+			: (document.title = 'Receive Entry');
 	}, []);
 
 	const {
@@ -59,24 +59,24 @@ export default function Index() {
 		useFieldArray,
 		getValues,
 		watch,
-	} = useRHF(PURCHASE_RECEIVE_SCHEMA, PURCHASE_RECEIVE_NULL);
+	} = useRHF(RECEIVE_SCHEMA, RECEIVE_NULL);
 
-	const isUpdate = purchase_description_uuid !== undefined;
+	const isUpdate = receive_entry_description_uuid !== undefined;
+	isUpdate &&
+		useFetchForRhfReset(
+			`/store/receive-entry-details/by/${receive_entry_description_uuid}`,
+			receive_entry_description_uuid,
+			reset
+		);
 
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
-
-	// purchase
+	// receive_entry
 	const {
-		fields: purchaseField,
-		append: purchaseAppend,
-		remove: purchaseRemove,
+		fields: receiveEntry,
+		append: receiveEntryAppend,
+		remove: receiveEntryRemove,
 	} = useFieldArray({
 		control,
-		name: 'purchase',
+		name: 'receive_entry',
 	});
 
 	const [deleteItem, setDeleteItem] = useState({
@@ -84,20 +84,20 @@ export default function Index() {
 		itemName: null,
 	});
 
-	const handlePurchaseRemove = (index) => {
-		if (getValues(`purchase[${index}].uuid`) !== undefined) {
+	const handleReceiveEntryRemove = (index) => {
+		if (getValues(`receive_entry[${index}].uuid`) !== undefined) {
 			setDeleteItem({
-				itemId: getValues(`purchase[${index}].uuid`),
-				itemName: getValues(`purchase[${index}].material_name`),
+				itemId: getValues(`receive_entry[${index}].uuid`),
+				itemName: getValues(`receive_entry[${index}].material_name`),
 			});
-			window['purchase_delete'].showModal();
+			window['receive_entry_delete'].showModal();
 		}
 
-		purchaseRemove(index);
+		receiveEntryRemove(index);
 	};
 
-	const handelPurchaseAppend = () => {
-		purchaseAppend({
+	const handelReceiveEntryAppend = () => {
+		receiveEntryAppend({
 			material_uuid: '',
 			quantity: '',
 			price: '',
@@ -105,58 +105,67 @@ export default function Index() {
 		});
 	};
 
-	let excludeItem = exclude(watch, material, 'purchase', 'material_uuid');
+	let excludeItem = exclude(
+		watch,
+		material,
+		'receive_entry',
+		'material_uuid'
+	);
 	// Submit
 	const onSubmit = async (data) => {
 		// Update item
 		if (isUpdate) {
-			const purchase_description_data = {
+			const receive_entry_description_data = {
 				...data,
 				updated_at: GetDateTime(),
 			};
 
-			const purchase_description_promise = await updateData.mutateAsync({
-				url: `${purchaseDescriptionUrl}/${data?.uuid}`,
-				updatedData: purchase_description_data,
-				uuid: data.uuid,
-				isOnCloseNeeded: false,
-			});
+			const receive_entry_description_promise =
+				await updateData.mutateAsync({
+					url: `${receive_entryDescriptionUrl}/${data?.uuid}`,
+					updatedData: receive_entry_description_data,
+					uuid: data.uuid,
+					isOnCloseNeeded: false,
+				});
 
-			const purchase_entries_promise = data.purchase.map(async (item) => {
-				if (item.uuid === undefined) {
-					item.purchase_description_uuid = purchase_description_uuid;
-					item.created_at = GetDateTime();
-					item.created_by = user?.uuid;
-					item.uuid = nanoid();
-					return await postData.mutateAsync({
-						url: purchaseEntryUrl,
-						newData: item,
-						isOnCloseNeeded: false,
-					});
-				} else {
-					item.updated_at = GetDateTime();
-					const updatedData = {
-						...item,
-					};
-					return await updateData.mutateAsync({
-						url: `${purchaseEntryUrl}/${item.uuid}`,
-						uuid: item.uuid,
-						updatedData,
-						isOnCloseNeeded: false,
-					});
+			const receive_entry_entries_promise = data.receive_entry.map(
+				async (item) => {
+					if (item.uuid === undefined) {
+						item.receive_entry_description_uuid =
+							receive_entry_description_uuid;
+						item.created_at = GetDateTime();
+						item.created_by = user?.uuid;
+						item.uuid = nanoid();
+						return await postData.mutateAsync({
+							url: receive_entryEntryUrl,
+							newData: item,
+							isOnCloseNeeded: false,
+						});
+					} else {
+						item.updated_at = GetDateTime();
+						const updatedData = {
+							...item,
+						};
+						return await updateData.mutateAsync({
+							url: `${receive_entryEntryUrl}/${item.uuid}`,
+							uuid: item.uuid,
+							updatedData,
+							isOnCloseNeeded: false,
+						});
+					}
 				}
-			});
+			);
 
 			try {
 				await Promise.all([
-					purchase_description_promise,
-					...purchase_entries_promise,
+					receive_entry_description_promise,
+					...receive_entry_entries_promise,
 				])
-					.then(() => reset(PURCHASE_RECEIVE_NULL))
+					.then(() => reset(RECEIVE_NULL))
 					.then(() => {
-						invalidateMaterialInfo();
-						invalidatePurchaseLog();
-						navigate(`/store/receive/${purchase_description_uuid}`);
+						navigate(
+							`/store/receive/${receive_entry_description_uuid}`
+						);
 					});
 			} catch (err) {
 				console.error(`Error with Promise.all: ${err}`);
@@ -166,41 +175,41 @@ export default function Index() {
 		}
 
 		// Add new item
-		const new_purchase_description_uuid = nanoid();
+		const new_receive_entry_description_uuid = nanoid();
 		const created_at = GetDateTime();
 		const created_by = user.uuid;
 
-		// Create purchase description
-		const purchase_description_data = {
+		// Create receive_entry description
+		const receive_entry_description_data = {
 			...data,
-			uuid: new_purchase_description_uuid,
+			uuid: new_receive_entry_description_uuid,
 			created_at,
 			created_by,
 		};
 
-		// delete purchase field from data to be sent
-		delete purchase_description_data['purchase'];
+		// delete receive_entry field from data to be sent
+		delete receive_entry_description_data['receive_entry'];
 
-		const purchase_description_promise = await postData.mutateAsync({
-			url: purchaseDescriptionUrl,
-			newData: purchase_description_data,
+		const receive_entry_description_promise = await postData.mutateAsync({
+			url: receive_entryDescriptionUrl,
+			newData: receive_entry_description_data,
 			isOnCloseNeeded: false,
 		});
 
-		// Create purchase entries
-		const purchase_entries = [...data.purchase].map((item) => ({
+		// Create receive_entry entries
+		const receive_entry_entries = [...data.receive_entry].map((item) => ({
 			...item,
-			purchase_description_uuid: new_purchase_description_uuid,
+			receive_uuid: new_receive_entry_description_uuid,
 			uuid: nanoid(),
 			created_at,
 			created_by,
 		}));
 
-		const purchase_entries_promise = [
-			...purchase_entries.map(
+		const receive_entry_entries_promise = [
+			...receive_entry_entries.map(
 				async (item) =>
 					await postData.mutateAsync({
-						url: purchaseEntryUrl,
+						url: receive_entryEntryUrl,
 						newData: item,
 						isOnCloseNeeded: false,
 					})
@@ -209,13 +218,14 @@ export default function Index() {
 
 		try {
 			await Promise.all([
-				purchase_description_promise,
-				...purchase_entries_promise,
+				receive_entry_description_promise,
+				...receive_entry_entries_promise,
 			])
-				.then(() => reset(PURCHASE_RECEIVE_NULL))
+				.then(() => reset(RECEIVE_NULL))
 				.then(() => {
-					invalidateMaterialInfo();
-					navigate(`/store/receive/${new_purchase_description_uuid}`);
+					navigate(
+						`/store/receive/${new_receive_entry_description_uuid}`
+					);
 				});
 		} catch (err) {
 			console.error(`Error with Promise.all: ${err}`);
@@ -231,7 +241,7 @@ export default function Index() {
 	};
 
 	const handlers = {
-		NEW_ROW: handelPurchaseAppend,
+		NEW_ROW: handelReceiveEntryAppend,
 	};
 
 	configure({
@@ -243,8 +253,8 @@ export default function Index() {
 		'group whitespace-nowrap text-left text-sm font-normal tracking-wide  p-3';
 
 	const getTotalPrice = useCallback(
-		(purchase) =>
-			purchase.reduce((acc, item) => {
+		(receive_entry) =>
+			receive_entry?.reduce((acc, item) => {
 				return acc + Number(item.price);
 			}, 0),
 		[watch()]
@@ -271,11 +281,12 @@ export default function Index() {
 
 						<DynamicField
 							title='Details'
-							handelAppend={handelPurchaseAppend}
+							handelAppend={handelReceiveEntryAppend}
 							tableHead={[
 								'Material',
 								'Quantity',
-								'Total Price',
+								'Price($US)',
+								'Price(BDT)',
 								'Remarks',
 								'Action',
 							].map((item) => (
@@ -286,16 +297,16 @@ export default function Index() {
 									{item}
 								</th>
 							))}>
-							{purchaseField.map((item, index) => (
+							{receiveEntry.map((item, index) => (
 								<tr key={item.id} className=''>
 									<td className={`${rowClass}`}>
 										<FormField
-											label={`purchase[${index}].material_uuid`}
+											label={`receive_entry[${index}].material_uuid`}
 											title='Material'
 											is_title_needed='false'
 											errors={errors}>
 											<Controller
-												name={`purchase[${index}].material_uuid`}
+												name={`receive_entry[${index}].material_uuid`}
 												control={control}
 												render={({
 													field: { onChange },
@@ -317,24 +328,24 @@ export default function Index() {
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
-																		`purchase[${index}].material_uuid`
+																		`receive_entry[${index}].material_uuid`
 																	)
 															)}
 															onChange={(e) => {
 																onChange(
 																	e.value
 																);
-																setUnit({
-																	...unit,
-																	[index]:
-																		e.unit,
-																});
+																// setUnit({
+																// 	...unit,
+																// 	[index]:
+																// 		e.unit,
+																// });
 															}}
 															menuPortalTarget={
 																document.body
 															}
 															// isDisabled={
-															// 	purchase_description_uuid !==
+															// 	receive_entry_description_uuid !==
 															// 	undefined
 															// }
 														/>
@@ -343,13 +354,14 @@ export default function Index() {
 											/>
 										</FormField>
 									</td>
+
 									<td className={`w-48 ${rowClass}`}>
 										<JoinInput
 											title='quantity'
-											label={`purchase[${index}].quantity`}
+											label={`receive_entry[${index}].quantity`}
 											is_title_needed='false'
 											dynamicerror={
-												errors?.purchase?.[index]
+												errors?.receive_entry?.[index]
 													?.quantity
 											}
 											unit={
@@ -357,7 +369,7 @@ export default function Index() {
 													(inItem) =>
 														inItem.value ==
 														getValues(
-															`purchase[${index}].material_uuid`
+															`receive_entry[${index}].material_uuid`
 														)
 												)?.unit
 											}
@@ -366,22 +378,26 @@ export default function Index() {
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Input
-											title='price'
-											label={`purchase[${index}].price`}
+											title='price($US)'
+											label={`receive_entry[${index}].price`}
 											is_title_needed='false'
 											dynamicerror={
-												errors?.purchase?.[index]?.price
+												errors?.receive_entry?.[index]
+													?.price
 											}
 											register={register}
 										/>
 									</td>
 									<td className={`w-48 ${rowClass}`}>
+										{`${watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
+									</td>
+									<td className={`w-48 ${rowClass}`}>
 										<Input
 											title='remarks'
-											label={`purchase[${index}].remarks`}
+											label={`receive_entry[${index}].remarks`}
 											is_title_needed='false'
 											dynamicerror={
-												errors?.purchase?.[index]
+												errors?.receive_entry?.[index]
 													?.remarks
 											}
 											register={register}
@@ -391,11 +407,9 @@ export default function Index() {
 										<RemoveButton
 											className={'justify-center'}
 											onClick={() =>
-												handlePurchaseRemove(index)
+												handleReceiveEntryRemove(index)
 											}
-											showButton={
-												purchaseField.length > 1
-											}
+											showButton={receiveEntry.length > 1}
 										/>
 									</td>
 								</tr>
@@ -404,10 +418,19 @@ export default function Index() {
 								<td
 									className='py-4 text-right font-bold'
 									colSpan='2'>
-									Total Price:
+									Total Price($US):
 								</td>
 								<td className='py-4 font-bold'>
-									{getTotalPrice(watch('purchase'))}
+									{getTotalPrice(watch('receive_entry'))}
+								</td>
+								<td
+									className='py-4 text-right font-bold'
+									colSpan='2'>
+									Total Price(BDT):
+								</td>
+								<td className='py-4 font-bold'>
+									{getTotalPrice(watch('receive_entry')) *
+										watch('convention_rate')}
 								</td>
 							</tr>
 						</DynamicField>
@@ -424,12 +447,12 @@ export default function Index() {
 			</HotKeys>
 			<Suspense>
 				<DeleteModal
-					modalId={'purchase_delete'}
-					title={'Purchase Entry'}
+					modalId={'receive_entry_delete'}
+					title={'Receive Entry'}
 					deleteItem={deleteItem}
 					setDeleteItem={setDeleteItem}
-					setItems={purchaseField}
-					url={purchaseEntryUrl}
+					setItems={receiveEntry}
+					url={receive_entryEntryUrl}
 					deleteData={deleteData}
 				/>
 			</Suspense>

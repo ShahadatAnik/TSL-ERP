@@ -1,3 +1,4 @@
+import { add } from 'date-fns';
 import * as yup from 'yup';
 
 import {
@@ -62,7 +63,7 @@ export const LOGIN_NULL = {
 	pass: '',
 };
 
-// User
+//* User
 export const USER_SCHEMA = {
 	name: STRING_REQUIRED,
 	email: FORTUNE_ZIP_EMAIL_PATTERN,
@@ -116,7 +117,7 @@ export const USER_DESIGNATION_NULL = {
 	remarks: null,
 };
 
-// Reset Password
+//* Reset Password
 export const RESET_PASSWORD_SCHEMA = {
 	pass: PASSWORD,
 	repeatPass: PASSWORD.oneOf([yup.ref('pass')], 'Passwords do not match'),
@@ -125,4 +126,161 @@ export const RESET_PASSWORD_SCHEMA = {
 export const RESET_PASSWORD_NULL = {
 	pass: '',
 	repeatPass: '',
+};
+
+//* STORE//
+
+//* Store -> Vendor
+export const VENDOR_SCHEMA = {
+	name: NAME_REQUIRED,
+	person: NAME_REQUIRED,
+	phone: PHONE_NUMBER.nullable(),
+	address: STRING_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const VENDOR_NULL = {
+	uuid: null,
+	name: '',
+	person: '',
+	phone: null,
+	address: '',
+	remarks: null,
+};
+//*Store -> Article
+export const ARTICLE_SCHEMA = {
+	name: NAME_REQUIRED,
+	buyer_uuid: STRING_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const ARTICLE_NULL = {
+	uuid: null,
+	buyer_uuid: null,
+	name: '',
+	remarks: null,
+};
+
+//* Store -> LC
+export const LC_SCHEMA = {
+	number: STRING_REQUIRED,
+	date: yup.date().required('Required'),
+	remarks: STRING.nullable(),
+};
+export const LC_NULL = {
+	uuid: null,
+	number: '',
+	date: null,
+	remarks: null,
+};
+//* Store -> Category
+export const CATEGORY_SCHEMA = {
+	name: NAME_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const CATEGORY_NULL = {
+	uuid: null,
+	name: '',
+	remarks: null,
+};
+
+//* Store -> Buyer
+export const BUYER_SCHEMA = {
+	name: NAME_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const BUYER_NULL = {
+	uuid: null,
+	name: '',
+	remarks: null,
+};
+
+//* Store -> Stock
+export const STOCK_SCHEMA = {
+	article_uuid: STRING_REQUIRED,
+	category_uuid: STRING_REQUIRED,
+	name: STRING_REQUIRED,
+	color: STRING_REQUIRED,
+	quantity: NUMBER_REQUIRED.default(0.0),
+	remarks: STRING.nullable(),
+};
+export const STOCK_NULL = {
+	uuid: null,
+	article_uuid: null,
+	category_uuid: null,
+	name: '',
+	color: '',
+	quantity: 0.0,
+	remarks: null,
+};
+//* Store -> Issue
+export const ISSUE_SCHEMA = {
+	issue_quantity: NUMBER_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const ISSUE_NULL = {
+	uuid: null,
+	issue_quantity: null,
+	remarks: null,
+};
+//* Store -> Receive
+export const RECEIVE_SCHEMA = {
+	vendor_uuid: STRING_REQUIRED,
+	is_import: NUMBER_REQUIRED,
+	lc_uuid: STRING.when('is_import', {
+		is: 1,
+		then: (schema) => schema.required('Required'),
+		otherwise: (schema) => schema.nullable(),
+	}),
+	commercial_invoice_number: STRING.when('is_import', {
+		is: 0,
+		then: (schema) => schema.required('Required'),
+		otherwise: (schema) => schema.nullable(),
+	}),
+	commercial_invoice_value: NUMBER.when('is_import', {
+		is: 0,
+		then: (schema) => schema.required('Required'),
+		otherwise: (schema) => schema.default(0.0).nullable(),
+	}),
+	convention_rate: NUMBER_DOUBLE_REQUIRED,
+	remarks: STRING.nullable(),
+
+	receive_entry: yup.array().of(
+		yup.object().shape({
+			material_uuid: STRING_REQUIRED,
+			quantity: NUMBER_REQUIRED,
+			price: NUMBER_DOUBLE_REQUIRED,
+			remarks: STRING.nullable(),
+		})
+	),
+};
+export const RECEIVE_NULL = {
+	uuid: null,
+	vendor_uuid: null,
+	lc_uuid: null,
+	is_import: 0,
+	commercial_invoice_number: '',
+	commercial_invoice_value: 0.0,
+	convention_rate: 0.0,
+	remarks: null,
+	receive_entry: [
+		{
+			material_uuid: null,
+			quantity: null,
+			price: 0.0,
+			remarks: null,
+		},
+	],
+};
+// * Store -> Receive Entry
+export const RECEIVE_ENTRY_SCHEMA = {
+	material_uuid: STRING_REQUIRED,
+	quantity: NUMBER_REQUIRED,
+	price: NUMBER_DOUBLE_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const RECEIVE_ENTRY_NULL = {
+	uuid: null,
+	material_uuid: null,
+	quantity: null,
+	price: 0.0,
+	remarks: null,
 };

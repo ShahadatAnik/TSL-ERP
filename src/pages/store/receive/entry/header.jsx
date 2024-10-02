@@ -1,5 +1,6 @@
-
+import { useOtherVendorValueLabel } from '@/state/other';
 import { useParams } from 'react-router-dom';
+import { useFetch } from '@/hooks';
 
 import {
 	FormField,
@@ -14,14 +15,16 @@ export default function Header({
 	errors,
 	control,
 	getValues,
+	watch,
 	Controller,
 }) {
 	const { purchase_description_uuid } = useParams();
-	const { data: vendor } = useOtherVendor();
+	const { data: vendor } = useOtherVendorValueLabel();
+	const { value: lc } = useFetch('/other/lc/value/label');
 
 	const purchaseOptions = [
-		{ label: 'Import', value: 0 },
-		{ label: 'Local', value: 1 },
+		{ label: 'Import', value: 1 },
+		{ label: 'Local', value: 0 },
 	];
 
 	return (
@@ -52,11 +55,11 @@ export default function Header({
 				</FormField>
 
 				<FormField
-					label='is_local'
+					label='is_import'
 					title='Import / Local'
 					errors={errors}>
 					<Controller
-						name={'is_local'}
+						name={'is_import'}
 						control={control}
 						render={({ field: { onChange } }) => {
 							return (
@@ -65,7 +68,7 @@ export default function Header({
 									options={purchaseOptions}
 									value={purchaseOptions?.find(
 										(item) =>
-											item.value == getValues('is_local')
+											item.value == getValues('is_import')
 									)}
 									onChange={(e) => onChange(e.value)}
 								/>
@@ -73,8 +76,43 @@ export default function Header({
 						}}
 					/>
 				</FormField>
-				<Input label='lc_number' {...{ register, errors }} />
-				<Input label='challan_number' {...{ register, errors }} />
+
+				{watch('is_import') === 1 && (
+					<FormField label='lc_uuid' title='LC' errors={errors}>
+						<Controller
+							name={'lc_uuid'}
+							control={control}
+							render={({ field: { onChange } }) => {
+								return (
+									<ReactSelect
+										placeholder='Select LC'
+										options={lc}
+										value={lc?.find(
+											(item) =>
+												item.value ==
+												getValues('lc_uuid')
+										)}
+										onChange={(e) => onChange(e.value)}
+										isDisabled={watch('is_import') === 0}
+									/>
+								);
+							}}
+						/>
+					</FormField>
+				)}
+				{watch('is_import') === 0 && (
+					<Input
+						label='commercial_invoice_number'
+						{...{ register, errors }}
+					/>
+				)}
+				{watch('is_import') === 0 && (
+					<Input
+						label='commercial_invoice_value'
+						{...{ register, errors }}
+					/>
+				)}
+				<Input label='convention_rate' {...{ register, errors }} />
 				<Textarea label='remarks' {...{ register, errors }} />
 			</div>
 		</SectionEntryBody>

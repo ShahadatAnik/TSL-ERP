@@ -1,15 +1,15 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherMaterialSection, useOtherMaterialType } from '@/state/other';
-import { useMaterialInfo, useMaterialInfoByUUID } from '@/state/store';
-import { useRHF } from '@/hooks';
+import { useOtherBuyerValueLabel } from '@/state/other';
+import { useStoreArticle } from '@/state/store';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { _NULL, _SCHEMA } from '@/util/schema';
+import { ARTICLE_NULL, ARTICLE_SCHEMA } from '@/util/schema';
 
 export default function Index({
 	modalId = '',
@@ -21,9 +21,8 @@ export default function Index({
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useMaterialInfo();
-	const { data } = useMaterialInfoByUUID(update?.uuid);
-
+	const { url, updateData, postData } = useStoreArticle();
+	const { data: buyer } = useOtherBuyerValueLabel();
 	const {
 		register,
 		handleSubmit,
@@ -33,13 +32,8 @@ export default function Index({
 		control,
 		getValues,
 		context,
-	} = useRHF(_SCHEMA, _NULL);
-
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
+	} = useRHF(ARTICLE_SCHEMA, ARTICLE_NULL);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -48,7 +42,7 @@ export default function Index({
 			section_uuid: null,
 			type_uuid: null,
 		}));
-		reset(_NULL);
+		reset(ARTICLE_NULL);
 		window[modalId].close();
 	};
 
@@ -88,10 +82,33 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update ' : ''}
+			title={update?.uuid !== null ? 'Update Article' : 'Article'}
 			formContext={context}
+			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
+			<Input label='name' {...{ register, errors }} />
+			<FormField label='buyer_uuid' {...{ register, errors }}>
+				<Controller
+					name='buyer_uuid'
+					control={control}
+					render={({ field: { onChange } }) => {
+						return (
+							<ReactSelect
+								placeholder='Select Buyer'
+								options={buyer}
+								value={buyer?.find(
+									(item) =>
+										item.value === getValues('buyer_uuid')
+								)}
+								onChange={(e) => {
+									onChange(e.value);
+								}}
+							/>
+						);
+					}}
+				/>
+			</FormField>
 			<Input label='remarks' {...{ register, errors }} />
 		</AddModal>
 	);

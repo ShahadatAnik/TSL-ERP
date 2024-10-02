@@ -1,4 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
+import { useStoreCategory } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -8,23 +9,15 @@ import { DateTime, EditDelete, Transfer } from '@/ui';
 import PageInfo from '@/util/PageInfo';
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
+import { CategoryColumns } from '../coloums';
+
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData, refetch } = use();
-	const info = new PageInfo('', url, '');
-	const haveAccess = useAccess('');
-	const columns = useMemo(
-		() => [
-			...DEFAULT_COLUMNS({
-				handelUpdate: handelUpdate,
-				handelDelete: handelDelete,
-				haveAccess,
-			}),
-		],
-		[data, haveAccess]
-	);
+	const { data, isLoading, url, deleteData, refetch } = useStoreCategory();
+	const info = new PageInfo('Store/Category', url, 'store__category');
+	const haveAccess = useAccess('store__category');
 
 	// Fetching data from server
 	useEffect(() => {
@@ -45,19 +38,8 @@ export default function Index() {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
-			section_uuid: data[idx].section_uuid,
-			type_uuid: data[idx].type_uuid,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
-	};
-
-	const handleTrx = (idx) => {
-		setUpdate((prev) => ({
-			...prev,
-			uuid: data[idx].uuid,
-			name: data[idx].name,
-		}));
-		window['MaterialTrx'].showModal();
 	};
 
 	// Delete
@@ -74,6 +56,12 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
+	const columns = CategoryColumns({
+		handelUpdate,
+		handelDelete,
+		haveAccess,
+		data,
+	});
 
 	return (
 		<div>

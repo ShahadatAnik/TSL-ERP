@@ -1,28 +1,26 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherMaterialSection, useOtherMaterialType } from '@/state/other';
-import { useMaterialInfo, useMaterialInfoByUUID } from '@/state/store';
-import { useRHF } from '@/hooks';
+import { useStoreLC } from '@/state/store';
+import { DevTool } from '@hookform/devtools';
+import DatePicker from 'react-datepicker';
+import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { _NULL, _SCHEMA } from '@/util/schema';
+import { LC_NULL, LC_SCHEMA } from '@/util/schema';
 
 export default function Index({
 	modalId = '',
 	update = {
 		uuid: null,
-		section_uuid: null,
-		type_uuid: null,
 	},
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useMaterialInfo();
-	const { data } = useMaterialInfoByUUID(update?.uuid);
+	const { url, updateData, postData } = useStoreLC();
 
 	const {
 		register,
@@ -33,22 +31,15 @@ export default function Index({
 		control,
 		getValues,
 		context,
-	} = useRHF(_SCHEMA, _NULL);
-
-	useEffect(() => {
-		if (data) {
-			reset(data);
-		}
-	}, [data]);
+	} = useRHF(LC_SCHEMA, LC_NULL);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: null,
-			section_uuid: null,
-			type_uuid: null,
 		}));
-		reset(_NULL);
+		reset(LC_NULL);
 		window[modalId].close();
 	};
 
@@ -88,11 +79,31 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update ' : ''}
+			title={update?.uuid !== null ? 'Update LC' : 'LC'}
 			formContext={context}
+			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
+			<Input label='number' {...{ register, errors }} />
+			<FormField label='date' title='Delivery Date' errors={errors}>
+				<Controller
+					name={'date'}
+					control={control}
+					render={({ field: { onChange } }) => {
+						return (
+							<DatePicker
+								className='h-12 w-full rounded-md border bg-primary/5 px-2 text-primary'
+								placeholderText='Select Date'
+								dateFormat='dd/MM/yyyy'
+								selected={getValues('date')}
+								onChange={(date) => onChange(date)}
+							/>
+						);
+					}}
+				/>
+			</FormField>
 			<Input label='remarks' {...{ register, errors }} />
+			<DevTool control={control} />
 		</AddModal>
 	);
 }
