@@ -79,12 +79,6 @@ export default function Index({ receive_entry, convention_rate }) {
 				enableColumnFilter: false,
 				cell: (info) => <DateTime date={info.getValue()} />,
 			},
-			{
-				accessorKey: 'remarks',
-				header: 'Remarks',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
 		],
 		[receive_entry]
 	);
