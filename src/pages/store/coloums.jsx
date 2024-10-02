@@ -1,6 +1,13 @@
 import { useMemo } from 'react';
 
-import { DateTime, LinkWithCopy, Progress, StatusButton, Transfer } from '@/ui';
+import {
+	DateTime,
+	EditDelete,
+	LinkWithCopy,
+	Progress,
+	StatusButton,
+	Transfer,
+} from '@/ui';
 
 import { DEFAULT_COLUMNS } from '@/util/Table/default-columns';
 
@@ -82,21 +89,25 @@ export const VendorColumns = ({
 			{
 				accessorKey: 'name',
 				header: 'Name',
+				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'person',
 				header: 'Person',
+				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'phone',
 				header: 'Phone',
+				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'address',
 				header: 'Address',
+				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
@@ -133,7 +144,6 @@ export const StockColumns = ({
 	haveAccess,
 	data,
 }) => {
-	
 	return useMemo(
 		() => [
 			{
@@ -172,6 +182,165 @@ export const StockColumns = ({
 				),
 			},
 			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
+		],
+		[data]
+	);
+};
+
+export const IssueLogColumns = ({
+	handelUpdate,
+	handelDelete,
+	haveAccess,
+	data,
+}) => {
+	return useMemo(
+		() => [
+			{
+				accessorKey: 'material_name',
+				header: 'Name',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+
+			{
+				accessorKey: 'article_name',
+				header: 'Article',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'buyer_name',
+				header: 'Buyer',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'category_name',
+				header: 'Category',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'issue_quantity',
+				header: 'Quantity',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'material_unit',
+				header: 'Unit',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+
+			{
+				accessorKey: 'remarks',
+				header: 'Remarks',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'actions',
+				header: 'Actions',
+				enableColumnFilter: false,
+				enableSorting: false,
+				hidden:
+					!haveAccess?.includes('click_issue_update') &&
+					!haveAccess?.includes('click_issue_delete'),
+				width: 'w-24',
+				cell: (info) => (
+					<EditDelete
+						idx={info.row.index}
+						handelUpdate={handelUpdate}
+						handelDelete={handelDelete}
+						showUpdate={haveAccess?.includes('click_issue_update')}
+						showDelete={haveAccess?.includes('click_issue_delete')}
+					/>
+				),
+			},
+		],
+		[data]
+	);
+};
+export const ReceiveLogColumns = ({
+	handelUpdate,
+	handelDelete,
+	haveAccess,
+	data,
+}) => {
+	return useMemo(
+		() => [
+			{
+				accessorKey: 'material_name',
+				header: 'Name',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'article_name',
+				header: 'Article',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'buyer_name',
+				header: 'Buyer',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'category_name',
+				header: 'Category',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'quantity',
+				header: 'Quantity',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'material_unit',
+				header: 'Unit',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'price',
+				header: 'Price',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'remarks',
+				header: 'Remarks',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'actions',
+				header: 'Actions',
+				enableColumnFilter: false,
+				enableSorting: false,
+				hidden:
+					!haveAccess?.includes('click_receive_update') &&
+					!haveAccess?.includes('click_receive_delete'),
+				width: 'w-24',
+				cell: (info) => (
+					<EditDelete
+						idx={info.row.index}
+						handelUpdate={handelUpdate}
+						handelDelete={handelDelete}
+						showUpdate={haveAccess?.includes(
+							'click_receive_update'
+						)}
+						showDelete={haveAccess?.includes(
+							'click_receive_delete'
+						)}
+					/>
+				),
+			},
 		],
 		[data]
 	);

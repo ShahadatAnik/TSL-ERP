@@ -15,6 +15,7 @@ export default function Header({
 	errors,
 	control,
 	getValues,
+	watch,
 	Controller,
 }) {
 	const { purchase_description_uuid } = useParams();
@@ -52,28 +53,6 @@ export default function Header({
 						}}
 					/>
 				</FormField>
-				<FormField label='lc_uuid' title='LC' errors={errors}>
-					<Controller
-						name={'lc_uuid'}
-						control={control}
-						render={({ field: { onChange } }) => {
-							return (
-								<ReactSelect
-									placeholder='Select LC'
-									options={lc}
-									value={lc?.find(
-										(item) =>
-											item.value == getValues('lc_uuid')
-									)}
-									onChange={(e) => onChange(e.value)}
-									isDisabled={
-										purchase_description_uuid !== undefined
-									}
-								/>
-							);
-						}}
-					/>
-				</FormField>
 
 				<FormField
 					label='is_import'
@@ -97,14 +76,42 @@ export default function Header({
 						}}
 					/>
 				</FormField>
-				<Input
-					label='commercial_invoice_number'
-					{...{ register, errors }}
-				/>
-				<Input
-					label='commercial_invoice_value'
-					{...{ register, errors }}
-				/>
+
+				{watch('is_import') === 1 && (
+					<FormField label='lc_uuid' title='LC' errors={errors}>
+						<Controller
+							name={'lc_uuid'}
+							control={control}
+							render={({ field: { onChange } }) => {
+								return (
+									<ReactSelect
+										placeholder='Select LC'
+										options={lc}
+										value={lc?.find(
+											(item) =>
+												item.value ==
+												getValues('lc_uuid')
+										)}
+										onChange={(e) => onChange(e.value)}
+										isDisabled={watch('is_import') === 0}
+									/>
+								);
+							}}
+						/>
+					</FormField>
+				)}
+				{watch('is_import') === 0 && (
+					<Input
+						label='commercial_invoice_number'
+						{...{ register, errors }}
+					/>
+				)}
+				{watch('is_import') === 0 && (
+					<Input
+						label='commercial_invoice_value'
+						{...{ register, errors }}
+					/>
+				)}
 				<Input label='convention_rate' {...{ register, errors }} />
 				<Textarea label='remarks' {...{ register, errors }} />
 			</div>

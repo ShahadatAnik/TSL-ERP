@@ -7,22 +7,22 @@ import { configure, HotKeys } from 'react-hotkeys';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useFetch, useFetchForRhfReset, useRHF } from '@/hooks';
 
-
-
 import { DeleteModal } from '@/components/Modal';
-import { DynamicField, FormField, Input, JoinInput, ReactSelect, RemoveButton } from '@/ui';
-
-
+import {
+	DynamicField,
+	FormField,
+	Input,
+	JoinInput,
+	ReactSelect,
+	RemoveButton,
+} from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import { exclude } from '@/util/Exclude';
 import GetDateTime from '@/util/GetDateTime';
 import { RECEIVE_NULL, RECEIVE_SCHEMA } from '@/util/Schema';
 
-
-
 import Header from './header';
-
 
 export default function Index() {
 	const { user } = useAuth();
@@ -223,7 +223,6 @@ export default function Index() {
 			])
 				.then(() => reset(RECEIVE_NULL))
 				.then(() => {
-					invalidateMaterialInfo();
 					navigate(
 						`/store/receive/${new_receive_entry_description_uuid}`
 					);
@@ -286,7 +285,8 @@ export default function Index() {
 							tableHead={[
 								'Material',
 								'Quantity',
-								'Price',
+								'Price($US)',
+								'Price(BDT)',
 								'Remarks',
 								'Action',
 							].map((item) => (
@@ -378,7 +378,7 @@ export default function Index() {
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Input
-											title='price'
+											title='price($US)'
 											label={`receive_entry[${index}].price`}
 											is_title_needed='false'
 											dynamicerror={
@@ -387,6 +387,9 @@ export default function Index() {
 											}
 											register={register}
 										/>
+									</td>
+									<td className={`w-48 ${rowClass}`}>
+										{`${watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Input
@@ -415,10 +418,19 @@ export default function Index() {
 								<td
 									className='py-4 text-right font-bold'
 									colSpan='2'>
-									Total Price:
+									Total Price($US):
 								</td>
 								<td className='py-4 font-bold'>
 									{getTotalPrice(watch('receive_entry'))}
+								</td>
+								<td
+									className='py-4 text-right font-bold'
+									colSpan='2'>
+									Total Price(BDT):
+								</td>
+								<td className='py-4 font-bold'>
+									{getTotalPrice(watch('receive_entry')) *
+										watch('convention_rate')}
 								</td>
 							</tr>
 						</DynamicField>

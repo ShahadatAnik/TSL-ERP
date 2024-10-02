@@ -1,35 +1,35 @@
 import { add } from 'date-fns';
 import * as yup from 'yup';
 
-
-
-import { BOOLEAN // default
-, BOOLEAN_DEFAULT_VALUE // default
-, BOOLEAN_REQUIRED // default
-, EMAIL // default
-, EMAIL_REQUIRED // default
-, FORTUNE_ZIP_EMAIL_PATTERN // default
-, JSON_STRING // default
-, JSON_STRING_REQUIRED // default
-, NAME, NAME_REQUIRED // default
-, NUMBER // default
-, NUMBER_DOUBLE // default
-, NUMBER_DOUBLE_REQUIRED // default
-, NUMBER_REQUIRED // default
-, ORDER_NUMBER // default
-, ORDER_NUMBER_NOT_REQUIRED // default
-, PASSWORD // default
-, PHONE_NUMBER // default
-, PHONE_NUMBER_REQUIRED // default
-, STRING // default
-, STRING_REQUIRED // default
-, URL // default
-, URL_REQUIRED // default
-, UUID // default
-, UUID_FK // default
-, UUID_PK // default
-, UUID_REQUIRED } from './utils';
-
+import {
+	BOOLEAN, // default
+	BOOLEAN_DEFAULT_VALUE, // default
+	BOOLEAN_REQUIRED, // default
+	EMAIL, // default
+	EMAIL_REQUIRED, // default
+	FORTUNE_ZIP_EMAIL_PATTERN, // default
+	JSON_STRING, // default
+	JSON_STRING_REQUIRED, // default
+	NAME,
+	NAME_REQUIRED, // default
+	NUMBER, // default
+	NUMBER_DOUBLE, // default
+	NUMBER_DOUBLE_REQUIRED, // default
+	NUMBER_REQUIRED, // default
+	ORDER_NUMBER, // default
+	ORDER_NUMBER_NOT_REQUIRED, // default
+	PASSWORD, // default
+	PHONE_NUMBER, // default
+	PHONE_NUMBER_REQUIRED, // default
+	STRING, // default
+	STRING_REQUIRED, // default
+	URL, // default
+	URL_REQUIRED, // default
+	UUID, // default
+	UUID_FK, // default
+	UUID_PK, // default
+	UUID_REQUIRED,
+} from './utils';
 
 export {
 	BOOLEAN,
@@ -213,21 +213,33 @@ export const STOCK_NULL = {
 };
 //* Store -> Issue
 export const ISSUE_SCHEMA = {
-	quantity: NUMBER_REQUIRED,
+	issue_quantity: NUMBER_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const ISSUE_NULL = {
 	uuid: null,
-	quantity: null,
+	issue_quantity: null,
 	remarks: null,
 };
 //* Store -> Receive
 export const RECEIVE_SCHEMA = {
 	vendor_uuid: STRING_REQUIRED,
-	lc_uuid: STRING_REQUIRED,
 	is_import: NUMBER_REQUIRED,
-	commercial_invoice_number: STRING_REQUIRED,
-	commercial_invoice_value: NUMBER_DOUBLE.default(0.0),
+	lc_uuid: STRING.when('is_import', {
+		is: 1,
+		then: (schema) => schema.required('Required'),
+		otherwise: (schema) => schema.nullable(),
+	}),
+	commercial_invoice_number: STRING.when('is_import', {
+		is: 0,
+		then: (schema) => schema.required('Required'),
+		otherwise: (schema) => schema.nullable(),
+	}),
+	commercial_invoice_value: NUMBER.when('is_import', {
+		is: 0,
+		then: (schema) => schema.required('Required'),
+		otherwise: (schema) => schema.default(0.0).nullable(),
+	}),
 	convention_rate: NUMBER_DOUBLE_REQUIRED,
 	remarks: STRING.nullable(),
 
@@ -257,4 +269,18 @@ export const RECEIVE_NULL = {
 			remarks: null,
 		},
 	],
+};
+// * Store -> Receive Entry
+export const RECEIVE_ENTRY_SCHEMA = {
+	material_uuid: STRING_REQUIRED,
+	quantity: NUMBER_REQUIRED,
+	price: NUMBER_DOUBLE_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const RECEIVE_ENTRY_NULL = {
+	uuid: null,
+	material_uuid: null,
+	quantity: null,
+	price: 0.0,
+	remarks: null,
 };

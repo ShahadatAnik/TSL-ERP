@@ -1,7 +1,13 @@
 import { useMemo } from 'react';
 
+
+
 import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
 import { DateTime } from '@/ui';
+
+
+
+
 
 export default function Index({ receive_entry }) {
 	const columns = useMemo(
@@ -13,13 +19,31 @@ export default function Index({ receive_entry }) {
 				cell: (info) => info.getValue(),
 			},
 			{
+				accessorKey: 'article_name',
+				header: 'Article',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'buyer_name',
+				header: 'Buyer',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'category_name',
+				header: 'Category',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
 				accessorKey: 'quantity',
 				header: 'Quantity',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'unit',
+				accessorKey: 'material_unit',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),

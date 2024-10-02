@@ -26,6 +26,7 @@ export default function Information({
 		commercial_invoice_number,
 		commercial_invoice_value,
 		is_import,
+		lc_number,
 		convention_rate,
 		created_at,
 		created_by_name,
@@ -46,20 +47,29 @@ export default function Information({
 				value: vendor_name,
 			},
 			{
-				label: 'Commercial Invoice Number',
-				value: commercial_invoice_number,
+				label: 'Import/Local',
+				value: is_import == 1 ? 'Import' : 'Local',
 			},
-			{
-				label: 'Commercial Invoice Value',
-				value: commercial_invoice_value,
-			},
+			...(is_import == 1
+				? [
+						{
+							label: 'LC Number',
+							value: lc_number,
+						},
+					]
+				: [
+						{
+							label: 'Commercial Invoice Number',
+							value: commercial_invoice_number,
+						},
+						{
+							label: 'Commercial Invoice Value',
+							value: commercial_invoice_value,
+						},
+					]),
 			{
 				label: 'Conversion Rate',
 				value: convention_rate,
-			},
-			{
-				label: 'LC/Local',
-				value: is_import == 1 ? 'Local' : 'LC',
 			},
 
 			{

@@ -9,7 +9,14 @@ import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
+import {
+	FormField,
+	Input,
+	JoinInput,
+	JoinInputSelect,
+	ReactSelect,
+	Textarea,
+} from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -38,7 +45,7 @@ export default function Index({
 		context,
 	} = useRHF(STOCK_SCHEMA, STOCK_NULL);
 
-	useFetchForRhfReset(`${url}/${update?.uuid}`, url, reset);
+	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -81,6 +88,12 @@ export default function Index({
 			onClose,
 		});
 	};
+	const selectUnit = [
+		{ label: 'kg', value: 'kg' },
+		{ label: 'Litre', value: 'ltr' },
+		{ label: 'Meter', value: 'mtr' },
+		{ label: 'Piece', value: 'pcs' },
+	];
 
 	return (
 		<AddModal
@@ -139,7 +152,13 @@ export default function Index({
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='name' {...{ register, errors }} />
 				<Input label='color' {...{ register, errors }} />
-				<Input label='quantity' {...{ register, errors }} />
+				<JoinInputSelect
+					//defaultUnitValue='kg'
+					label='quantity'
+					join='unit'
+					option={selectUnit}
+					{...{ register, errors }}
+				/>
 			</div>
 			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
 				<Input label='remarks' {...{ register, errors }} />

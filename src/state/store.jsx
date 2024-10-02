@@ -83,6 +83,20 @@ export const useStoreStockByUUID = (uuid) =>
 		url: `/store/material/${uuid}`,
 		//enabled: !!uuid,
 	});
+
+// * Issue
+export const useStoreIssue = () =>
+	createGlobalState({
+		queryKey: storeQK.issue(),
+		url: `/store/issue`,
+	});
+
+export const useStoreIssueByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.issueByUUID(uuid),
+		url: `/store/issue/${uuid}`,
+		//enabled: !!uuid,
+	});
 // * Receive
 export const useStoreReceive = () =>
 	createGlobalState({

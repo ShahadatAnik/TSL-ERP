@@ -30,6 +30,10 @@ export const storeQK = {
 	stock: () => [...storeQK.all(), 'stock'],
 	stockByUUID: (uuid) => [...storeQK.stock(), uuid],
 
+	//* Issue
+	issue: () => [...storeQK.all(), 'issue'],
+	issueByUUID: (uuid) => [...storeQK.issue(), uuid],
+
 	//* Article
 	article: () => [...storeQK.all(), 'article'],
 	articleByUUID: (uuid) => [...storeQK.article(), uuid],
@@ -57,6 +61,7 @@ export const storeQK = {
 	//* Receive Entry
 	receiveEntry: () => [...storeQK.all(), 'receive-entry'],
 	receiveEntryByUUID: (uuid) => [...storeQK.receiveEntry(), uuid],
+
 };
 //* Other
 export const otherQK = {

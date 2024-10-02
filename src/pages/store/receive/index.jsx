@@ -28,7 +28,7 @@ export default function Index() {
 	const columns = useMemo(
 		() => [
 			{
-				accessorKey: 'purchase_id',
+				accessorKey: 'id',
 				header: 'ID',
 				enableColumnFilter: false,
 				cell: (info) => {
@@ -48,31 +48,47 @@ export default function Index() {
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
+
+			{
+				accessorKey: 'is_import',
+				header: 'Local/Import',
+				enableColumnFilter: false,
+				cell: (info) => {
+					return info.getValue() === 1 ? 'Import' : 'Local';
+				},
+			},
+			{
+				accessorKey: 'lc_number',
+				header: 'LC',
+				enableColumnFilter: false,
+				cell: (info) =>
+					info.row.original?.is_import === 0
+						? 'N/A'
+						: info.getValue(),
+			},
 			{
 				accessorKey: 'commercial_invoice_number',
 				header: 'Commercial Invoice Number',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) =>
+					info.row.original?.is_import === 1
+						? 'N/A'
+						: info.getValue(),
 			},
 			{
 				accessorKey: 'commercial_invoice_value',
 				header: 'Commercial Invoice Value',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) =>
+					info.row.original?.is_import === 1
+						? 'N/A'
+						: info.getValue(),
 			},
 			{
 				accessorKey: 'convention_rate',
 				header: 'Convention Rate',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'is_local',
-				header: 'Local/LC',
-				enableColumnFilter: false,
-				cell: (info) => {
-					return info.getValue() == 1 ? 'Local' : 'LC';
-				},
 			},
 			{
 				accessorKey: 'created_by_name',
