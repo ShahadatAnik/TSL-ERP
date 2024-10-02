@@ -1,4 +1,5 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
+import { useOtherMaterialValueLabel } from '@/state/other';
 import { useStoreReceive, useStoreReceiveEntry } from '@/state/store';
 import { useAuth } from '@context/auth';
 import { DevTool } from '@hookform/devtools';
@@ -27,8 +28,7 @@ import Header from './header';
 export default function Index() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
-	const { purchase_description_uuid } = useParams();
-	const receive_entry_description_uuid = purchase_description_uuid;
+	const { receive_entry_description_uuid } = useParams();
 
 	const { url: receive_entryEntryUrl } = useStoreReceiveEntry();
 	const {
@@ -39,8 +39,7 @@ export default function Index() {
 	} = useStoreReceive();
 
 	const [unit, setUnit] = useState({});
-	const { value: material } = useFetch('/other/material/value/label');
-	const { value: lc } = useFetch('/other/lc/value/label');
+	const { data: material } = useOtherMaterialValueLabel();
 
 	useEffect(() => {
 		receive_entry_description_uuid !== undefined
@@ -335,19 +334,19 @@ export default function Index() {
 																onChange(
 																	e.value
 																);
-																// setUnit({
-																// 	...unit,
-																// 	[index]:
-																// 		e.unit,
-																// });
+																setUnit({
+																	...unit,
+																	[index]:
+																		e.unit,
+																});
 															}}
 															menuPortalTarget={
 																document.body
 															}
-															// isDisabled={
-															// 	receive_entry_description_uuid !==
-															// 	undefined
-															// }
+															isDisabled={
+																receive_entry_description_uuid !==
+																undefined
+															}
 														/>
 													);
 												}}

@@ -1,4 +1,4 @@
-import { useOtherVendorValueLabel } from '@/state/other';
+import { useOtherLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '@/hooks';
 
@@ -20,7 +20,8 @@ export default function Header({
 }) {
 	const { purchase_description_uuid } = useParams();
 	const { data: vendor } = useOtherVendorValueLabel();
-	const { value: lc } = useFetch('/other/lc/value/label');
+	const { data: lc } = useOtherLcValueLabel();
+	//const { value: lc } = useFetch('/other/lc/value/label');
 
 	const purchaseOptions = [
 		{ label: 'Import', value: 1 },
