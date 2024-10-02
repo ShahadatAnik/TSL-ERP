@@ -3,7 +3,7 @@ import { useParams } from 'react-router-dom';
 import { useFetch } from '@/hooks';
 
 import Information from './Information';
-import Table from './Table';
+import Table from './table';
 
 export default function Index() {
 	const { purchase_description_uuid } = useParams();
@@ -14,7 +14,7 @@ export default function Index() {
 	);
 
 	useEffect(() => {
-		document.title = 'Purchase Details';
+		document.title = 'Receive Details';
 	}, []);
 
 	if (loading)
