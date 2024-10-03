@@ -1,5 +1,5 @@
-import react from '@vitejs/plugin-react-swc';
 import path from 'path';
+import react from '@vitejs/plugin-react-swc';
 import { defineConfig } from 'vite';
 import eslintPlugin from 'vite-plugin-eslint';
 
@@ -42,6 +42,6 @@ export default defineConfig({
 	// plugins: [react(), eslintPlugin()],
 	server: {
 		// port: 3000,
-		port: isProduction ? 4015 : 3000,
+		port: isProduction ? 4025 : 3000,
 	},
 });
