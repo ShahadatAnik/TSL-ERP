@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
+import { useOtherLcValueLabel } from '@/state/other';
 import { useStoreLC } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import DatePicker from 'react-datepicker';
@@ -21,6 +22,8 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreLC();
+
+	const { invalidateQuery: invalidateLCValueLabel } = useOtherLcValueLabel();
 
 	const {
 		register,
@@ -74,6 +77,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateLCValueLabel();
 	};
 
 	return (

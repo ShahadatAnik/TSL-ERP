@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/auth';
+import { useOtherBuyerValueLabel } from '@/state/other';
 import { useStoreBuyer } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
@@ -19,6 +20,7 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreBuyer();
+	const { invalidateQuery: invalidateBuyerLabel } = useOtherBuyerValueLabel();
 
 	const { register, handleSubmit, errors, reset, control, context } = useRHF(
 		BUYER_SCHEMA,
@@ -66,6 +68,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateBuyerLabel();
 	};
 
 	return (

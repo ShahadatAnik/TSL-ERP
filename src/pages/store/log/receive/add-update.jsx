@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useStoreBuyer, useStoreReceiveEntry } from '@/state/store';
+import { useStoreBuyer, useStoreReceiveEntry, useStoreStock } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetch, useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -28,6 +28,7 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreReceiveEntry();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 
 	const {
 		register,
@@ -68,6 +69,7 @@ export default function Index({
 
 			return;
 		}
+		invalidateStock();
 	};
 
 	return (

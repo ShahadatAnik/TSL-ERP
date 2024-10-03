@@ -1,6 +1,9 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherBuyerValueLabel } from '@/state/other';
+import {
+	useOtherArticleValueLabel,
+	useOtherBuyerValueLabel,
+} from '@/state/other';
 import { useStoreArticle } from '@/state/store';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -23,6 +26,8 @@ export default function Index({
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreArticle();
 	const { data: buyer } = useOtherBuyerValueLabel();
+	const { invalidateQuery: invalidateArticleValueLabel } =
+		useOtherArticleValueLabel();
 	const {
 		register,
 		handleSubmit,
@@ -77,6 +82,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateArticleValueLabel();
 	};
 
 	return (
