@@ -1,5 +1,5 @@
 import { useAuth } from '@/context/auth';
-import { useStoreIssue } from '@/state/store';
+import { useStoreIssue, useStoreStock } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetch, useRHF } from '@/hooks';
 
@@ -20,6 +20,7 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, postData } = useStoreIssue();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const schema = {
 		...ISSUE_SCHEMA,
 		issue_quantity: ISSUE_SCHEMA.issue_quantity.max(
@@ -57,6 +58,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateStock();
 	};
 
 	return (

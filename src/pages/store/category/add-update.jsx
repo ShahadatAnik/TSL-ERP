@@ -1,5 +1,6 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
+import { useOtherCategoryValueLabel } from '@/state/other';
 import { useStoreCategory } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
@@ -20,6 +21,8 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreCategory();
+	const { invalidateQuery: invalidateCategoryValueLabel } =
+		useOtherCategoryValueLabel();
 
 	const {
 		register,
@@ -73,6 +76,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateCategoryValueLabel();
 	};
 
 	return (

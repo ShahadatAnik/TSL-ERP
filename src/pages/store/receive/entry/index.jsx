@@ -1,6 +1,10 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
 import { useOtherMaterialValueLabel } from '@/state/other';
-import { useStoreReceive, useStoreReceiveEntry } from '@/state/store';
+import {
+	useStoreReceive,
+	useStoreReceiveEntry,
+	useStoreStock,
+} from '@/state/store';
 import { useAuth } from '@context/auth';
 import { DevTool } from '@hookform/devtools';
 import { configure, HotKeys } from 'react-hotkeys';
@@ -40,6 +44,7 @@ export default function Index() {
 
 	const [unit, setUnit] = useState({});
 	const { data: material } = useOtherMaterialValueLabel();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 
 	useEffect(() => {
 		receive_entry_description_uuid !== undefined
@@ -161,6 +166,7 @@ export default function Index() {
 				])
 					.then(() => reset(RECEIVE_NULL))
 					.then(() => {
+						invalidateStock();
 						navigate(
 							`/store/receive/${receive_entry_description_uuid}`
 						);
@@ -221,6 +227,7 @@ export default function Index() {
 			])
 				.then(() => reset(RECEIVE_NULL))
 				.then(() => {
+					invalidateStock();
 					navigate(
 						`/store/receive/${new_receive_entry_description_uuid}`
 					);

@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/auth';
+import { useOtherVendorValueLabel } from '@/state/other';
 import { useStoreVendor } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
@@ -19,6 +20,9 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreVendor();
+
+	const { invalidateQuery: invalidateVendorValueLabel } =
+		useOtherVendorValueLabel();
 
 	const { register, handleSubmit, errors, reset, context, control } = useRHF(
 		VENDOR_SCHEMA,
@@ -66,6 +70,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateVendorValueLabel();
 	};
 
 	return (

@@ -2,6 +2,7 @@ import { useAuth } from '@/context/auth';
 import {
 	useOtherArticleValueLabel,
 	useOtherCategoryValueLabel,
+	useOtherMaterialValueLabel,
 } from '@/state/other';
 import { useStoreStock } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
@@ -25,6 +26,8 @@ export default function Index({
 	const { url, updateData, postData } = useStoreStock();
 	const { data: category } = useOtherCategoryValueLabel();
 	const { data: article } = useOtherArticleValueLabel();
+	const { invalidateQuery: invalidateMaterialValueLabel } =
+		useOtherMaterialValueLabel();
 
 	const {
 		register,
@@ -79,6 +82,7 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
+		invalidateMaterialValueLabel();
 	};
 	const selectUnit = [
 		{ label: 'KG', value: 'kg' },

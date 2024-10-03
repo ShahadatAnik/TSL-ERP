@@ -1,6 +1,6 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useStoreBuyer, useStoreIssue } from '@/state/store';
+import { useStoreBuyer, useStoreIssue, useStoreStock } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -23,6 +23,7 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData } = useStoreIssue();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const schema = {
 		...ISSUE_SCHEMA,
 		issue_quantity: ISSUE_SCHEMA.issue_quantity.max(
@@ -72,6 +73,7 @@ export default function Index({
 
 			return;
 		}
+		invalidateStock();
 	};
 
 	return (
