@@ -1,13 +1,7 @@
 import { format } from 'date-fns';
 
-
-
 import SectionContainer from '@/ui/Others/SectionContainer';
 import RenderTable from '@/ui/Others/Table/RenderTable';
-
-
-
-
 
 export default function Information({
 	purchase = {
@@ -56,23 +50,25 @@ export default function Information({
 				label: 'Import/Local',
 				value: is_import == 1 ? 'Import' : 'Local',
 			},
-			...(is_import == 1
-				? [
-						{
-							label: 'LC Number',
-							value: lc_number,
-						},
-					]
-				: [
-						{
-							label: 'Commercial Invoice Number',
-							value: commercial_invoice_number,
-						},
-						{
-							label: 'Commercial Invoice Value',
-							value: commercial_invoice_value,
-						},
-					]),
+
+			{
+				label: 'LC Number',
+				value: lc_number ? lc_number : null,
+			},
+
+			{
+				label: 'Commercial Invoice Number',
+				value: commercial_invoice_number
+					? commercial_invoice_number
+					: null,
+			},
+			{
+				label: 'Commercial Invoice Value',
+				value: commercial_invoice_value
+					? commercial_invoice_value
+					: null,
+			},
+
 			{
 				label: 'Conversion Rate',
 				value: convention_rate,

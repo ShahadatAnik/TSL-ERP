@@ -1,17 +1,25 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherLcValueLabel } from '@/state/other';
+import { useOtherLcValueLabel, useOtherMasterLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
 import { useStoreLC } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import DatePicker from 'react-datepicker';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
+
+
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
+
+
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
 import { LC_NULL, LC_SCHEMA } from '@/util/schema';
+
+
+
+
 
 export default function Index({
 	modalId = '',
@@ -22,7 +30,8 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreLC();
-
+	const { data: vendor } = useOtherVendorValueLabel();
+	const { data: master_lc } = useOtherMasterLcValueLabel();
 	const { invalidateQuery: invalidateLCValueLabel } = useOtherLcValueLabel();
 
 	const {
@@ -45,6 +54,11 @@ export default function Index({
 		reset(LC_NULL);
 		window[modalId].close();
 	};
+	const selectCurrency = [
+		{ label: '$US', value: '$us' },
+		{ label: 'EUR', value: 'eur' },
+		{ label: 'CNY', value: 'cny' },
+	];
 
 	const onSubmit = async (data) => {
 		// Update item
@@ -88,8 +102,67 @@ export default function Index({
 			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
+			<FormField label='vendor_uuid' title='Vendor' errors={errors}>
+				<Controller
+					name={'vendor_uuid'}
+					control={control}
+					render={({ field: { onChange, value } }) => {
+						return (
+							<ReactSelect
+								placeholder='Select Vendor'
+								options={vendor}
+								value={vendor?.find(
+									(item) => item.value === value
+								)}
+								onChange={(e) => {
+									onChange(e.value);
+								}}
+							/>
+						);
+					}}
+				/>
+			</FormField>
+			<FormField label='master_lc_uuid' title='Master LC' errors={errors}>
+				<Controller
+					name={'master_lc_uuid'}
+					control={control}
+					render={({ field: { onChange, value } }) => {
+						return (
+							<ReactSelect
+								placeholder='Select Master LC'
+								options={master_lc}
+								value={master_lc?.find(
+									(item) => item.value === value
+								)}
+								onChange={(e) => {
+									onChange(e.value);
+								}}
+							/>
+						);
+					}}
+				/>
+			</FormField>
 			<Input label='number' {...{ register, errors }} />
-			<FormField label='date' title='Delivery Date' errors={errors}>
+			<Input label='value' {...{ register, errors }} />
+			<FormField label='unit' title='Unit' errors={errors}>
+				<Controller
+					name={'unit'}
+					control={control}
+					render={({ field: { onChange } }) => {
+						return (
+							<ReactSelect
+								placeholder='Select Unit'
+								options={selectCurrency}
+								value={selectCurrency?.filter(
+									(item) => item.value === getValues('unit')
+								)}
+								onChange={(e) => onChange(e.value)}
+							/>
+						);
+					}}
+				/>
+			</FormField>
+			<FormField label='date' title='Date' errors={errors}>
 				<Controller
 					name={'date'}
 					control={control}
@@ -106,6 +179,7 @@ export default function Index({
 					}}
 				/>
 			</FormField>
+			<Input label='lien_bank' {...{ register, errors }} />
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} />
 		</AddModal>

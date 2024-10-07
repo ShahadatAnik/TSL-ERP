@@ -44,7 +44,7 @@ export default function Index({ receive_entry, convention_rate }) {
 			},
 			{
 				accessorKey: 'price',
-				header: 'Price($US)',
+				header: `Price`,
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -91,13 +91,13 @@ export default function Index({ receive_entry, convention_rate }) {
 			columns={columns}>
 			<tr className='text-sm'>
 				<td colSpan='5' className='py-2 text-right'>
-					Total Price($US)
+					Total Price
 				</td>
 				<td className='pl-3 text-left font-semibold'>{totalValue}</td>
 
 				<td className='text-right'>Total Price(BDT)</td>
 				<td className='pl-3 text-left font-semibold'>
-					${Number(totalValue * convention_rate).toLocaleString()}
+					{Number(totalValue * convention_rate).toLocaleString()}
 				</td>
 			</tr>
 		</ReactTableTitleOnly>

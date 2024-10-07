@@ -62,7 +62,7 @@ export default function Index() {
 				header: 'LC',
 				enableColumnFilter: false,
 				cell: (info) =>
-					info.row.original?.is_import === 0
+					info.getValue() === null || info.getValue() === ''
 						? 'N/A'
 						: info.getValue(),
 			},
@@ -71,7 +71,7 @@ export default function Index() {
 				header: 'Commercial Invoice Number',
 				enableColumnFilter: false,
 				cell: (info) =>
-					info.row.original?.is_import === 1
+					info.getValue() === null || info.getValue() === ''
 						? 'N/A'
 						: info.getValue(),
 			},
@@ -80,9 +80,7 @@ export default function Index() {
 				header: 'Commercial Invoice Value',
 				enableColumnFilter: false,
 				cell: (info) =>
-					info.row.original?.is_import === 1
-						? 'N/A'
-						: info.getValue(),
+					info.getValue() === 0 ? 'N/A' : info.getValue(),
 			},
 			{
 				accessorKey: 'convention_rate',
