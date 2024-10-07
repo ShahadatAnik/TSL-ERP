@@ -1,43 +1,37 @@
-import { lazy, useEffect, useState } from 'react';
-import { useStoreStock } from '@/state/store';
+import { lazy, useEffect, useMemo, useState } from 'react';
+import { useStoreLC, useStoreMasterLC } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
+import { DateTime, EditDelete, Transfer } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
+import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
-import { StockColumns } from '../columns';
+import { LcColumns, MasterLcColumns } from '../columns';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
-const Issue = lazy(() => import('./issue'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData, refetch } = useStoreStock();
-	const info = new PageInfo('Store/Stock', url, 'store__stock');
-	const haveAccess = useAccess('store__stock');
+	const { data, isLoading, url, deleteData, refetch } = useStoreMasterLC();
+	const info = new PageInfo('Store/Master LC', url, 'store__master_lc');
+	const haveAccess = useAccess('store__master_lc');
 
-	//* Fetching data from server
+	// Fetching data from server
 	useEffect(() => {
 		document.title = info.getTabName();
 	}, []);
 
-	//* Add
+	// Add
 	const handelAdd = () => {
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
 
-	//* Update
+	// Update
 	const [update, setUpdate] = useState({
 		uuid: null,
-	});
-	const [updateIssue, setUpdateIssue] = useState({
-		uuid: null,
-		quantity: null,
-		name: null,
-		article: null,
-		buyer: null,
 	});
 
 	const handelUpdate = (idx) => {
@@ -47,18 +41,7 @@ export default function Index() {
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
-	const handleIssue = (idx) => {
-		setUpdateIssue((prev) => ({
-			...prev,
-			uuid: data[idx].uuid,
-			quantity: data[idx].quantity,
-			name: data[idx].name,
-			article: data[idx].article_name,
-			buyer: data[idx].buyer_name,
-		}));
-		window['Issue'].showModal();
-	};
-	//* Delete
+	// Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
 		itemName: null,
@@ -67,15 +50,14 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
-			itemName: data[idx].name.replace(/#/g, '').replace(/\//g, '-'),
+			itemName: data[idx].number,
 		}));
 
 		window[info.getDeleteModalId()].showModal();
 	};
-	const columns = StockColumns({
+	const columns = MasterLcColumns({
 		handelUpdate,
 		handelDelete,
-		handleIssue,
 		haveAccess,
 		data,
 	});
@@ -98,13 +80,6 @@ export default function Index() {
 					{...{
 						update,
 						setUpdate,
-					}}
-				/>
-				<Issue
-					modalId='Issue'
-					{...{
-						updateIssue,
-						setUpdateIssue,
 					}}
 				/>
 				<DeleteModal

@@ -64,7 +64,7 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title='Issue'
+			title={`Issue ${updateIssue?.name}`}
 			isSmall={true}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}

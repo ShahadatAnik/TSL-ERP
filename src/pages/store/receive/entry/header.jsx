@@ -1,4 +1,5 @@
 import { useOtherLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
+import { set } from 'date-fns';
 import { useParams } from 'react-router-dom';
 
 import {
@@ -17,8 +18,8 @@ export default function Header({
 	getValues,
 	watch,
 	Controller,
+	setValue,
 }) {
-	const { purchase_description_uuid } = useParams();
 	const { data: vendor } = useOtherVendorValueLabel();
 	const { data: lc } = useOtherLcValueLabel();
 
@@ -34,20 +35,25 @@ export default function Header({
 					<Controller
 						name={'vendor_uuid'}
 						control={control}
-						render={({ field: { onChange } }) => {
+						render={({ field: { onChange, value } }) => {
+							const lcSelected = !!getValues('lc_uuid');
 							return (
 								<ReactSelect
 									placeholder='Select Vendor'
 									options={vendor}
-									value={vendor?.find(
-										(item) =>
-											item.value ==
-											getValues('vendor_uuid')
-									)}
-									onChange={(e) => onChange(e.value)}
-									isDisabled={
-										purchase_description_uuid !== undefined
+									value={
+										lcSelected
+											? null
+											: vendor?.find(
+													(item) =>
+														item.value === value
+												)
 									}
+									onChange={(e) => {
+										onChange(e.value);
+										setValue('lc_uuid', null); 
+									}}
+									
 								/>
 							);
 						}}
@@ -70,49 +76,55 @@ export default function Header({
 										(item) =>
 											item.value == getValues('is_import')
 									)}
-									onChange={(e) => onChange(e.value)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
 								/>
 							);
 						}}
 					/>
 				</FormField>
 
-				{watch('is_import') === 1 && (
-					<FormField label='lc_uuid' title='LC' errors={errors}>
-						<Controller
-							name={'lc_uuid'}
-							control={control}
-							render={({ field: { onChange } }) => {
-								return (
-									<ReactSelect
-										placeholder='Select LC'
-										options={lc}
-										value={lc?.find(
-											(item) =>
-												item.value ==
-												getValues('lc_uuid')
-										)}
-										onChange={(e) => onChange(e.value)}
-										isDisabled={watch('is_import') === 0}
-									/>
-								);
-							}}
-						/>
-					</FormField>
-				)}
-				{watch('is_import') === 0 && (
-					<>
-						<Input
-							label='commercial_invoice_number'
-							{...{ register, errors }}
-						/>
-						<JoinInput
-							label='commercial_invoice_value'
-							unit='$'
-							{...{ register, errors }}
-						/>
-					</>
-				)}
+				<FormField label='lc_uuid' title='LC' errors={errors}>
+					<Controller
+						name={'lc_uuid'}
+						control={control}
+						render={({ field: { onChange, value } }) => {
+							const vendorSelected = !!getValues('vendor_uuid');
+							return (
+								<ReactSelect
+									placeholder='Select LC'
+									options={lc}
+									value={
+										vendorSelected
+											? null
+											: lc?.find(
+													(item) =>
+														item.value === value
+												)
+									}
+									onChange={(e) => {
+										onChange(e.value);
+										setValue('vendor_uuid', null); 
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+			</div>
+			<div className='flex flex-col gap-6 px-2 text-secondary-content md:flex-row'>
+				<>
+					<Input
+						label='commercial_invoice_number'
+						{...{ register, errors }}
+					/>
+					<JoinInput
+						label='commercial_invoice_value'
+						unit='$'
+						{...{ register, errors }}
+					/>
+				</>
 
 				<JoinInput
 					label='convention_rate'

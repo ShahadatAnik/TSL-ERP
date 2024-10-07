@@ -160,11 +160,33 @@ export const ARTICLE_NULL = {
 
 //* Store -> LC
 export const LC_SCHEMA = {
+	vendor_uuid: STRING_REQUIRED,
+	master_lc_uuid: STRING_REQUIRED,
+	number: STRING_REQUIRED,
+	value: NUMBER_DOUBLE_REQUIRED,
+	unit: STRING_REQUIRED,
+	date: yup.date().required('Required'),
+	lien_bank: STRING_REQUIRED,
+	remarks: STRING.nullable(),
+};
+export const LC_NULL = {
+	uuid: null,
+	vendor_uuid: null,
+	master_lc_uuid: null,
+	number: '',
+	value: 0.0,
+	unit: '',
+	date: null,
+	lien_bank: '',
+	remarks: null,
+};
+//* Store -> Master LC
+export const MASTER_LC_SCHEMA = {
 	number: STRING_REQUIRED,
 	date: yup.date().required('Required'),
 	remarks: STRING.nullable(),
 };
-export const LC_NULL = {
+export const MASTER_LC_NULL = {
 	uuid: null,
 	number: '',
 	date: null,
@@ -221,23 +243,11 @@ export const ISSUE_NULL = {
 };
 //* Store -> Receive
 export const RECEIVE_SCHEMA = {
-	vendor_uuid: STRING_REQUIRED,
+	vendor_uuid: STRING.nullable(),
 	is_import: NUMBER_REQUIRED,
-	lc_uuid: STRING.when('is_import', {
-		is: 1,
-		then: (schema) => schema.required('Required'),
-		otherwise: (schema) => schema.nullable(),
-	}),
-	commercial_invoice_number: STRING.when('is_import', {
-		is: 0,
-		then: (schema) => schema.required('Required'),
-		otherwise: (schema) => schema.nullable(),
-	}),
-	commercial_invoice_value: NUMBER.when('is_import', {
-		is: 0,
-		then: (schema) => schema.required('Required'),
-		otherwise: (schema) => schema.default(0.0).nullable(),
-	}),
+	lc_uuid: STRING.nullable(),
+	commercial_invoice_number: STRING.nullable(),
+	commercial_invoice_value: NUMBER_DOUBLE.nullable(),
 	convention_rate: NUMBER_DOUBLE_REQUIRED,
 	remarks: STRING.nullable(),
 

@@ -34,7 +34,8 @@ export default function Index() {
 	const navigate = useNavigate();
 	const { receive_entry_description_uuid } = useParams();
 
-	const { url: receive_entryEntryUrl } = useStoreReceiveEntry();
+	const { url: receive_entryEntryUrl, invalidateQuery: invalidateEntry } =
+		useStoreReceiveEntry();
 	const {
 		url: receive_entryDescriptionUrl,
 		updateData,
@@ -63,6 +64,7 @@ export default function Index() {
 		useFieldArray,
 		getValues,
 		watch,
+		setValue,
 	} = useRHF(RECEIVE_SCHEMA, RECEIVE_NULL);
 
 	const isUpdate = receive_entry_description_uuid !== undefined;
@@ -167,6 +169,7 @@ export default function Index() {
 					.then(() => reset(RECEIVE_NULL))
 					.then(() => {
 						invalidateStock();
+						invalidateEntry();
 						navigate(
 							`/store/receive/${receive_entry_description_uuid}`
 						);
@@ -228,6 +231,7 @@ export default function Index() {
 				.then(() => reset(RECEIVE_NULL))
 				.then(() => {
 					invalidateStock();
+					invalidateEntry();
 					navigate(
 						`/store/receive/${new_receive_entry_description_uuid}`
 					);
@@ -281,6 +285,7 @@ export default function Index() {
 								getValues,
 								Controller,
 								watch,
+								setValue,
 							}}
 						/>
 
@@ -290,7 +295,7 @@ export default function Index() {
 							tableHead={[
 								'Material',
 								'Quantity',
-								'Price($US)',
+								'Price',
 								'Price(BDT)',
 								'Remarks',
 								'Action',
@@ -379,7 +384,7 @@ export default function Index() {
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Input
-											title='price($US)'
+											title='price'
 											label={`receive_entry[${index}].price`}
 											is_title_needed='false'
 											dynamicerror={
@@ -419,7 +424,7 @@ export default function Index() {
 								<td
 									className='py-4 text-right font-bold'
 									colSpan='2'>
-									Total Price($US):
+									Total Price:
 								</td>
 								<td className='py-4 font-bold'>
 									{getTotalPrice(watch('receive_entry'))}

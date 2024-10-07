@@ -56,6 +56,19 @@ export const useStoreLCByUUID = (uuid) =>
 		url: `/commercial/lc/${uuid}`,
 		//enabled: !!uuid,
 	});
+// *Master LC
+export const useStoreMasterLC = () =>
+	createGlobalState({
+		queryKey: storeQK.masterLC(),
+		url: '/commercial/master-lc',
+	});
+
+export const useStoreMasterLCByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.masterLCByUUID(uuid),
+		url: `/commercial/master-lc/${uuid}`,
+		//enabled: !!uuid,
+	});
 
 // * Vendor
 export const useStoreVendor = () =>

@@ -46,6 +46,10 @@ export const storeQK = {
 	lc: () => [...storeQK.all(), 'lc'],
 	lcByUUID: (uuid) => [...storeQK.lc(), uuid],
 
+	//* Master LC
+	masterLC: () => [...storeQK.all(), 'master-lc'],
+	masterLCByUUID: (uuid) => [...storeQK.masterLC(), uuid],
+
 	//* Buyer
 	buyer: () => [...storeQK.all(), 'buyer'],
 	buyerByUUID: (uuid) => [...storeQK.buyer(), uuid],
@@ -83,4 +87,6 @@ export const otherQK = {
 
 	//*LC Value Label
 	lcValueLabel: () => [...otherQK.all(), 'lc-value-label'],
+	//*Master LC Value Label
+	masterLCValueLabel: () => [...otherQK.all(), 'master-lc-value-label'],
 };

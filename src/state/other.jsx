@@ -50,3 +50,9 @@ export const useOtherLcValueLabel = () =>
 		queryKey: otherQK.lcValueLabel(),
 		url: '/other/lc/value/label',
 	});
+//* GET MASTER LC VALUE LABEL
+export const useOtherMasterLcValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.masterLCValueLabel(),
+		url: '/other/master-lc/value/label',
+	});

@@ -3,6 +3,7 @@ import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
 import LC from '@/pages/store/lc';
 import Log from '@/pages/store/Log';
+import MasterLC from '@/pages/store/master-lc';
 import Receive from '@/pages/store/receive';
 import ReceiveInd from '@/pages/store/receive/details';
 import ReceiveEntry from '@/pages/store/receive/entry';
@@ -89,6 +90,13 @@ export const StoreRoutes = [
 				path: '/store/lc',
 				element: <LC />,
 				page_name: 'store__lc',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Master LC',
+				path: '/store/master-lc',
+				element: <MasterLC />,
+				page_name: 'store__master_lc',
 				actions: ['create', 'read', 'update', 'delete'],
 			},
 			{
