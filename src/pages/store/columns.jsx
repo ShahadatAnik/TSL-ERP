@@ -58,86 +58,6 @@ export const ArticleColumns = ({
 	);
 };
 
-export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
-	return useMemo(
-		() => [
-			{
-				accessorKey: 'vendor_name',
-				header: 'Vendor',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'master_ld_number',
-				header: 'Master LC',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'number',
-				header: 'Number',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'value',
-				header: 'Value',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'unit',
-				header: 'Unit',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue()?.toUpperCase(),
-			},
-			{
-				header: 'Date',
-				accessorKey: 'date',
-				enableColumnFilter: false,
-				cell: (info) => (
-					<DateTime date={info.getValue()} isTime={false} />
-				),
-			},
-			{
-				accessorKey: 'lien_bank',
-				header: 'Lien Bank',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
-		],
-		[data]
-	);
-};
-export const MasterLcColumns = ({
-	handelUpdate,
-	handelDelete,
-	haveAccess,
-	data,
-}) => {
-	return useMemo(
-		() => [
-			{
-				accessorKey: 'number',
-				header: 'Number',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				header: 'Date',
-				accessorKey: 'date',
-				enableColumnFilter: false,
-				cell: (info) => (
-					<DateTime date={info.getValue()} isTime={false} />
-				),
-			},
-			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
-		],
-		[data]
-	);
-};
-
 export const VendorColumns = ({
 	handelUpdate,
 	handelDelete,
@@ -480,6 +400,92 @@ export const ReceiveLogColumns = ({
 						)}
 					/>
 				),
+			},
+		],
+		[data]
+	);
+};
+
+export const ReportColumns = ({ data }) => {
+	return useMemo(
+		() => [
+			{
+				accessorKey: 'material_name',
+				header: 'Material Name',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'opening_quantity',
+				header: 'Opening Quantity',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'opening_quantity_total_price',
+				header: 'Opening Quantity Total Price',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'opening_quantity_rate',
+				header: 'Opening Quantity Rate',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'purchased_quantity',
+				header: 'Purchased Quantity',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'purchased_quantity_total_price',
+				header: 'Purchased Quantity Total Price',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'purchased_quantity_rate',
+				header: 'Purchased Quantity Rate',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'consumption_quantity',
+				header: 'Consumption Quantity',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'consumption_quantity_total_price',
+				header: 'Consumption Quantity Total Price',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'consumption_quantity_rate',
+				header: 'Consumption Quantity Rate',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'closing_quantity',
+				header: 'Closing Quantity',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'closing_quantity_total_price',
+				header: 'Closing Quantity Rate Total Price',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'closing_quantity_rate',
+				header: 'Closing Quantity Rate',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
 			},
 		],
 		[data]

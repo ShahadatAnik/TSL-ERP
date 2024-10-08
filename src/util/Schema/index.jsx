@@ -292,3 +292,13 @@ export const RECEIVE_ENTRY_NULL = {
 	price: 0.0,
 	remarks: null,
 };
+
+//* Store -> Report
+export const REPORT_SCHEMA = {
+	start_date: yup.date().nullable(),
+	end_date: yup.date().nullable(),
+};
+export const REPORT_NULL = {
+	start_date: null,
+	end_date: null,
+};

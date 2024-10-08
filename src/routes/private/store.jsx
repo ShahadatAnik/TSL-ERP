@@ -1,12 +1,11 @@
 import Article from '@/pages/store/article';
 import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
-import LC from '@/pages/store/lc';
 import Log from '@/pages/store/Log';
-import MasterLC from '@/pages/store/master-lc';
 import Receive from '@/pages/store/receive';
 import ReceiveInd from '@/pages/store/receive/details';
 import ReceiveEntry from '@/pages/store/receive/entry';
+import Report from '@/pages/store/report';
 import Stock from '@/pages/store/stock';
 import Vendor from '@/pages/store/vendor';
 
@@ -86,20 +85,6 @@ export const StoreRoutes = [
 				actions: ['create', 'read', 'update', 'delete'],
 			},
 			{
-				name: 'LC',
-				path: '/store/lc',
-				element: <LC />,
-				page_name: 'store__lc',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Master LC',
-				path: '/store/master-lc',
-				element: <MasterLC />,
-				page_name: 'store__master_lc',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
 				name: 'Log',
 				path: '/store/log',
 				element: <Log />,
@@ -111,6 +96,13 @@ export const StoreRoutes = [
 					'click_receive_update',
 					'click_receive_delete',
 				],
+			},
+			{
+				name: 'Report',
+				path: '/store/report',
+				element: <Report />,
+				page_name: 'store__report',
+				actions: ['read'],
 			},
 		],
 	},
