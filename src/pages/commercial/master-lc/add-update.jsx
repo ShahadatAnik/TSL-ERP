@@ -91,8 +91,13 @@ export default function Index({
 			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
-			<Input label='number' {...{ register, errors }} />
-			<FormField label='date' title='Date' errors={errors}>
+			<Input
+				title='Master LC Number'
+				label='number'
+				{...{ register, errors }}
+			/>
+			<Input label='value' {...{ register, errors }} />
+			<FormField label='date' title='Opening Date' errors={errors}>
 				<Controller
 					name={'date'}
 					control={control}
@@ -109,6 +114,7 @@ export default function Index({
 					}}
 				/>
 			</FormField>
+			<Input label='lien_bank' {...{ register, errors }} />
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} />
 		</AddModal>

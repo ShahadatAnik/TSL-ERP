@@ -46,7 +46,10 @@ export default function Index() {
 				accessorKey: 'vendor_name',
 				header: 'Vendor',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) =>
+					info.getValue() === null || info.getValue() === ''
+						? 'N/A'
+						: info.getValue(),
 			},
 
 			{
@@ -84,7 +87,7 @@ export default function Index() {
 			},
 			{
 				accessorKey: 'convention_rate',
-				header: 'Convention Rate',
+				header: 'Conversion Rate',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},

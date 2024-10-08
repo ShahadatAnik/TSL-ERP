@@ -1,25 +1,21 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherLcValueLabel, useOtherMasterLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
+import {
+	useOtherLcValueLabel,
+	useOtherMasterLcValueLabel,
+	useOtherVendorValueLabel,
+} from '@/state/other';
 import { useStoreLC } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import DatePicker from 'react-datepicker';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
-
-
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
-
-
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
 import { LC_NULL, LC_SCHEMA } from '@/util/schema';
-
-
-
-
 
 export default function Index({
 	modalId = '',
@@ -102,7 +98,7 @@ export default function Index({
 			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
-			<FormField label='vendor_uuid' title='Vendor' errors={errors}>
+			{/* <FormField label='vendor_uuid' title='Vendor' errors={errors}>
 				<Controller
 					name={'vendor_uuid'}
 					control={control}
@@ -121,7 +117,7 @@ export default function Index({
 						);
 					}}
 				/>
-			</FormField>
+			</FormField> */}
 			<FormField label='master_lc_uuid' title='Master LC' errors={errors}>
 				<Controller
 					name={'master_lc_uuid'}
@@ -142,7 +138,11 @@ export default function Index({
 					}}
 				/>
 			</FormField>
-			<Input label='number' {...{ register, errors }} />
+			<Input
+				title='B2B LC Number'
+				label='number'
+				{...{ register, errors }}
+			/>
 			<Input label='value' {...{ register, errors }} />
 			<FormField label='unit' title='Unit' errors={errors}>
 				<Controller
@@ -162,7 +162,7 @@ export default function Index({
 					}}
 				/>
 			</FormField>
-			<FormField label='date' title='Date' errors={errors}>
+			<FormField label='date' title='Opening Date' errors={errors}>
 				<Controller
 					name={'date'}
 					control={control}

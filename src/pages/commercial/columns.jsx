@@ -7,12 +7,7 @@ import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 	return useMemo(
 		() => [
-			{
-				accessorKey: 'vendor_name',
-				header: 'Vendor',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
+
 			{
 				accessorKey: 'master_ld_number',
 				header: 'Master LC',
@@ -21,7 +16,7 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 			},
 			{
 				accessorKey: 'number',
-				header: 'Number',
+				header: 'B2B LC Number',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -38,7 +33,7 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 				cell: (info) => info.getValue()?.toUpperCase(),
 			},
 			{
-				header: 'Date',
+				header: 'Opening Date',
 				accessorKey: 'date',
 				enableColumnFilter: false,
 				cell: (info) => (
@@ -66,17 +61,29 @@ export const MasterLcColumns = ({
 		() => [
 			{
 				accessorKey: 'number',
-				header: 'Number',
+				header: 'Master LC Number',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				header: 'Date',
+				accessorKey: 'value',
+				header: 'Value',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				header: 'Opening Date',
 				accessorKey: 'date',
 				enableColumnFilter: false,
 				cell: (info) => (
 					<DateTime date={info.getValue()} isTime={false} />
 				),
+			},
+			{
+				accessorKey: 'lien_bank',
+				header: 'Lien Bank',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
 			},
 			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
 		],
