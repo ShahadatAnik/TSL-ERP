@@ -1,5 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { useStoreLC } from '@/state/store';
+import { useStoreMasterLC } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -7,17 +7,20 @@ import ReactTable from '@/components/Table';
 import { DateTime, EditDelete, Transfer } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
-import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
-import { LcColumns } from '../columns';
+import {MasterLcColumns } from '../columns';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData, refetch } = useStoreLC();
-	const info = new PageInfo('Store/LC', url, 'store__lc');
-	const haveAccess = useAccess('store__lc');
+	const { data, isLoading, url, deleteData, refetch } = useStoreMasterLC();
+	const info = new PageInfo(
+		'Commercial/Master LC',
+		url,
+		'commercial__master_lc'
+	);
+	const haveAccess = useAccess('commercial__master_lc');
 
 	// Fetching data from server
 	useEffect(() => {
@@ -55,7 +58,12 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
-	const columns = LcColumns({ handelUpdate, handelDelete, haveAccess, data });
+	const columns = MasterLcColumns({
+		handelUpdate,
+		handelDelete,
+		haveAccess,
+		data,
+	});
 
 	return (
 		<div>

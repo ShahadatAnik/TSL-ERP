@@ -3,20 +3,12 @@ import { BuyerColumns, IssueLogColumns } from '@/pages/store/columns';
 import { useStoreBuyer, useStoreIssue, useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 
-
-
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
 import { DateTime, EditDelete, Transfer } from '@/ui';
 
-
-
 import PageInfo from '@/util/PageInfo';
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
-
-
-
-
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
