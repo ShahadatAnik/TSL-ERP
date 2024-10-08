@@ -183,7 +183,9 @@ export const LC_NULL = {
 //* Store -> Master LC
 export const MASTER_LC_SCHEMA = {
 	number: STRING_REQUIRED,
+	value: NUMBER_DOUBLE_REQUIRED,
 	date: yup.date().required('Required'),
+	lien_bank: STRING_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const MASTER_LC_NULL = {
@@ -248,7 +250,7 @@ export const RECEIVE_SCHEMA = {
 	lc_uuid: STRING.nullable(),
 	commercial_invoice_number: STRING.nullable(),
 	commercial_invoice_value: NUMBER_DOUBLE.nullable(),
-	convention_rate: NUMBER_DOUBLE_REQUIRED,
+	convention_rate: NUMBER_DOUBLE_REQUIRED.default(1),
 	remarks: STRING.nullable(),
 
 	receive_entry: yup.array().of(
@@ -267,7 +269,7 @@ export const RECEIVE_NULL = {
 	is_import: 0,
 	commercial_invoice_number: '',
 	commercial_invoice_value: 0.0,
-	convention_rate: 0.0,
+	convention_rate: 1,
 	remarks: null,
 	receive_entry: [
 		{

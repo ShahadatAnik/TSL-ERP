@@ -42,24 +42,24 @@ export default function Index() {
 	}, [startDate, endDate]);
 
 	// ! FOR TESTING
-	const [data2, setData] = useState('');
+	// const [data2, setData] = useState('');
 
-	useEffect(() => {
-		if (data) {
-			Pdf(data)?.getDataUrl((dataUrl) => {
-				setData(dataUrl);
-			});
-		}
-	}, [data]);
+	// useEffect(() => {
+	// 	if (data) {
+	// 		Pdf(data)?.getDataUrl((dataUrl) => {
+	// 			setData(dataUrl);
+	// 		});
+	// 	}
+	// }, [data]);
 	// ! FOR TESTING
 	const columns = ReportColumns({ data });
 
 	return (
 		<div>
-			<iframe
+			{/* <iframe
 				src={data2}
 				className='h-[40rem] w-full rounded-md border-none'
-			/>
+			/> */}
 			<SectionEntryBody title='Date'>
 				<div className='flex flex-col gap-1 px-2 text-secondary-content md:flex-row'>
 					<FormField label='start_date' title='From'>
