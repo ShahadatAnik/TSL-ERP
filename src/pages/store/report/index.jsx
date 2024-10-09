@@ -1,21 +1,21 @@
-import { useCallback, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
+import { format } from 'date-fns';
 import DatePicker from 'react-datepicker';
-import { useAccess, useFetch, useFetchFunc } from '@/hooks';
+import { useAccess, useFetch } from '@/hooks';
 
 import Pdf from '@/components/Pdf/Report';
 import ReactTable from '@/components/Table';
-import {
-	FormField,
-	Input,
-	JoinInputSelect,
-	ReactSelect,
-	SectionEntryBody,
-	Textarea,
-} from '@/ui';
+import { FormField, SectionEntryBody } from '@/ui';
 
 import PageInfo from '@/util/PageInfo';
 
 import { ReportColumns } from '../columns';
+
+const dateFormate = (date) => {
+	if (date) {
+		return format(date, 'yyyy-MM-dd');
+	}
+};
 
 export default function Index() {
 	const [startDate, setStartDate] = useState(null);
@@ -33,10 +33,10 @@ export default function Index() {
 
 	useEffect(() => {
 		if (startDate && endDate) {
-			const formattedStartDate = startDate.toISOString().split('T')[0];
-			const formattedEndDate = endDate.toISOString().split('T')[0];
 			setUrl(
-				`/report/store-material-report/${formattedStartDate}/${formattedEndDate}`
+				`/report/store-material-report/${dateFormate(startDate)}/${dateFormate(
+					endDate
+				)}`
 			);
 		}
 	}, [startDate, endDate]);
@@ -64,20 +64,22 @@ export default function Index() {
 				<div className='flex flex-col gap-1 px-2 text-secondary-content md:flex-row'>
 					<FormField label='start_date' title='From'>
 						<DatePicker
-							className='h-12 w-full rounded-md border bg-primary/5 px-2 text-primary'
+							className='input input-secondary w-full rounded border-secondary/30 bg-base-100 px-2 text-sm text-primary transition-all duration-100 ease-in-out placeholder:text-sm placeholder:text-secondary/50 focus:border-secondary/30 focus:outline-secondary/30'
 							selected={startDate}
 							onChange={(date) => setStartDate(date)}
 							placeholderText='Start Date'
+							dateFormat='dd/MM/yy'
 						/>
 					</FormField>
 
 					<FormField label='end_date' title='To'>
 						<DatePicker
-							className='h-12 w-full rounded-md border bg-primary/5 px-2 text-primary'
+							className='input input-secondary w-full rounded border-secondary/30 bg-base-100 px-2 text-sm text-primary transition-all duration-100 ease-in-out placeholder:text-sm placeholder:text-secondary/50 focus:border-secondary/30 focus:outline-secondary/30'
 							selected={endDate}
 							onChange={(date) => setEndDate(date)}
 							minDate={startDate}
 							placeholderText='End Date'
+							dateFormat='dd/MM/yy'
 						/>
 					</FormField>
 				</div>

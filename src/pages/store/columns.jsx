@@ -164,7 +164,7 @@ export const StockColumns = ({
 			},
 			{
 				accessorKey: 'quantity',
-				header: 'Quantity',
+				header: 'QTY',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -220,7 +220,7 @@ export const IssueLogColumns = ({
 			},
 			{
 				accessorKey: 'issue_quantity',
-				header: 'Quantity',
+				header: 'QTY',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -329,7 +329,7 @@ export const ReceiveLogColumns = ({
 			},
 			{
 				accessorKey: 'quantity',
-				header: 'Quantity',
+				header: 'QTY',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -441,91 +441,115 @@ export const ReportColumns = ({ data }) => {
 			},
 			{
 				accessorKey: 'opening_quantity',
-				header: 'Opening Quantity',
+				header: 'Opening QTY',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'opening_quantity_total_price',
-				header: 'Opening Quantity Total Price',
+				header: (
+					<>
+						Opening QTY
+						<br />
+						Total Price
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'opening_quantity_rate',
-				header: 'Opening Quantity Rate',
+				header: (
+					<>
+						Opening QTY
+						<br />
+						Rate
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'purchased_quantity',
-				header: 'Purchased Quantity',
+				header: 'Purchased QTY',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'purchased_quantity_total_price',
-				header: 'Purchased Quantity Total Price',
+				header: (
+					<>
+						Purchased QTY
+						<br />
+						Total Price
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'purchased_quantity_rate',
-				header: 'Purchased Quantity Rate',
+				header: (
+					<>
+						Purchased QTY
+						<br />
+						Rate
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'sub_total_quantity',
-				header: 'Sub Total Quantity',
+				header: 'Sub Total QTY',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'sub_total_quantity_total_price',
-				header: 'Sub Total Quantity Total Price',
+				header: 'Sub Total QTY Total Price',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'sub_total_quantity_rate',
-				header: 'Sub Total Quantity Rate',
+				header: 'Sub Total QTY Rate',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'consumption_quantity',
-				header: 'Consumption Quantity',
+				header: 'Consumption QTY',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'consumption_quantity_total_price',
-				header: 'Consumption Quantity Total Price',
+				header: 'Consumption QTY Total Price',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'consumption_quantity_rate',
-				header: 'Consumption Quantity Rate',
+				header: 'Consumption QTY Rate',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'closing_quantity',
-				header: 'Closing Quantity',
+				header: 'Closing QTY',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'closing_quantity_total_price',
-				header: 'Closing Quantity Rate Total Price',
+				header: 'Closing QTY Rate Total Price',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'closing_quantity_rate',
-				header: 'Closing Quantity Rate',
+				header: 'Closing QTY Rate',
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
