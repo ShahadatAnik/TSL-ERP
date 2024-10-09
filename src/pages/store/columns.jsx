@@ -467,7 +467,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
 			{
 				accessorKey: 'purchased_quantity',
@@ -497,7 +497,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
 			{
 				accessorKey: 'sub_total_quantity',
@@ -525,7 +525,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
 			{
 				accessorKey: 'consumption_quantity',
@@ -553,7 +553,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
 			{
 				accessorKey: 'closing_quantity',
@@ -581,7 +581,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
 		],
 		[data]
