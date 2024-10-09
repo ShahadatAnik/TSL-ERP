@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { firstRoute } from '@/routes';
 import { useAuth } from '@context/auth';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { useRHF } from '@/hooks';
 
 import { Input, PasswordInput } from '@/ui';
@@ -39,7 +39,7 @@ export default function Index() {
 					<div className='mx-auto'>
 						<span className='font-heading flex items-center justify-center text-2xl font-bold'>
 							<span className='text-4xl text-primary'>
-								Fortune Zipper LTD
+								Trent Shoes LTD
 							</span>
 						</span>
 						<form

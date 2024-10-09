@@ -13,7 +13,7 @@ export const DEFAULT_A4_PAGE = ({ xMargin, headerHeight, footerHeight }) => ({
 
 export const company = {
 	logo: TSL_LOGO.src,
-	name: 'Fortune Zipper LTD.',
+	name: 'Trent Shoes LTD.',
 	address: 'Aukpara, Ashulia, Savar, DHK-1340',
 	email: 'Email: info@fortunezip.com',
 	phone: 'Phone: 01521533595',
