@@ -507,13 +507,23 @@ export const ReportColumns = ({ data }) => {
 			},
 			{
 				accessorKey: 'sub_total_quantity_total_price',
-				header: 'Sub Total QTY Total Price',
+				header: (
+					<>
+						Sub Total QTY <br />
+						Total Price
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'sub_total_quantity_rate',
-				header: 'Sub Total QTY Rate',
+				header: (
+					<>
+						Sub Total QTY
+						<br /> Rate
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
@@ -525,13 +535,23 @@ export const ReportColumns = ({ data }) => {
 			},
 			{
 				accessorKey: 'consumption_quantity_total_price',
-				header: 'Consumption QTY Total Price',
+				header: (
+					<>
+						Consumption QTY
+						<br /> Total Price
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'consumption_quantity_rate',
-				header: 'Consumption QTY Rate',
+				header: (
+					<>
+						Consumption QTY <br />
+						Rate
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
@@ -543,13 +563,23 @@ export const ReportColumns = ({ data }) => {
 			},
 			{
 				accessorKey: 'closing_quantity_total_price',
-				header: 'Closing QTY Rate Total Price',
+				header: (
+					<>
+						Closing QTY <br />
+						Total Price
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
 			{
 				accessorKey: 'closing_quantity_rate',
-				header: 'Closing QTY Rate',
+				header: (
+					<>
+						Closing QTY <br />
+						Rate
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
 			},
