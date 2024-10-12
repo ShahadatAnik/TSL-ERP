@@ -7,7 +7,7 @@ import { FormField, Input, PasswordInput, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { PASSWORD, USER_NULL, USER_SCHEMA } from '@/util/schema';
+import { PASSWORD, USER_NULL, USER_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',

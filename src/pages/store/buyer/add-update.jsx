@@ -9,7 +9,7 @@ import { Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { BUYER_NULL, BUYER_SCHEMA } from '@/util/schema';
+import { BUYER_NULL, BUYER_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',

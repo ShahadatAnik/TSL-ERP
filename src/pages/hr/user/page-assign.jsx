@@ -9,7 +9,7 @@ import { DebouncedInput } from '@/components/Table/components';
 import { CheckBox } from '@/ui';
 
 import GetDateTime from '@/util/GetDateTime';
-import { BOOLEAN } from '@/util/schema';
+import { BOOLEAN } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',

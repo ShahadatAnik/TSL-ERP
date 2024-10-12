@@ -5,7 +5,7 @@ import { AddModal } from '@/components/Modal';
 import { PasswordInput } from '@/ui';
 
 import GetDateTime from '@/util/GetDateTime';
-import { RESET_PASSWORD_NULL, RESET_PASSWORD_SCHEMA } from '@/util/schema';
+import { RESET_PASSWORD_NULL, RESET_PASSWORD_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
