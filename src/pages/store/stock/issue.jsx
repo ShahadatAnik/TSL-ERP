@@ -23,7 +23,7 @@ export default function Index({
 	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const schema = {
 		...ISSUE_SCHEMA,
-		issue_quantity: ISSUE_SCHEMA.issue_quantity.max(
+		quantity: ISSUE_SCHEMA.quantity.max(
 			updateIssue?.quantity,
 			`Quantity cannot be greater than ${updateIssue?.quantity}`
 		),
@@ -71,7 +71,7 @@ export default function Index({
 			onClose={onClose}>
 			<JoinInput
 				title='quantity'
-				label={`issue_quantity`}
+				label={`quantity`}
 				sub_label={`Max ${updateIssue?.quantity}`}
 				unit={
 					material?.find(

@@ -219,7 +219,7 @@ export const IssueLogColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'issue_quantity',
+				accessorKey: 'quantity',
 				header: 'QTY',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
