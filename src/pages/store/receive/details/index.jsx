@@ -2,7 +2,7 @@ import { useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 import { useFetch } from '@/hooks';
 
-import Information from './Information';
+import Information from './information';
 import Table from './table';
 
 export default function Index() {

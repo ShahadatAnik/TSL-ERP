@@ -14,7 +14,7 @@ import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { MASTER_LC_NULL, MASTER_LC_SCHEMA } from '@/util/schema';
+import { MASTER_LC_NULL, MASTER_LC_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',

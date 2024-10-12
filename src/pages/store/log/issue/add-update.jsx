@@ -9,7 +9,7 @@ import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { ISSUE_NULL, ISSUE_SCHEMA } from '@/util/schema';
+import { ISSUE_NULL, ISSUE_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
