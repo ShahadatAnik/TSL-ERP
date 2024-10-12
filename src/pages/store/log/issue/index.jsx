@@ -32,7 +32,7 @@ export default function Index() {
 	const [update, setUpdate] = useState({
 		uuid: null,
 		quantity: null,
-		issue_quantity: null,
+		quantity: null,
 		material_name: null,
 	});
 
@@ -41,7 +41,7 @@ export default function Index() {
 			...prev,
 			uuid: data[idx].uuid,
 			quantity: data[idx].quantity,
-			issue_quantity: data[idx].issue_quantity,
+			quantity: data[idx].quantity,
 			material_name: data[idx].material_name,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();

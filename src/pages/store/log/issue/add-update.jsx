@@ -16,7 +16,7 @@ export default function Index({
 	update = {
 		uuid: null,
 		quantity: null,
-		issue_quantity: null,
+		quantity: null,
 		material_name: null,
 	},
 	setUpdate,
@@ -26,8 +26,8 @@ export default function Index({
 	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const schema = {
 		...ISSUE_SCHEMA,
-		issue_quantity: ISSUE_SCHEMA.issue_quantity.max(
-			Number(update?.quantity) + Number(update?.issue_quantity),
+		quantity: ISSUE_SCHEMA.quantity.max(
+			Number(update?.quantity) + Number(update?.quantity),
 			`Quantity cannot be greater than ${update?.quantity}`
 		),
 	};
@@ -49,7 +49,7 @@ export default function Index({
 			...prev,
 			uuid: null,
 			quantity: 0,
-			issue_quantity: 0,
+			quantity: 0,
 			material_name: null,
 		}));
 		reset(ISSUE_NULL);
@@ -85,8 +85,8 @@ export default function Index({
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
 			<Input
-				label='issue_quantity'
-				sub_label={`Max: ${Number(update?.quantity) + Number(update?.issue_quantity)}`}
+				label='quantity'
+				sub_label={`Max: ${Number(update?.quantity) + Number(update?.quantity)}`}
 				{...{ register, errors }}
 			/>
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />

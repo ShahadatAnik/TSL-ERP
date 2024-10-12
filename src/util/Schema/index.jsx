@@ -234,12 +234,12 @@ export const STOCK_NULL = {
 };
 //* Store -> Issue
 export const ISSUE_SCHEMA = {
-	issue_quantity: NUMBER_REQUIRED,
+	quantity: NUMBER_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const ISSUE_NULL = {
 	uuid: null,
-	issue_quantity: null,
+	quantity: null,
 	remarks: null,
 };
 //* Store -> Receive
