@@ -34,6 +34,10 @@ export const BOOLEAN_DEFAULT_VALUE = (value = false) =>
 	BOOLEAN.transform(handelNumberDefaultValue).default(value);
 export const BOOLEAN_REQUIRED = BOOLEAN.required('Required');
 
+// * Date
+export const DATE = yup.date().typeError('Invalid Date');
+export const DATE_REQUIRED = DATE.required('Required');
+
 // ? email pattern will be after @ is fortunezip.com
 // export const FORTUNE_ZIP_EMAIL_PATTERN = EMAIL_REQUIRED.matches(
 // 	/^[a-zA-Z0-9._%+-]+@fortunezip.com$/,

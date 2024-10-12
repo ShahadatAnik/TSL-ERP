@@ -104,7 +104,7 @@ export default function Index({
 					render={({ field: { onChange } }) => {
 						return (
 							<DatePicker
-								className='h-12 w-full rounded-md border bg-primary/5 px-2 text-primary'
+								className='input input-secondary w-full rounded border-secondary/30 bg-base-100 px-2 text-sm text-primary transition-all duration-100 ease-in-out placeholder:text-sm placeholder:text-secondary/50 focus:border-secondary/30 focus:outline-secondary/30'
 								placeholderText='Select Date'
 								dateFormat='dd/MM/yyyy'
 								selected={getValues('date')}

@@ -4,6 +4,7 @@ import {
 	BOOLEAN, // default
 	BOOLEAN_DEFAULT_VALUE, // default
 	BOOLEAN_REQUIRED, // default
+	DATE_REQUIRED,
 	EMAIL, // default
 	EMAIL_REQUIRED, // default
 	FORTUNE_ZIP_EMAIL_PATTERN, // default
@@ -131,10 +132,10 @@ export const RESET_PASSWORD_NULL = {
 
 //* Store -> Vendor
 export const VENDOR_SCHEMA = {
-	name: NAME_REQUIRED,
-	person: NAME_REQUIRED,
+	name: STRING_REQUIRED,
+	person: STRING,
 	phone: PHONE_NUMBER.nullable(),
-	address: STRING_REQUIRED,
+	address: STRING,
 	remarks: STRING.nullable(),
 };
 export const VENDOR_NULL = {
@@ -160,18 +161,16 @@ export const ARTICLE_NULL = {
 
 //* Store -> LC
 export const LC_SCHEMA = {
-	vendor_uuid: STRING_REQUIRED,
 	master_lc_uuid: STRING_REQUIRED,
 	number: STRING_REQUIRED,
 	value: NUMBER_DOUBLE_REQUIRED,
 	unit: STRING_REQUIRED,
-	date: yup.date().required('Required'),
+	date: DATE_REQUIRED,
 	lien_bank: STRING_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const LC_NULL = {
 	uuid: null,
-	vendor_uuid: null,
 	master_lc_uuid: null,
 	number: '',
 	value: 0.0,
@@ -184,7 +183,7 @@ export const LC_NULL = {
 export const MASTER_LC_SCHEMA = {
 	number: STRING_REQUIRED,
 	value: NUMBER_DOUBLE_REQUIRED,
-	date: yup.date().required('Required'),
+	date: DATE_REQUIRED,
 	lien_bank: STRING_REQUIRED,
 	remarks: STRING.nullable(),
 };
