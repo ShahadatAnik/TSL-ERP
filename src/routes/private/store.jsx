@@ -5,7 +5,8 @@ import Log from '@/pages/store/Log';
 import Receive from '@/pages/store/receive';
 import ReceiveInd from '@/pages/store/receive/details';
 import ReceiveEntry from '@/pages/store/receive/entry';
-import Report from '@/pages/store/report';
+import ReportMaterial from '@/pages/store/report/material';
+import ReportVendor from '@/pages/store/report/vendor';
 import Stock from '@/pages/store/stock';
 import Vendor from '@/pages/store/vendor';
 
@@ -99,10 +100,22 @@ export const StoreRoutes = [
 			},
 			{
 				name: 'Report',
-				path: '/store/report',
-				element: <Report />,
-				page_name: 'store__report',
-				actions: ['read'],
+				children: [
+					{
+						name: 'Material',
+						path: '/store/report/material',
+						element: <ReportMaterial />,
+						page_name: 'store__report__material',
+						actions: ['read'],
+					},
+					{
+						name: 'Vendor',
+						path: '/store/report/vendor',
+						element: <ReportVendor />,
+						page_name: 'store__report__vendor',
+						actions: ['read'],
+					},
+				],
 			},
 		],
 	},

@@ -44,7 +44,7 @@ export default function Index({ receive_entry, convention_rate }) {
 			},
 			{
 				accessorKey: 'price',
-				header: `Price`,
+				header: `Unit Price`,
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -52,7 +52,16 @@ export default function Index({ receive_entry, convention_rate }) {
 				accessorKey: 'price',
 				header: 'Price(BDT)',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue() * convention_rate,
+				cell: (info) => info.getValue() * info.row.original.quantity,
+			},
+			{
+				accessorKey: 'price',
+				header: 'Price(BDT)',
+				enableColumnFilter: false,
+				cell: (info) =>
+					info.getValue() *
+					convention_rate *
+					info.row.original.quantity,
 			},
 			{
 				accessorKey: 'remarks',
@@ -82,7 +91,7 @@ export default function Index({ receive_entry, convention_rate }) {
 		],
 		[receive_entry]
 	);
-	const totalValue = receive_entry.reduce((a, b) => a + Number(b.price), 0);
+	const totalValue = receive_entry.reduce((a, b) => a + Number(b.price*b.quantity), 0);
 
 	return (
 		<ReactTableTitleOnly
