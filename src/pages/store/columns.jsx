@@ -820,7 +820,7 @@ export const VendorReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => <DateTime date={info.getValue()} />,
 			},
 			{
 				accessorKey: 'material_created_at',
@@ -831,7 +831,7 @@ export const VendorReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => <DateTime date={info.getValue()} />,
 			},
 		],
 		[data]
