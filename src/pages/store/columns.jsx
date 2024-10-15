@@ -407,6 +407,11 @@ export const ReceiveLogColumns = ({
 };
 
 export const ReportColumns = ({ data }) => {
+	const convertToUSD = (bdtValue, info) => {
+		const avgConventionRate = info.row.original.avg_convention_rates;
+		return (Number(bdtValue) / Number(avgConventionRate)).toFixed(2);
+	};
+
 	return useMemo(
 		() => [
 			{
@@ -439,7 +444,7 @@ export const ReportColumns = ({ data }) => {
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
-			//* opening
+			// Opening
 			{
 				accessorKey: 'opening_quantity',
 				header: 'Opening Stock',
@@ -456,7 +461,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
 			{
 				accessorKey: 'opening_quantity_rate',
@@ -468,7 +473,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(4),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
 			{
 				accessorKey: 'opening_quantity_total_price',
@@ -494,8 +499,7 @@ export const ReportColumns = ({ data }) => {
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
-
-			//* received
+			// Received
 			{
 				accessorKey: 'purchased_quantity',
 				header: 'Received QTY',
@@ -512,9 +516,8 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
-
 			{
 				accessorKey: 'purchased_quantity_rate',
 				header: (
@@ -525,7 +528,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(4),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
 			{
 				accessorKey: 'purchased_quantity_total_price',
@@ -551,8 +554,7 @@ export const ReportColumns = ({ data }) => {
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
-
-			//* Total Stock
+			// Total Stock
 			{
 				accessorKey: 'sub_total_quantity',
 				header: 'Total Stock QTY',
@@ -569,9 +571,8 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
-
 			{
 				accessorKey: 'sub_total_quantity_rate',
 				header: (
@@ -582,7 +583,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(4),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
 			{
 				accessorKey: 'sub_total_quantity_total_price',
@@ -608,8 +609,7 @@ export const ReportColumns = ({ data }) => {
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
-
-			//* issued
+			// Issued
 			{
 				accessorKey: 'consumption_quantity',
 				header: 'Issued QTY',
@@ -626,9 +626,8 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
-
 			{
 				accessorKey: 'consumption_quantity_rate',
 				header: (
@@ -639,7 +638,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(4),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
 			{
 				accessorKey: 'consumption_quantity_total_price',
@@ -665,8 +664,7 @@ export const ReportColumns = ({ data }) => {
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(4),
 			},
-
-			//* closing
+			// Closing
 			{
 				accessorKey: 'closing_quantity',
 				header: 'Closing Stock',
@@ -683,9 +681,8 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
-
 			{
 				accessorKey: 'closing_quantity_rate',
 				header: (
@@ -696,7 +693,7 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(4),
+				cell: (info) => convertToUSD(info.getValue(), info),
 			},
 			{
 				accessorKey: 'closing_quantity_total_price',
@@ -721,6 +718,120 @@ export const ReportColumns = ({ data }) => {
 				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(4),
+			},
+		],
+		[data]
+	);
+};
+export const VendorReportColumns = ({ data }) => {
+	return useMemo(
+		() => [
+			{
+				accessorKey: 'vendor_name',
+				header: 'Name',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'price_usd',
+				header: (
+					<>
+						Total Received <br />
+						Amount(USD)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => Number(info.getValue()).toFixed(2),
+			},
+			{
+				accessorKey: 'price_bdt',
+				header: (
+					<>
+						Total Received <br />
+						Amount(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => Number(info.getValue()).toFixed(2),
+			},
+			{
+				accessorKey: 'name',
+				header: 'Material Name',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'unit',
+				header: 'Unit',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'total_quantity',
+				header: 'Total Quantity',
+				enableColumnFilter: false,
+				cell: (info) => Number(info.getValue()).toFixed(2),
+			},
+			{
+				accessorKey: 'avg_convention_rates',
+				header: (
+					<>
+						Average Conversion <br />
+						Rate
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => Number(info.getValue()).toFixed(2),
+			},
+			{
+				accessorKey: 'avg_price_per_unit_bdt',
+				header: (
+					<>
+						Average Price <br />
+						Per Unit (BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => Number(info.getValue()).toFixed(2),
+			},
+			{
+				accessorKey: 'avg_price_per_unit_usd',
+				header: (
+					<>
+						Average Price <br />
+						Per Unit (USD)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => Number(info.getValue()).toFixed(2),
+			},
+			{
+				accessorKey: 'lc_number',
+				header: 'LC Number',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'lc_created_at',
+				header: (
+					<>
+						LC Created <br />
+						At
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => <DateTime date={info.getValue()} />,
+			},
+			{
+				accessorKey: 'material_created_at',
+				header: (
+					<>
+						Material Created <br />
+						At
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => <DateTime date={info.getValue()} />,
 			},
 		],
 		[data]

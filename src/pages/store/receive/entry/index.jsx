@@ -264,7 +264,7 @@ export default function Index() {
 	const getTotalPrice = useCallback(
 		(receive_entry) =>
 			receive_entry?.reduce((acc, item) => {
-				return acc + Number(item.price);
+				return acc + Number(item.price)* Number(item.quantity);
 			}, 0),
 		[watch()]
 	);
@@ -295,6 +295,7 @@ export default function Index() {
 							tableHead={[
 								'Material',
 								'Quantity',
+								'Unit Price',
 								'Price',
 								'Price(BDT)',
 								'Remarks',
@@ -395,7 +396,10 @@ export default function Index() {
 										/>
 									</td>
 									<td className={`w-48 ${rowClass}`}>
-										{`${watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
+										{`${watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`)}`}
+									</td>
+									<td className={`w-48 ${rowClass}`}>
+										{`${watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Textarea
