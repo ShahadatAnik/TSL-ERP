@@ -10,7 +10,7 @@ import {
 	Transfer,
 } from '@/ui';
 
-import { DEFAULT_COLUMNS } from '@/util/Table/default-columns';
+import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
 export const BuyerColumns = ({
 	handelUpdate,

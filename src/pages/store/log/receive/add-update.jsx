@@ -1,6 +1,10 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useStoreBuyer, useStoreReceiveEntry, useStoreStock } from '@/state/store';
+import {
+	useStoreBuyer,
+	useStoreReceiveEntry,
+	useStoreStock,
+} from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetch, useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -16,7 +20,7 @@ import {
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { RECEIVE_ENTRY_NULL, RECEIVE_ENTRY_SCHEMA } from '@/util/schema';
+import { RECEIVE_ENTRY_NULL, RECEIVE_ENTRY_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',

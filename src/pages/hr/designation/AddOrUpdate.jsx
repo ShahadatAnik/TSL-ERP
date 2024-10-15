@@ -8,7 +8,7 @@ import { Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { USER_DESIGNATION_NULL, USER_DESIGNATION_SCHEMA } from '@/util/schema';
+import { USER_DESIGNATION_NULL, USER_DESIGNATION_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
