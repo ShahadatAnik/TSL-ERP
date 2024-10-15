@@ -20,7 +20,11 @@ const dateFormate = (date) => {
 export default function Index() {
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
-	const info = new PageInfo('Store/Report/Material', '', 'store__report__material');
+	const info = new PageInfo(
+		'Store/Report/Material',
+		'',
+		'store__report__material'
+	);
 	const haveAccess = useAccess('store__report__material');
 
 	const [url, setUrl] = useState(null);
@@ -34,7 +38,7 @@ export default function Index() {
 	useEffect(() => {
 		if (startDate && endDate) {
 			setUrl(
-				`/report/store-vendor-wise-material-report/${dateFormate(startDate)}/${dateFormate(
+				`/report/store-material-report/${dateFormate(startDate)}/${dateFormate(
 					endDate
 				)}`
 			);
