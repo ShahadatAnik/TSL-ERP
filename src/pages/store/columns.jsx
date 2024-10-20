@@ -733,7 +733,7 @@ export const VendorReportColumns = ({ data }) => {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'price_usd',
+				accessorKey: 'price_bdt',
 				header: (
 					<>
 						Total Received <br />
@@ -741,7 +741,10 @@ export const VendorReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) =>
+					Number(
+						(info.getValue() / info.row.original.avg_convention_rate)||0
+					).toFixed(2),
 			},
 			{
 				accessorKey: 'price_bdt',
@@ -753,85 +756,6 @@ export const VendorReportColumns = ({ data }) => {
 				),
 				enableColumnFilter: false,
 				cell: (info) => Number(info.getValue()).toFixed(2),
-			},
-			{
-				accessorKey: 'name',
-				header: 'Material Name',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'unit',
-				header: 'Unit',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'total_quantity',
-				header: 'Total Quantity',
-				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
-			},
-			{
-				accessorKey: 'avg_convention_rates',
-				header: (
-					<>
-						Average Conversion <br />
-						Rate
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
-			},
-			{
-				accessorKey: 'avg_price_per_unit_bdt',
-				header: (
-					<>
-						Average Price <br />
-						Per Unit (BDT)
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
-			},
-			{
-				accessorKey: 'avg_price_per_unit_usd',
-				header: (
-					<>
-						Average Price <br />
-						Per Unit (USD)
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
-			},
-			{
-				accessorKey: 'lc_number',
-				header: 'LC Number',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'lc_created_at',
-				header: (
-					<>
-						LC Created <br />
-						At
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => <DateTime date={info.getValue()} />,
-			},
-			{
-				accessorKey: 'material_created_at',
-				header: (
-					<>
-						Material Created <br />
-						At
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => <DateTime date={info.getValue()} />,
 			},
 		],
 		[data]
