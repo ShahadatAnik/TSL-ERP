@@ -409,7 +409,10 @@ export const ReceiveLogColumns = ({
 export const ReportColumns = ({ data }) => {
 	const convertToUSD = (bdtValue, info) => {
 		const avgConventionRate = info.row.original.avg_convention_rates;
-		return (Number(bdtValue) / Number(avgConventionRate)).toFixed(2);
+		return (
+			Number(bdtValue) /
+			Number(avgConventionRate === 0 ? 1 : avgConventionRate)
+		).toFixed(2);
 	};
 
 	return useMemo(
@@ -743,7 +746,11 @@ export const VendorReportColumns = ({ data }) => {
 				enableColumnFilter: false,
 				cell: (info) =>
 					Number(
-						(info.getValue() / info.row.original.avg_convention_rate)||0
+						info.getValue() /
+							info.row.original.avg_convention_rate ===
+							0
+							? 1
+							: info.row.original.avg_convention_rate
 					).toFixed(2),
 			},
 			{
