@@ -7,7 +7,6 @@ import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 	return useMemo(
 		() => [
-
 			{
 				accessorKey: 'master_ld_number',
 				header: 'Master LC',
@@ -72,7 +71,7 @@ export const MasterLcColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				header: 'Opening Date',
+				header: 'Master LC Date',
 				accessorKey: 'date',
 				enableColumnFilter: false,
 				cell: (info) => (
@@ -82,6 +81,12 @@ export const MasterLcColumns = ({
 			{
 				accessorKey: 'lien_bank',
 				header: 'Lien Bank',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'payment_terms',
+				header: 'Payment Terms',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},

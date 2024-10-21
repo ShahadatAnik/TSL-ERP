@@ -49,19 +49,26 @@ export default function Index({ receive_entry, convention_rate }) {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'price',
-				header: 'Price(BDT)',
+				id: 'total_price_usd',
+				accessorFn: (row) => row.price * row.quantity,
+				header: (
+					<>
+						Total Price <br /> (USD)
+					</>
+				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue() * info.row.original.quantity,
+				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'price',
-				header: 'Price(BDT)',
+				id: 'total_price_bdt',
+				accessorFn: (row) => row.price * row.quantity * convention_rate,
+				header: (
+					<>
+						Total Price <br /> (BDT)
+					</>
+				),
 				enableColumnFilter: false,
-				cell: (info) =>
-					info.getValue() *
-					convention_rate *
-					info.row.original.quantity,
+				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'remarks',
@@ -91,7 +98,10 @@ export default function Index({ receive_entry, convention_rate }) {
 		],
 		[receive_entry]
 	);
-	const totalValue = receive_entry.reduce((a, b) => a + Number(b.price*b.quantity), 0);
+	const totalValue = receive_entry.reduce(
+		(a, b) => a + Number(b.price * b.quantity),
+		0
+	);
 
 	return (
 		<ReactTableTitleOnly
@@ -99,12 +109,10 @@ export default function Index({ receive_entry, convention_rate }) {
 			data={receive_entry}
 			columns={columns}>
 			<tr className='text-sm'>
-				<td colSpan='5' className='py-2 text-right'>
-					Total Price
+				<td colSpan='7' className='py-2 text-right'>
+					Total:
 				</td>
 				<td className='pl-3 text-left font-semibold'>{totalValue}</td>
-
-				<td className='text-right'>Total Price(BDT)</td>
 				<td className='pl-3 text-left font-semibold'>
 					{Number(totalValue * convention_rate).toLocaleString()}
 				</td>

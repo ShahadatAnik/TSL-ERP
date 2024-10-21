@@ -35,72 +35,70 @@ export default function Information({
 		updated_at,
 	} = purchase;
 
-	const renderItems = () => {
-		const items = [
-			{
-				label: 'Invoice Number',
-				value: receive_id,
-			},
+	const renderItems = [
+		{
+			label: 'Invoice Number',
+			value: receive_id,
+		},
 
-			{
-				label: 'Vendor',
-				value: vendor_name,
-			},
-			{
-				label: 'Import/Local',
-				value: is_import == 1 ? 'Import' : 'Local',
-			},
+		{
+			label: 'Vendor',
+			value: vendor_name,
+		},
+		{
+			label: 'Import/Local',
+			value: is_import == 1 ? 'Import' : 'Local',
+		},
 
-			{
-				label: 'LC Number',
-				value: lc_number ? lc_number : null,
-			},
+		{
+			label: 'LC Number',
+			value: lc_number ? lc_number : null,
+		},
 
-			{
-				label: 'Commercial Invoice Number',
-				value: commercial_invoice_number
-					? commercial_invoice_number
-					: null,
-			},
-			{
-				label: 'Commercial Invoice Value',
-				value: commercial_invoice_value
-					? commercial_invoice_value
-					: null,
-			},
+		{
+			label: 'Commercial Invoice Number',
+			value: commercial_invoice_number ? commercial_invoice_number : null,
+		},
+		{
+			label: 'Commercial Invoice Value',
+			value: commercial_invoice_value ? commercial_invoice_value : null,
+		},
 
-			{
-				label: 'Conversion Rate',
-				value: convention_rate,
-			},
+		{
+			label: 'Conversion Rate',
+			value: convention_rate,
+		},
+	];
 
-			{
-				label: 'Created By',
-				value: created_by_name,
-			},
-			{
-				label: 'Created At',
-				value: created_at
-					? format(new Date(created_at), 'dd/MM/yyyy')
-					: null,
-			},
-			{
-				label: 'Updated At',
-				value: updated_at
-					? format(new Date(updated_at), 'dd/MM/yyyy')
-					: null,
-			},
-			{
-				label: 'Remarks',
-				value: remarks,
-			},
-		];
-		return items;
-	};
+	const renderItems2 = [
+		{
+			label: 'Created By',
+			value: created_by_name,
+		},
+		{
+			label: 'Created',
+			value: created_at
+				? format(new Date(created_at), 'dd/MM/yyyy')
+				: null,
+		},
+		{
+			label: 'Updated',
+			value: updated_at
+				? format(new Date(updated_at), 'dd/MM/yyyy')
+				: null,
+		},
+		{
+			label: 'Remarks',
+			value: remarks,
+		},
+	];
 
 	return (
-		<SectionContainer title={'Information'}>
-			<RenderTable items={renderItems()} />
+		<SectionContainer
+			title={'Information'}
+			contentClassName='flex flex-col md:flex-row gap-2'>
+			<RenderTable items={renderItems} className='md:w-1/2' />
+			<RenderTable items={renderItems2} className='md:w-1/2' />
 		</SectionContainer>
 	);
 }

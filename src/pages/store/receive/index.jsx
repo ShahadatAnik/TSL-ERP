@@ -46,10 +46,8 @@ export default function Index() {
 				accessorKey: 'vendor_name',
 				header: 'Vendor',
 				enableColumnFilter: false,
-				cell: (info) =>
-					info.getValue() === null || info.getValue() === ''
-						? 'N/A'
-						: info.getValue(),
+				width: 'w-32',
+				cell: (info) => info.getValue(),
 			},
 
 			{
@@ -64,30 +62,36 @@ export default function Index() {
 				accessorKey: 'lc_number',
 				header: 'LC',
 				enableColumnFilter: false,
-				cell: (info) =>
-					info.getValue() === null || info.getValue() === ''
-						? 'N/A'
-						: info.getValue(),
+				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'commercial_invoice_number',
-				header: 'Commercial Invoice Number',
+				header: (
+					<>
+						Commercial Invoice <br /> Number
+					</>
+				),
 				enableColumnFilter: false,
-				cell: (info) =>
-					info.getValue() === null || info.getValue() === ''
-						? 'N/A'
-						: info.getValue(),
+				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'commercial_invoice_value',
-				header: 'Commercial Invoice Value',
+				header: (
+					<>
+						Commercial Invoice <br /> Value
+					</>
+				),
 				enableColumnFilter: false,
-				cell: (info) =>
-					info.getValue() === 0 ? 'N/A' : info.getValue(),
+				cell: (info) => info.getValue(),
 			},
 			{
 				accessorKey: 'convention_rate',
-				header: 'Conversion Rate',
+				header: (
+					<>
+						Conversion
+						<br /> Rate
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},

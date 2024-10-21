@@ -20,7 +20,11 @@ const dateFormate = (date) => {
 export default function Index() {
 	const [startDate, setStartDate] = useState(null);
 	const [endDate, setEndDate] = useState(null);
-	const info = new PageInfo('Store/Report/Vendor', '', 'store__report__vendor');
+	const info = new PageInfo(
+		'Store/Report/Vendor',
+		'',
+		'store__report__vendor'
+	);
 	const haveAccess = useAccess('store__report__vendor');
 
 	const [url, setUrl] = useState(null);

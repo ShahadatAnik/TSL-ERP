@@ -185,12 +185,16 @@ export const MASTER_LC_SCHEMA = {
 	value: NUMBER_DOUBLE_REQUIRED,
 	date: DATE_REQUIRED,
 	lien_bank: STRING_REQUIRED,
+	payment_terms: NUMBER.nullable(),
 	remarks: STRING.nullable(),
 };
 export const MASTER_LC_NULL = {
 	uuid: null,
 	number: '',
+	value: null,
 	date: null,
+	lien_bank: '',
+	payment_terms: 0,
 	remarks: null,
 };
 //* Store -> Category
@@ -220,7 +224,8 @@ export const STOCK_SCHEMA = {
 	article_uuid: STRING_REQUIRED,
 	category_uuid: STRING_REQUIRED,
 	name: STRING_REQUIRED,
-	color: STRING_REQUIRED,
+	color: STRING.nullable(),
+	unit: STRING_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const STOCK_NULL = {

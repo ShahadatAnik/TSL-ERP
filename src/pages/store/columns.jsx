@@ -70,6 +70,7 @@ export const VendorColumns = ({
 				accessorKey: 'name',
 				header: 'Name',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 			{
@@ -304,6 +305,12 @@ export const ReceiveLogColumns = ({
 				},
 			},
 			{
+				accessorKey: 'vendor_name',
+				header: 'Vendor',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
 				accessorKey: 'material_name',
 				header: 'Name',
 				enableColumnFilter: false,
@@ -341,16 +348,33 @@ export const ReceiveLogColumns = ({
 			},
 			{
 				accessorKey: 'price',
-				header: 'Price',
+				header: 'Unit Price',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+
+			{
+				id: 'total_price_usd',
+				accessorFn: (row) => row.price * row.quantity,
+				header: (
+					<>
+						Total Price <br /> (USD)
+					</>
+				),
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'price',
-				header: 'Price(BDT)',
+				id: 'total_price_bdt',
+				accessorFn: (row) =>
+					row.price * row.quantity * row.convention_rate,
+				header: (
+					<>
+						Total Price <br /> (BDT)
+					</>
+				),
 				enableColumnFilter: false,
-				cell: (info) =>
-					info.getValue() * info.row.original.convention_rate,
+				cell: (info) => info.getValue(),
 			},
 
 			{
@@ -736,33 +760,26 @@ export const VendorReportColumns = ({ data }) => {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'price_bdt',
+				accessorKey: 'total_price_usd',
 				header: (
 					<>
 						Total Received <br />
-						Amount(USD)
+						Amount (USD)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) =>
-					Number(
-						info.getValue() /
-							info.row.original.avg_convention_rate ===
-							0
-							? 1
-							: info.row.original.avg_convention_rate
-					).toFixed(2),
+				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'price_bdt',
+				accessorKey: 'total_price_bdt',
 				header: (
 					<>
 						Total Received <br />
-						Amount(BDT)
+						Amount (BDT)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => Number(info.getValue()).toFixed(2),
+				cell: (info) => info.getValue(),
 			},
 		],
 		[data]

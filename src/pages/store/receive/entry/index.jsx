@@ -259,12 +259,12 @@ export default function Index() {
 	});
 
 	const rowClass =
-		'group whitespace-nowrap text-left text-sm font-normal tracking-wide  p-3';
+		'group whitespace-nowrap text-left text-sm font-normal tracking-wide px-3 py-2';
 
 	const getTotalPrice = useCallback(
 		(receive_entry) =>
 			receive_entry?.reduce((acc, item) => {
-				return acc + Number(item.price)* Number(item.quantity);
+				return acc + Number(item.price) * Number(item.quantity);
 			}, 0),
 		[watch()]
 	);
@@ -309,7 +309,7 @@ export default function Index() {
 								</th>
 							))}>
 							{receiveEntry.map((item, index) => (
-								<tr key={item.id} className=''>
+								<tr key={item.id}>
 									<td className={`${rowClass}`}>
 										<FormField
 											label={`receive_entry[${index}].material_uuid`}
@@ -426,22 +426,18 @@ export default function Index() {
 							))}
 							<tr className='border-t border-primary/30'>
 								<td
-									className='py-4 text-right font-bold'
-									colSpan='2'>
-									Total Price:
+									className='px-3 py-2 text-right font-bold'
+									colSpan='3'>
+									Total:
 								</td>
-								<td className='py-4 font-bold'>
+								<td className='px-3 py-2 font-bold'>
 									{getTotalPrice(watch('receive_entry'))}
 								</td>
-								<td
-									className='py-4 text-right font-bold'
-									colSpan='2'>
-									Total Price(BDT):
-								</td>
-								<td className='py-4 font-bold'>
+								<td className='px-3 py-2 font-bold'>
 									{getTotalPrice(watch('receive_entry')) *
 										watch('convention_rate')}
 								</td>
+								<td className='px-3 py-2 font-bold'></td>
 							</tr>
 						</DynamicField>
 					</div>

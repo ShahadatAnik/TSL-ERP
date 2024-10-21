@@ -1,16 +1,12 @@
-import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import {
-	useOtherLcValueLabel,
-	useOtherMasterLcValueLabel,
-} from '@/state/other';
-import { useStoreLC, useStoreMasterLC } from '@/state/store';
+import { useOtherMasterLcValueLabel } from '@/state/other';
+import { useStoreMasterLC } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import DatePicker from 'react-datepicker';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
+import { FormField, Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -38,6 +34,7 @@ export default function Index({
 		getValues,
 		context,
 	} = useRHF(MASTER_LC_SCHEMA, MASTER_LC_NULL);
+
 	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
 	const onClose = () => {
@@ -97,7 +94,7 @@ export default function Index({
 				{...{ register, errors }}
 			/>
 			<Input label='value' {...{ register, errors }} />
-			<FormField label='date' title='Opening Date' errors={errors}>
+			<FormField label='date' title='Master LC Date' errors={errors}>
 				<Controller
 					name={'date'}
 					control={control}
@@ -115,6 +112,7 @@ export default function Index({
 				/>
 			</FormField>
 			<Input label='lien_bank' {...{ register, errors }} />
+			<Input label='payment_terms' {...{ register, errors }} />
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} />
 		</AddModal>

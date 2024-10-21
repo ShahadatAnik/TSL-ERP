@@ -107,7 +107,7 @@ export default function Index({
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
-			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
+			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<FormField label='article_uuid' title='Article' errors={errors}>
 					<Controller
 						name={'article_uuid'}
@@ -154,7 +154,7 @@ export default function Index({
 					/>
 				</FormField>
 			</div>
-			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
+			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<Input label='name' {...{ register, errors }} />
 				<Input label='color' {...{ register, errors }} />
 				<FormField label='unit' title='Unit' errors={errors}>
@@ -178,7 +178,7 @@ export default function Index({
 					/>
 				</FormField>
 			</div>
-			<div className='mb-4 flex flex-col gap-2 rounded bg-base-200 p-2 md:flex-row'>
+			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			</div>
 			<DevTool control={control} />
