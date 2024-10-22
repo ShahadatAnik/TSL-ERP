@@ -72,6 +72,7 @@ export default function Order() {
 				accessorKey: 'remarks',
 				header: 'Remarks',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 

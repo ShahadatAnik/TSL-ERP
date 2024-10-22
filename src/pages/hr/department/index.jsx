@@ -43,6 +43,7 @@ export default function Index() {
 				accessorKey: 'remarks',
 				header: 'Remarks',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 			{

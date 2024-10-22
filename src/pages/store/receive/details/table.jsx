@@ -74,6 +74,7 @@ export default function Index({ receive_entry, convention_rate }) {
 				accessorKey: 'remarks',
 				header: 'Remarks',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 			{

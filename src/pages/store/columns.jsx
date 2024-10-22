@@ -1,14 +1,6 @@
 import { useMemo } from 'react';
 
-import {
-	DateTime,
-	EditDelete,
-	LinkOnly,
-	LinkWithCopy,
-	Progress,
-	StatusButton,
-	Transfer,
-} from '@/ui';
+import { DateTime, EditDelete, LinkOnly, Transfer } from '@/ui';
 
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
@@ -217,6 +209,7 @@ export const IssueLogColumns = ({
 				accessorKey: 'category_name',
 				header: 'Category',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 			{
@@ -255,6 +248,7 @@ export const IssueLogColumns = ({
 				accessorKey: 'remarks',
 				header: 'Remarks',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 
@@ -308,6 +302,7 @@ export const ReceiveLogColumns = ({
 				accessorKey: 'vendor_name',
 				header: 'Vendor',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 			{
@@ -400,6 +395,7 @@ export const ReceiveLogColumns = ({
 				accessorKey: 'remarks',
 				header: 'Remarks',
 				enableColumnFilter: false,
+				width: 'w-32',
 				cell: (info) => info.getValue(),
 			},
 			{

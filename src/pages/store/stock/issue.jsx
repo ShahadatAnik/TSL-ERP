@@ -4,7 +4,7 @@ import { DevTool } from '@hookform/devtools';
 import { useFetch, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { Input, JoinInput, Textarea } from '@/ui';
+import { JoinInput, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -64,7 +64,7 @@ export default function Index({
 	return (
 		<AddModal
 			id={modalId}
-			title={`Issue ${updateIssue?.name}`}
+			title={`Issue: ${updateIssue?.name}`}
 			isSmall={true}
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
@@ -72,7 +72,7 @@ export default function Index({
 			<JoinInput
 				title='quantity'
 				label={`quantity`}
-				sub_label={`Max ${updateIssue?.quantity}`}
+				sub_label={`Max: ${updateIssue?.quantity}`}
 				unit={
 					material?.find(
 						(inItem) => inItem.value == updateIssue?.uuid

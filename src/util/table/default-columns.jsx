@@ -9,6 +9,7 @@ export const DEFAULT_COLUMNS = ({
 		accessorKey: 'remarks',
 		header: 'Remarks',
 		enableColumnFilter: false,
+		width: 'w-32',
 		cell: (info) => info.getValue(),
 	},
 	{
