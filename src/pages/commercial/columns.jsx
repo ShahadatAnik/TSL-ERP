@@ -27,7 +27,7 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 			},
 			{
 				accessorKey: 'unit',
-				header: 'Unit',
+				header: 'Currency',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue()?.toUpperCase(),
 			},
@@ -69,6 +69,12 @@ export const MasterLcColumns = ({
 				header: 'Value',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'unit',
+				header: 'Currency',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue()?.toUpperCase(),
 			},
 			{
 				header: 'Master LC Date',

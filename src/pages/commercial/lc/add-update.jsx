@@ -26,7 +26,11 @@ export default function Index({
 	const { url, updateData, postData } = useStoreLC();
 	const { data: master_lc } = useOtherMasterLcValueLabel();
 	const { invalidateQuery: invalidateLCValueLabel } = useOtherLcValueLabel();
-
+	const selectCurrency = [
+		{ label: '$US', value: '$us' },
+		{ label: 'EUR', value: 'eur' },
+		{ label: 'CNY', value: 'cny' },
+	];
 	const {
 		register,
 		handleSubmit,
@@ -47,11 +51,6 @@ export default function Index({
 		reset(LC_NULL);
 		window[modalId].close();
 	};
-	const selectCurrency = [
-		{ label: '$US', value: '$us' },
-		{ label: 'EUR', value: 'eur' },
-		{ label: 'CNY', value: 'cny' },
-	];
 
 	const onSubmit = async (data) => {
 		// Update item
@@ -127,14 +126,14 @@ export default function Index({
 			</div>
 			<div className='flex flex-col gap-4 md:flex-row'>
 				<Input label='value' {...{ register, errors }} />
-				<FormField label='unit' title='Unit' errors={errors}>
+				<FormField label='unit' title='Currency' errors={errors}>
 					<Controller
 						name={'unit'}
 						control={control}
 						render={({ field: { onChange } }) => {
 							return (
 								<ReactSelect
-									placeholder='Select Unit'
+									placeholder='Select Currency'
 									options={selectCurrency}
 									value={selectCurrency?.filter(
 										(item) =>
