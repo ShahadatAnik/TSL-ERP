@@ -183,6 +183,7 @@ export const LC_NULL = {
 export const MASTER_LC_SCHEMA = {
 	number: STRING_REQUIRED,
 	value: NUMBER_DOUBLE_REQUIRED,
+	unit: STRING_REQUIRED,
 	date: DATE_REQUIRED,
 	lien_bank: STRING_REQUIRED,
 	payment_terms: NUMBER.nullable(),

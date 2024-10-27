@@ -6,7 +6,7 @@ import DatePicker from 'react-datepicker';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
-import { FormField, Input, Textarea } from '@/ui';
+import { FormField, Input, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
@@ -23,7 +23,11 @@ export default function Index({
 	const { url, updateData, postData } = useStoreMasterLC();
 	const { invalidateQuery: invalidateMasterLcValueLabel } =
 		useOtherMasterLcValueLabel();
-
+	const selectCurrency = [
+		{ label: '$US', value: '$us' },
+		{ label: 'EUR', value: 'eur' },
+		{ label: 'CNY', value: 'cny' },
+	];
 	const {
 		register,
 		handleSubmit,
@@ -94,6 +98,28 @@ export default function Index({
 				{...{ register, errors }}
 			/>
 			<Input label='value' {...{ register, errors }} />
+			<div className='flex flex-col gap-4 md:flex-row'>
+				<Input label='value' {...{ register, errors }} />
+				<FormField label='unit' title='Currency' errors={errors}>
+					<Controller
+						name={'unit'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Currency'
+									options={selectCurrency}
+									value={selectCurrency?.filter(
+										(item) =>
+											item.value === getValues('unit')
+									)}
+									onChange={(e) => onChange(e.value)}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+			</div>
 			<FormField label='date' title='Master LC Date' errors={errors}>
 				<Controller
 					name={'date'}
