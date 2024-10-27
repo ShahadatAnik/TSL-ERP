@@ -23,7 +23,7 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 				accessorKey: 'value',
 				header: 'Value',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => info.getValue().toLocaleString(),
 			},
 			{
 				accessorKey: 'unit',
@@ -68,7 +68,7 @@ export const MasterLcColumns = ({
 				accessorKey: 'value',
 				header: 'Value',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => info.getValue()?.toLocaleString(),
 			},
 			{
 				accessorKey: 'unit',
