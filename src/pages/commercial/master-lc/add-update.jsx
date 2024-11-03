@@ -25,8 +25,8 @@ export default function Index({
 		useOtherMasterLcValueLabel();
 	const selectCurrency = [
 		{ label: '$US', value: '$us' },
-		{ label: 'EUR', value: 'eur' },
-		{ label: 'CNY', value: 'cny' },
+		{ label: '€EUR', value: 'eur' },
+		{ label: '¥CNY', value: 'cny' },
 	];
 	const {
 		register,

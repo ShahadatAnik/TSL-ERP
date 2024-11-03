@@ -464,19 +464,11 @@ export const ReportColumns = ({ data }) => {
 				accessorKey: 'opening_quantity',
 				header: 'Opening Stock',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
-			},
-			{
-				accessorKey: 'opening_quantity_total_price_usd',
-				header: (
-					<>
-						Total Value
-						<br />
-						(USD)
-					</>
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
 				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
 			},
 			{
 				accessorKey: 'opening_quantity_rate_usd',
@@ -488,19 +480,27 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
 			},
 			{
-				accessorKey: 'opening_quantity_total_price_bdt',
+				accessorKey: 'opening_quantity_total_price_usd',
 				header: (
 					<>
 						Total Value
 						<br />
-						(BDT)
+						(USD)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			{
 				accessorKey: 'opening_quantity_rate_bdt',
@@ -512,26 +512,38 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
+			},
+			{
+				accessorKey: 'opening_quantity_total_price_bdt',
+				header: (
+					<>
+						Total Value
+						<br />
+						(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			// Received
 			{
 				accessorKey: 'purchased_quantity',
 				header: 'Received QTY',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
-			},
-			{
-				accessorKey: 'purchased_quantity_total_price_usd',
-				header: (
-					<>
-						Total Value
-						<br />
-						(USD)
-					</>
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
 				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
 			},
 			{
 				accessorKey: 'purchased_quantity_rate_usd',
@@ -543,19 +555,27 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
 			},
 			{
-				accessorKey: 'purchased_quantity_total_price_bdt',
+				accessorKey: 'purchased_quantity_total_price_usd',
 				header: (
 					<>
 						Total Value
 						<br />
-						(BDT)
+						(USD)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			{
 				accessorKey: 'purchased_quantity_rate_bdt',
@@ -567,26 +587,38 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
+			},
+			{
+				accessorKey: 'purchased_quantity_total_price_bdt',
+				header: (
+					<>
+						Total Value
+						<br />
+						(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			// Total Stock
 			{
 				accessorKey: 'sub_total_quantity',
 				header: 'Total Stock QTY',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
-			},
-			{
-				accessorKey: 'sub_total_quantity_total_price_usd',
-				header: (
-					<>
-						Total Value
-						<br />
-						(USD)
-					</>
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
 				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
 			},
 			{
 				accessorKey: 'sub_total_quantity_rate_usd',
@@ -598,19 +630,27 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
 			},
 			{
-				accessorKey: 'sub_total_quantity_total_price_bdt',
+				accessorKey: 'sub_total_quantity_total_price_usd',
 				header: (
 					<>
-						Total Value
+						Total Stock Value
 						<br />
-						(BDT)
+						(USD)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			{
 				accessorKey: 'sub_total_quantity_rate_bdt',
@@ -622,26 +662,38 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
+			},
+			{
+				accessorKey: 'sub_total_quantity_total_price_bdt',
+				header: (
+					<>
+						Total Stock Value
+						<br />
+						(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			// Issued
 			{
 				accessorKey: 'consumption_quantity',
 				header: 'Issued QTY',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
-			},
-			{
-				accessorKey: 'consumption_quantity_total_price_usd',
-				header: (
-					<>
-						Total Value
-						<br />
-						(USD)
-					</>
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
 				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
 			},
 			{
 				accessorKey: 'consumption_quantity_rate_usd',
@@ -653,19 +705,27 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
 			},
 			{
-				accessorKey: 'consumption_quantity_total_price_bdt',
+				accessorKey: 'consumption_quantity_total_price_usd',
 				header: (
 					<>
 						Total Value
 						<br />
-						(BDT)
+						(USD)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			{
 				accessorKey: 'consumption_quantity_rate_bdt',
@@ -677,26 +737,38 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
+			},
+			{
+				accessorKey: 'consumption_quantity_total_price_bdt',
+				header: (
+					<>
+						Total Value
+						<br />
+						(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			// Closing
 			{
 				accessorKey: 'closing_quantity',
 				header: 'Closing Stock',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
-			},
-			{
-				accessorKey: 'closing_quantity_total_price_usd',
-				header: (
-					<>
-						Total Value
-						<br />
-						(USD)
-					</>
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
 				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
 			},
 			{
 				accessorKey: 'closing_quantity_rate_usd',
@@ -708,19 +780,27 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
 			},
 			{
-				accessorKey: 'closing_quantity_total_price_bdt',
+				accessorKey: 'closing_quantity_total_price_usd',
 				header: (
 					<>
-						Total Value
+						Total Closing
 						<br />
-						(BDT)
+						Stock Value(USD)
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(2),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 			{
 				accessorKey: 'closing_quantity_rate_bdt',
@@ -732,7 +812,27 @@ export const ReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toFixed(4),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(2)}
+					</div>
+				),
+			},
+			{
+				accessorKey: 'closing_quantity_total_price_bdt',
+				header: (
+					<>
+						Total Closing
+						<br />
+						Stock Value(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
 			},
 		],
 		[data]
@@ -756,7 +856,9 @@ export const VendorReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => (
+					<div className='text-right'>{info.getValue()}</div>
+				),
 			},
 			{
 				accessorKey: 'total_price_bdt',
@@ -767,7 +869,9 @@ export const VendorReportColumns = ({ data }) => {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => (
+					<div className='text-right'>{info.getValue()}</div>
+				),
 			},
 		],
 		[data]

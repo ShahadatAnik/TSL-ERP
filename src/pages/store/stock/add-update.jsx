@@ -123,7 +123,7 @@ export default function Index({
 											getValues('article_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={update?.uuid !== null}
+									isDisabled={update?.uuid !== null &&user.name!=='Super User'}
 								/>
 							);
 						}}
@@ -147,7 +147,7 @@ export default function Index({
 											getValues('category_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={update?.uuid !== null}
+									isDisabled={update?.uuid !== null&&user.name!=='Super User'}
 								/>
 							);
 						}}
@@ -171,7 +171,7 @@ export default function Index({
 											item.value === getValues('unit')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={update?.uuid !== null}
+									isDisabled={update?.uuid !== null&&user.name!=='Super User'}
 								/>
 							);
 						}}
