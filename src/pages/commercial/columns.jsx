@@ -23,14 +23,22 @@ export const LcColumns = ({ handelUpdate, handelDelete, haveAccess, data }) => {
 				accessorKey: 'value',
 				header: 'Value',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue().toLocaleString(),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.row.original.unit === '$us'
+							? '$' + info.getValue().toLocaleString()
+							: info.row.original.unit === 'eur'
+								? '€' + info.getValue().toLocaleString()
+								: '¥' + info.getValue().toLocaleString()}
+					</div>
+				),
 			},
-			{
-				accessorKey: 'unit',
-				header: 'Currency',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue()?.toUpperCase(),
-			},
+			// {
+			// 	accessorKey: 'unit',
+			// 	header: 'Currency',
+			// 	enableColumnFilter: false,
+			// 	cell: (info) => info.getValue()?.toUpperCase(),
+			// },
 			{
 				header: 'Opening Date',
 				accessorKey: 'date',
@@ -68,14 +76,22 @@ export const MasterLcColumns = ({
 				accessorKey: 'value',
 				header: 'Value',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue()?.toLocaleString(),
+				cell: (info) => (
+					<div className='text-right'>
+						{info.row.original.unit === '$us'
+							? '$' + info.getValue().toLocaleString()
+							: info.row.original.unit === 'eur'
+								? '€' + info.getValue().toLocaleString()
+								: '¥' + info.getValue().toLocaleString()}
+					</div>
+				),
 			},
-			{
-				accessorKey: 'unit',
-				header: 'Currency',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue()?.toUpperCase(),
-			},
+			// {
+			// 	accessorKey: 'unit',
+			// 	header: 'Currency',
+			// 	enableColumnFilter: false,
+			// 	cell: (info) => info.getValue()?.toUpperCase(),
+			// },
 			{
 				header: 'Master LC Date',
 				accessorKey: 'date',
