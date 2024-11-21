@@ -1,5 +1,12 @@
 import { Suspense, useCallback, useEffect, useState } from 'react';
-import { useOtherMaterialValueLabel } from '@/state/other';
+import {
+	useOtherArticleValueLabel,
+	useOtherCategoryValueLabel,
+	useOtherColorValueLabel,
+	useOtherMaterialValueLabel,
+	useOtherSizeValueLabel,
+	useOtherUnitValueLabel,
+} from '@/state/other';
 import {
 	useStoreReceive,
 	useStoreReceiveEntry,
@@ -43,8 +50,12 @@ export default function Index() {
 		deleteData,
 	} = useStoreReceive();
 
-	const [unit, setUnit] = useState({});
 	const { data: material } = useOtherMaterialValueLabel();
+	const { data: category } = useOtherCategoryValueLabel();
+	const { data: article } = useOtherArticleValueLabel();
+	const { data: color } = useOtherColorValueLabel();
+	const { data: size } = useOtherSizeValueLabel();
+	const { data: unit } = useOtherUnitValueLabel();
 	const { invalidateQuery: invalidateStock } = useStoreStock();
 
 	useEffect(() => {
@@ -294,7 +305,12 @@ export default function Index() {
 							handelAppend={handelReceiveEntryAppend}
 							tableHead={[
 								'Material',
+								'Article',
+								'Category',
+								'Color',
+								'Size',
 								'Quantity',
+								'Unit',
 								'Unit Price',
 								'Price',
 								'Price(BDT)',
@@ -346,11 +362,6 @@ export default function Index() {
 																onChange(
 																	e.value
 																);
-																setUnit({
-																	...unit,
-																	[index]:
-																		e.unit,
-																});
 															}}
 															menuPortalTarget={
 																document.body
@@ -361,9 +372,199 @@ export default function Index() {
 											/>
 										</FormField>
 									</td>
+									{/* Article */}
+									<td className={`${rowClass}`}>
+										<FormField
+											label={`receive_entry[${index}].article_uuid`}
+											title='Article'
+											is_title_needed='false'
+											errors={errors}>
+											<Controller
+												name={`receive_entry[${index}].article_uuid`}
+												control={control}
+												render={({
+													field: { onChange },
+												}) => {
+													return (
+														<ReactSelect
+															placeholder='Select Article'
+															options={article?.filter(
+																(inItem) =>
+																	!excludeItem.some(
+																		(
+																			excluded
+																		) =>
+																			excluded?.value ===
+																			inItem?.value
+																	)
+															)}
+															value={article?.find(
+																(inItem) =>
+																	inItem.value ==
+																	getValues(
+																		`receive_entry[${index}].article_uuid`
+																	)
+															)}
+															onChange={(e) =>
+																onChange(
+																	e.value
+																)
+															}
+															menuPortalTarget={
+																document.body
+															}
+														/>
+													);
+												}}
+											/>
+										</FormField>
+									</td>
 
+									{/* Category */}
+									<td className={`${rowClass}`}>
+										<FormField
+											label={`receive_entry[${index}].category_uuid`}
+											title='Category'
+											is_title_needed='false'
+											errors={errors}>
+											<Controller
+												name={`receive_entry[${index}].category_uuid`}
+												control={control}
+												render={({
+													field: { onChange },
+												}) => {
+													return (
+														<ReactSelect
+															placeholder='Select Category'
+															options={category?.filter(
+																(inItem) =>
+																	!excludeItem.some(
+																		(
+																			excluded
+																		) =>
+																			excluded?.value ===
+																			inItem?.value
+																	)
+															)}
+															value={category?.find(
+																(inItem) =>
+																	inItem.value ==
+																	getValues(
+																		`receive_entry[${index}].category_uuid`
+																	)
+															)}
+															onChange={(e) =>
+																onChange(
+																	e.value
+																)
+															}
+															menuPortalTarget={
+																document.body
+															}
+														/>
+													);
+												}}
+											/>
+										</FormField>
+									</td>
+
+									{/* Color */}
+									<td className={`${rowClass}`}>
+										<FormField
+											label={`receive_entry[${index}].color_uuid`}
+											title='Color'
+											is_title_needed='false'
+											errors={errors}>
+											<Controller
+												name={`receive_entry[${index}].color_uuid`}
+												control={control}
+												render={({
+													field: { onChange },
+												}) => {
+													return (
+														<ReactSelect
+															placeholder='Select Color'
+															options={color?.filter(
+																(inItem) =>
+																	!excludeItem.some(
+																		(
+																			excluded
+																		) =>
+																			excluded?.value ===
+																			inItem?.value
+																	)
+															)}
+															value={color?.find(
+																(inItem) =>
+																	inItem.value ==
+																	getValues(
+																		`receive_entry[${index}].color_uuid`
+																	)
+															)}
+															onChange={(e) =>
+																onChange(
+																	e.value
+																)
+															}
+															menuPortalTarget={
+																document.body
+															}
+														/>
+													);
+												}}
+											/>
+										</FormField>
+									</td>
+
+									{/* Size */}
+									<td className={`${rowClass}`}>
+										<FormField
+											label={`receive_entry[${index}].size_uuid`}
+											title='Size'
+											is_title_needed='false'
+											errors={errors}>
+											<Controller
+												name={`receive_entry[${index}].size_uuid`}
+												control={control}
+												render={({
+													field: { onChange },
+												}) => {
+													return (
+														<ReactSelect
+															placeholder='Select Size'
+															options={size?.filter(
+																(inItem) =>
+																	!excludeItem.some(
+																		(
+																			excluded
+																		) =>
+																			excluded?.value ===
+																			inItem?.value
+																	)
+															)}
+															value={size?.find(
+																(inItem) =>
+																	inItem.value ==
+																	getValues(
+																		`receive_entry[${index}].size_uuid`
+																	)
+															)}
+															onChange={(e) =>
+																onChange(
+																	e.value
+																)
+															}
+															menuPortalTarget={
+																document.body
+															}
+														/>
+													);
+												}}
+											/>
+										</FormField>
+									</td>
 									<td className={`w-48 ${rowClass}`}>
-										<JoinInput
+										<Input
 											title='quantity'
 											label={`receive_entry[${index}].quantity`}
 											is_title_needed='false'
@@ -371,17 +572,54 @@ export default function Index() {
 												errors?.receive_entry?.[index]
 													?.quantity
 											}
-											unit={
-												material?.find(
-													(inItem) =>
-														inItem.value ==
-														getValues(
-															`receive_entry[${index}].material_uuid`
-														)
-												)?.unit
-											}
 											register={register}
 										/>
+									</td>
+									<td className={`${rowClass}`}>
+										<FormField
+											label={`receive_entry[${index}].unit_uuid`}
+											title='Unit'
+											is_title_needed='false'
+											errors={errors}>
+											<Controller
+												name={`receive_entry[${index}].unit_uuid`}
+												control={control}
+												render={({
+													field: { onChange },
+												}) => {
+													return (
+														<ReactSelect
+															placeholder='Select Unit'
+															options={unit?.filter(
+																(inItem) =>
+																	!excludeItem.some(
+																		(
+																			excluded
+																		) =>
+																			excluded?.value ===
+																			inItem?.value
+																	)
+															)}
+															value={unit?.find(
+																(inItem) =>
+																	inItem.value ==
+																	getValues(
+																		`receive_entry[${index}].unit_uuid`
+																	)
+															)}
+															onChange={(e) =>
+																onChange(
+																	e.value
+																)
+															}
+															menuPortalTarget={
+																document.body
+															}
+														/>
+													);
+												}}
+											/>
+										</FormField>
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Input
@@ -396,10 +634,10 @@ export default function Index() {
 										/>
 									</td>
 									<td className={`w-48 ${rowClass}`}>
-										{`${watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`)}`}
+										{`${(watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`)).toLocaleString()}`}
 									</td>
 									<td className={`w-48 ${rowClass}`}>
-										{`${watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`) * watch('convention_rate')}`}
+										{`${(watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`) * watch('convention_rate')).toLocaleString()}`}
 									</td>
 									<td className={`w-48 ${rowClass}`}>
 										<Textarea
@@ -427,15 +665,19 @@ export default function Index() {
 							<tr className='border-t border-primary/30'>
 								<td
 									className='px-3 py-2 text-right font-bold'
-									colSpan='3'>
+									colSpan='8'>
 									Total:
 								</td>
 								<td className='px-3 py-2 font-bold'>
-									{getTotalPrice(watch('receive_entry'))}
+									{getTotalPrice(
+										watch('receive_entry')
+									).toLocaleString()}
 								</td>
 								<td className='px-3 py-2 font-bold'>
-									{getTotalPrice(watch('receive_entry')) *
-										watch('convention_rate')}
+									{(
+										getTotalPrice(watch('receive_entry')) *
+										watch('convention_rate')
+									).toLocaleString()}
 								</td>
 								<td className='px-3 py-2 font-bold'></td>
 							</tr>

@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherCategoryValueLabel } from '@/state/other';
-import { useStoreCategory } from '@/state/store';
+import { useOtherColorValueLabel } from '@/state/other';
+import { useStoreColor } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -20,9 +20,9 @@ export default function Index({
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useStoreCategory();
-	const { invalidateQuery: invalidateCategoryValueLabel } =
-		useOtherCategoryValueLabel();
+	const { url, updateData, postData } = useStoreColor();
+	const { invalidateQuery: invalidateColorValueLabel } =
+		useOtherColorValueLabel();
 
 	const {
 		register,
@@ -76,13 +76,13 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
-		invalidateCategoryValueLabel();
+		invalidateColorValueLabel();
 	};
 
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update Category' : 'Category'}
+			title={update?.uuid !== null ? 'Update Color' : 'Color'}
 			formContext={context}
 			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}

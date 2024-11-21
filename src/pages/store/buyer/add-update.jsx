@@ -9,7 +9,7 @@ import { Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
 import GetDateTime from '@/util/GetDateTime';
-import { BUYER_NULL, BUYER_SCHEMA } from '@/util/Schema';
+import { LIBRARY_NULL, LIBRARY_SCHEMA } from '@/util/Schema';
 
 export default function Index({
 	modalId = '',
@@ -23,8 +23,8 @@ export default function Index({
 	const { invalidateQuery: invalidateBuyerLabel } = useOtherBuyerValueLabel();
 
 	const { register, handleSubmit, errors, reset, control, context } = useRHF(
-		BUYER_SCHEMA,
-		BUYER_NULL
+		LIBRARY_SCHEMA,
+		LIBRARY_NULL
 	);
 	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
 
@@ -33,7 +33,7 @@ export default function Index({
 			...prev,
 			uuid: null,
 		}));
-		reset(BUYER_NULL);
+		reset(LIBRARY_NULL);
 		window[modalId].close();
 	};
 

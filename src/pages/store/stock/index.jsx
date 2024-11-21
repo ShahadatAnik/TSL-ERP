@@ -85,9 +85,9 @@ export default function Index() {
 			<ReactTable
 				title={info.getTitle()}
 				isLoading={isLoading}
-				handelAdd={handelAdd}
+				// handelAdd={handelAdd}
 				handleReload={refetch}
-				accessor={haveAccess.includes('create')}
+				// accessor={haveAccess.includes('create')}
 				data={data}
 				columns={columns}
 			/>

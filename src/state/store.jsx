@@ -42,6 +42,61 @@ export const useStoreCategoryByUUID = (uuid) =>
 		url: `/public/category/${uuid}`,
 		//enabled: !!uuid,
 	});
+// * Color
+export const useStoreColor = () =>
+	createGlobalState({
+		queryKey: storeQK.color(),
+		url: `/public/category`,
+	});
+
+export const useStoreColorByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.colorByUUID(uuid),
+		url: `/public/category/${uuid}`,
+		//enabled: !!uuid,
+	});
+
+// * Unit
+export const useStoreUnit = () =>
+	createGlobalState({
+		queryKey: storeQK.unit(),
+		url: `/public/category`,
+	});
+
+export const useStoreUnitByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.unitByUUID(uuid),
+		url: `/public/category/${uuid}`,
+		//enabled: !!uuid,
+	});
+
+// * Size
+export const useStoreSize = () =>
+	createGlobalState({
+		queryKey: storeQK.size(),
+		url: `/public/category`,
+	});
+
+export const useStoreSizeByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.sizeByUUID(uuid),
+		url: `/public/category/${uuid}`,
+		//enabled: !!uuid,
+	});
+
+// * Material
+export const useStoreMaterial = () =>
+	createGlobalState({
+		queryKey: storeQK.material(),
+		url: `/public/category`,
+	});
+
+export const useStoreMaterialByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.materialByUUID(uuid),
+		url: `/public/category/${uuid}`,
+		//enabled: !!uuid,
+	});
 
 // * LC
 export const useStoreLC = () =>

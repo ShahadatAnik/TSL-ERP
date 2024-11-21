@@ -1,5 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { BuyerColumns, IssueLogColumns } from '@/pages/store/columns';
+import { IssueLogColumns } from '@/pages/store/columns';
 import { useStoreBuyer, useStoreIssue, useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 

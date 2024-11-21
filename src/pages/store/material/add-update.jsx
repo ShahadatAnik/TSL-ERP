@@ -1,7 +1,8 @@
+
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherCategoryValueLabel } from '@/state/other';
-import { useStoreCategory } from '@/state/store';
+import { useOtherMaterialValueLabel } from '@/state/other';
+import { useStoreMaterial } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -20,9 +21,9 @@ export default function Index({
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useStoreCategory();
-	const { invalidateQuery: invalidateCategoryValueLabel } =
-		useOtherCategoryValueLabel();
+	const { url, updateData, postData } = useStoreMaterial();
+	const { invalidateQuery: invalidateMaterialValueLabel } =
+		useOtherMaterialValueLabel();
 
 	const {
 		register,
@@ -46,7 +47,6 @@ export default function Index({
 	};
 
 	const onSubmit = async (data) => {
-		// Update item
 		if (update?.uuid !== null) {
 			const updatedData = {
 				...data,
@@ -59,11 +59,9 @@ export default function Index({
 				updatedData,
 				onClose,
 			});
-
 			return;
 		}
 
-		// Add Item
 		const updatedData = {
 			...data,
 			uuid: nanoid(),
@@ -76,13 +74,13 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
-		invalidateCategoryValueLabel();
+		invalidateMaterialValueLabel();
 	};
 
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update Category' : 'Category'}
+			title={update?.uuid !== null ? 'Update Material' : 'Material'}
 			formContext={context}
 			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}

@@ -42,6 +42,22 @@ export const storeQK = {
 	category: () => [...storeQK.all(), 'category'],
 	categoryByUUID: (uuid) => [...storeQK.category(), uuid],
 
+	//* Color
+	color: () => [...storeQK.all(), 'color'],
+	colorByUUID: (uuid) => [...storeQK.color(), uuid],
+
+	//* Unit
+	unit: () => [...storeQK.all(), 'unit'],
+	unitByUUID: (uuid) => [...storeQK.unit(), uuid],
+
+	//* Size
+	size: () => [...storeQK.all(), 'size'],
+	sizeByUUID: (uuid) => [...storeQK.size(), uuid],
+
+	//* Material
+	material: () => [...storeQK.all(), 'material'],
+	materialByUUID: (uuid) => [...storeQK.material(), uuid],
+
 	//* LC
 	lc: () => [...storeQK.all(), 'lc'],
 	lcByUUID: (uuid) => [...storeQK.lc(), uuid],
@@ -75,6 +91,12 @@ export const otherQK = {
 
 	//*Category Value Label
 	categoryValueLabel: () => [...otherQK.all(), 'category-value-label'],
+	//*Size Value Label
+	sizeValueLabel: () => [...otherQK.all(), 'size-value-label'],
+	//*Unit Value Label
+	unitValueLabel: () => [...otherQK.all(), 'unit-value-label'],
+	//*Color Value Label
+	colorValueLabel: () => [...otherQK.all(), 'color-value-label'],
 
 	//*Article Value Label
 	articleValueLabel: () => [...otherQK.all(), 'article-value-label'],
