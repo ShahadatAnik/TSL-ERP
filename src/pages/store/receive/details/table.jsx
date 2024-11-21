@@ -31,6 +31,18 @@ export default function Index({ receive_entry, convention_rate }) {
 				cell: (info) => info.getValue(),
 			},
 			{
+				accessorKey: 'color',
+				header: 'Color',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'size',
+				header: 'Size',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
 				accessorKey: 'quantity',
 				header: 'Quantity',
 				enableColumnFilter: false,
@@ -110,10 +122,12 @@ export default function Index({ receive_entry, convention_rate }) {
 			data={receive_entry}
 			columns={columns}>
 			<tr className='text-sm'>
-				<td colSpan='7' className='py-2 text-right'>
+				<td colSpan='9' className='py-2 text-right'>
 					Total:
 				</td>
-				<td className='pl-3 text-left font-semibold'>{totalValue}</td>
+				<td className='pl-3 text-left font-semibold'>
+					{totalValue.toLocaleString()}
+				</td>
 				<td className='pl-3 text-left font-semibold'>
 					{Number(totalValue * convention_rate).toLocaleString()}
 				</td>

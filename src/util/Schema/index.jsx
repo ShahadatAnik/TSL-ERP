@@ -198,23 +198,12 @@ export const MASTER_LC_NULL = {
 	payment_terms: 0,
 	remarks: null,
 };
-//* Store -> Category
-export const CATEGORY_SCHEMA = {
+//* Store -> Library
+export const LIBRARY_SCHEMA = {
 	name: NAME_REQUIRED,
 	remarks: STRING.nullable(),
 };
-export const CATEGORY_NULL = {
-	uuid: null,
-	name: '',
-	remarks: null,
-};
-
-//* Store -> Buyer
-export const BUYER_SCHEMA = {
-	name: NAME_REQUIRED,
-	remarks: STRING.nullable(),
-};
-export const BUYER_NULL = {
+export const LIBRARY_NULL = {
 	uuid: null,
 	name: '',
 	remarks: null,

@@ -2,7 +2,10 @@ import { useAuth } from '@/context/auth';
 import {
 	useOtherArticleValueLabel,
 	useOtherCategoryValueLabel,
+	useOtherColorValueLabel,
 	useOtherMaterialValueLabel,
+	useOtherSizeValueLabel,
+	useOtherUnitValueLabel,
 } from '@/state/other';
 import { useStoreStock } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
@@ -28,6 +31,10 @@ export default function Index({
 	const { data: article } = useOtherArticleValueLabel();
 	const { invalidateQuery: invalidateMaterialValueLabel } =
 		useOtherMaterialValueLabel();
+	const { data: color } = useOtherColorValueLabel();
+	const { data: size } = useOtherSizeValueLabel();
+	const { data: unit } = useOtherUnitValueLabel();
+	const { data: material } = useOtherMaterialValueLabel();
 
 	const {
 		register,
@@ -123,7 +130,10 @@ export default function Index({
 											getValues('article_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={update?.uuid !== null &&user.name!=='Super User'}
+									isDisabled={
+										update?.uuid !== null &&
+										user.name !== 'Super User'
+									}
 								/>
 							);
 						}}
@@ -147,17 +157,116 @@ export default function Index({
 											getValues('category_uuid')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={update?.uuid !== null&&user.name!=='Super User'}
+									isDisabled={
+										update?.uuid !== null &&
+										user.name !== 'Super User'
+									}
 								/>
 							);
 						}}
 					/>
 				</FormField>
 			</div>
+			<FormField label='material_uuid' title='Material' errors={errors}>
+				<Controller
+					name={'material_uuid'}
+					control={control}
+					render={({ field: { onChange } }) => {
+						return (
+							<ReactSelect
+								placeholder='Select Material'
+								options={material}
+								value={material?.filter(
+									(item) =>
+										item.value ===
+										getValues('material_uuid')
+								)}
+								onChange={(e) => onChange(e.value)}
+								isDisabled={
+									update?.uuid !== null &&
+									user.name !== 'Super User'
+								}
+							/>
+						);
+					}}
+				/>
+			</FormField>
 			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
-				<Input label='name' {...{ register, errors }} />
-				<Input label='color' {...{ register, errors }} />
-				<FormField label='unit' title='Unit' errors={errors}>
+				<FormField label='color_uuid' title='Color' errors={errors}>
+					<Controller
+						name={'color_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Color'
+									options={color}
+									value={color?.filter(
+										(item) =>
+											item.value ===
+											getValues('color_uuid')
+									)}
+									onChange={(e) => onChange(e.value)}
+									isDisabled={
+										update?.uuid !== null &&
+										user.name !== 'Super User'
+									}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+
+				<FormField label='size_uuid' title='Size' errors={errors}>
+					<Controller
+						name={'size_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Size'
+									options={size}
+									value={size?.filter(
+										(item) =>
+											item.value ===
+											getValues('size_uuid')
+									)}
+									onChange={(e) => onChange(e.value)}
+									isDisabled={
+										update?.uuid !== null &&
+										user.name !== 'Super User'
+									}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+
+				<FormField label='unit_uuid' title='Unit' errors={errors}>
+					<Controller
+						name={'unit_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Unit'
+									options={unit}
+									value={unit?.filter(
+										(item) =>
+											item.value ===
+											getValues('unit_uuid')
+									)}
+									onChange={(e) => onChange(e.value)}
+									isDisabled={
+										update?.uuid !== null &&
+										user.name !== 'Super User'
+									}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+				{/* <FormField label='unit' title='Unit' errors={errors}>
 					<Controller
 						name={'unit'}
 						control={control}
@@ -171,12 +280,15 @@ export default function Index({
 											item.value === getValues('unit')
 									)}
 									onChange={(e) => onChange(e.value)}
-									isDisabled={update?.uuid !== null&&user.name!=='Super User'}
+									isDisabled={
+										update?.uuid !== null &&
+										user.name !== 'Super User'
+									}
 								/>
 							);
 						}}
 					/>
-				</FormField>
+				</FormField> */}
 			</div>
 			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<Textarea label='remarks' rows={2} {...{ register, errors }} />

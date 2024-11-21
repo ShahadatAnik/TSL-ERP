@@ -32,6 +32,26 @@ export const useOtherArticleValueLabel = () =>
 		queryKey: otherQK.articleValueLabel(),
 		url: '/other/article/value/label',
 	});
+//* GET SIZE VALUE LABEL
+export const useOtherSizeValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.sizeValueLabel(),
+		url: '/other/size/value/label',
+	});
+
+//* GET UNIT VALUE LABEL
+export const useOtherUnitValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.unitValueLabel(),
+		url: '/other/unit/value/label',
+	});
+
+//* GET COLOR VALUE LABEL
+export const useOtherColorValueLabel = () =>
+	createGlobalState({
+		queryKey: otherQK.colorValueLabel(),
+		url: '/other/color/value/label',
+	});
 //* GET VENDOR VALUE LABEL
 export const useOtherVendorValueLabel = () =>
 	createGlobalState({

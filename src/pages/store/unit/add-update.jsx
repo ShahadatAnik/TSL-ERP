@@ -1,7 +1,7 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
-import { useOtherCategoryValueLabel } from '@/state/other';
-import { useStoreCategory } from '@/state/store';
+import { useOtherUnitValueLabel } from '@/state/other';
+import { useStoreUnit } from '@/state/store';
 import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -20,9 +20,9 @@ export default function Index({
 	setUpdate,
 }) {
 	const { user } = useAuth();
-	const { url, updateData, postData } = useStoreCategory();
-	const { invalidateQuery: invalidateCategoryValueLabel } =
-		useOtherCategoryValueLabel();
+	const { url, updateData, postData } = useStoreUnit();
+	const { invalidateQuery: invalidateUnitValueLabel } =
+		useOtherUnitValueLabel();
 
 	const {
 		register,
@@ -46,7 +46,6 @@ export default function Index({
 	};
 
 	const onSubmit = async (data) => {
-		// Update item
 		if (update?.uuid !== null) {
 			const updatedData = {
 				...data,
@@ -59,11 +58,9 @@ export default function Index({
 				updatedData,
 				onClose,
 			});
-
 			return;
 		}
 
-		// Add Item
 		const updatedData = {
 			...data,
 			uuid: nanoid(),
@@ -76,13 +73,13 @@ export default function Index({
 			newData: updatedData,
 			onClose,
 		});
-		invalidateCategoryValueLabel();
+		invalidateUnitValueLabel();
 	};
 
 	return (
 		<AddModal
 			id={modalId}
-			title={update?.uuid !== null ? 'Update Category' : 'Category'}
+			title={update?.uuid !== null ? 'Update Unit' : 'Unit'}
 			formContext={context}
 			isSmall={true}
 			onSubmit={handleSubmit(onSubmit)}

@@ -1,13 +1,16 @@
 import Article from '@/pages/store/article';
 import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
+import Color from '@/pages/store/color';
 import Log from '@/pages/store/log';
 import Receive from '@/pages/store/receive';
 import ReceiveInd from '@/pages/store/receive/details';
 import ReceiveEntry from '@/pages/store/receive/entry';
 import ReportMaterial from '@/pages/store/report/material';
 import ReportVendor from '@/pages/store/report/vendor';
+import Size from '@/pages/store/size';
 import Stock from '@/pages/store/stock';
+import Unit from '@/pages/store/unit';
 import Vendor from '@/pages/store/vendor';
 
 export const StoreRoutes = [
@@ -76,6 +79,27 @@ export const StoreRoutes = [
 				path: '/store/buyer',
 				element: <Buyer />,
 				page_name: 'store__buyer',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Size',
+				path: '/store/size',
+				element: <Size />,
+				page_name: 'store__size',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Unit',
+				path: '/store/unit',
+				element: <Unit />,
+				page_name: 'store__unit',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Color',
+				path: '/store/color',
+				element: <Color />,
+				page_name: 'store__color',
 				actions: ['create', 'read', 'update', 'delete'],
 			},
 			{

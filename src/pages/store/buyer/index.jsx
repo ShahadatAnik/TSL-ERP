@@ -7,7 +7,7 @@ import ReactTable from '@/components/Table';
 
 import PageInfo from '@/util/PageInfo';
 
-import { BuyerColumns } from '../columns';
+import { LibraryCommonColumns } from '../columns';
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
@@ -54,7 +54,7 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
-	const columns = BuyerColumns({
+	const columns = LibraryCommonColumns({
 		handelUpdate,
 		handelDelete,
 		haveAccess,

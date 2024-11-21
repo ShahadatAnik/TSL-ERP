@@ -4,7 +4,7 @@ import { DateTime, EditDelete, LinkOnly, Transfer } from '@/ui';
 
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
 
-export const BuyerColumns = ({
+export const LibraryCommonColumns = ({
 	handelUpdate,
 	handelDelete,
 	haveAccess,
@@ -88,28 +88,6 @@ export const VendorColumns = ({
 		[data]
 	);
 };
-
-export const CategoryColumns = ({
-	handelUpdate,
-	handelDelete,
-	haveAccess,
-	data,
-}) => {
-	return useMemo(
-		() => [
-			{
-				accessorKey: 'name',
-				header: 'Name',
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-
-			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
-		],
-		[data]
-	);
-};
-
 export const StockColumns = ({
 	handelUpdate,
 	handelDelete,
@@ -150,14 +128,20 @@ export const StockColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'unit',
-				header: 'Unit',
+				accessorKey: 'size',
+				header: 'Size',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => (info.getValue() ? info.getValue() : '-'),
 			},
 			{
 				accessorKey: 'quantity',
 				header: 'QTY',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'unit',
+				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
@@ -317,6 +301,7 @@ export const ReceiveLogColumns = ({
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
+
 			{
 				accessorKey: 'buyer_name',
 				header: 'Buyer',
@@ -326,6 +311,18 @@ export const ReceiveLogColumns = ({
 			{
 				accessorKey: 'category_name',
 				header: 'Category',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'color',
+				header: 'Color',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'size',
+				header: 'Size',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},

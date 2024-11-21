@@ -1,5 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
-import { useStoreCategory } from '@/state/store';
+import { useStoreMaterial } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -13,21 +13,18 @@ const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
-	const { data, isLoading, url, deleteData, refetch } = useStoreCategory();
-	const info = new PageInfo('Store/Category', url, 'store__category');
-	const haveAccess = useAccess('store__category');
+	const { data, isLoading, url, deleteData, refetch } = useStoreMaterial();
+	const info = new PageInfo('Store/Material', url, 'store__material');
+	const haveAccess = useAccess('store__material');
 
-	//* Fetching data from server
 	useEffect(() => {
 		document.title = info.getTabName();
 	}, []);
 
-	//* Add
 	const handelAdd = () => {
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
 
-	//* Update
 	const [update, setUpdate] = useState({
 		uuid: null,
 	});
@@ -40,20 +37,20 @@ export default function Index() {
 		window[info.getAddOrUpdateModalId()].showModal();
 	};
 
-	//* Delete
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
 		itemName: null,
 	});
+
 	const handelDelete = (idx) => {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
 			itemName: data[idx].name.replace(/#/g, '').replace(/\//g, '-'),
 		}));
-
 		window[info.getDeleteModalId()].showModal();
 	};
+
 	const columns = LibraryCommonColumns({
 		handelUpdate,
 		handelDelete,
