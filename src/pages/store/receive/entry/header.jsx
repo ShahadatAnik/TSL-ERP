@@ -98,7 +98,9 @@ export default function Header({
 										// vendorSelected
 										// 	? null
 										// 	:
-										lc?.filter((item) => item.value === value)
+										lc?.filter(
+											(item) => item.value === value
+										)
 									}
 									onChange={(e) => {
 										onChange(e.value);
@@ -116,7 +118,7 @@ export default function Header({
 						label='commercial_invoice_number'
 						{...{ register, errors }}
 					/>
-					<JoinInput
+					<Input
 						label='commercial_invoice_value'
 						{...{ register, errors }}
 					/>
