@@ -107,7 +107,7 @@ export default function Index({
 								<ReactSelect
 									placeholder='Select Master LC'
 									options={master_lc}
-									value={master_lc?.find(
+									value={master_lc?.filter(
 										(item) => item.value === value
 									)}
 									onChange={(e) => {
