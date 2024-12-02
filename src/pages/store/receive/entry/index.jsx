@@ -10,6 +10,7 @@ import {
 import {
 	useStoreReceive,
 	useStoreReceiveEntry,
+	useStoreReceiveEntryByDetails,
 	useStoreStock,
 } from '@/state/store';
 import { useAuth } from '@context/auth';
@@ -40,7 +41,8 @@ export default function Index() {
 	const { user } = useAuth();
 	const navigate = useNavigate();
 	const { receive_entry_description_uuid } = useParams();
-
+	const { data, invalidateQuery: invalidateEntryByDetails } =
+		useStoreReceiveEntryByDetails(receive_entry_description_uuid);
 	const { url: receive_entryEntryUrl, invalidateQuery: invalidateEntry } =
 		useStoreReceiveEntry();
 	const {
@@ -79,12 +81,12 @@ export default function Index() {
 	} = useRHF(RECEIVE_SCHEMA, RECEIVE_NULL);
 
 	const isUpdate = receive_entry_description_uuid !== undefined;
-	isUpdate &&
-		useFetchForRhfReset(
-			`/store/receive-entry-details/by/${receive_entry_description_uuid}`,
-			receive_entry_description_uuid,
-			reset
-		);
+	// isUpdate &&
+	// 	useFetchForRhfReset(
+	// 		`/store/receive-entry-details/by/${receive_entry_description_uuid}`,
+	// 		receive_entry_description_uuid,
+	// 		reset
+	// 	);
 
 	// receive_entry
 	const {
@@ -95,7 +97,11 @@ export default function Index() {
 		control,
 		name: 'receive_entry',
 	});
-
+	useEffect(() => {
+		if (data !== undefined && isUpdate) {
+			reset(data);
+		}
+	}, [data, isUpdate]);
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
 		itemName: null,
@@ -109,13 +115,16 @@ export default function Index() {
 			});
 			window['receive_entry_delete'].showModal();
 		}
-
-		receiveEntryRemove(index);
 	};
 
 	const handelReceiveEntryAppend = () => {
 		receiveEntryAppend({
 			material_uuid: '',
+			article_uuid: '',
+			category_uuid: '',
+			color_uuid: '',
+			size_uuid: '',
+			unit_uuid: '',
 			quantity: '',
 			price: '',
 			remarks: '',
@@ -134,9 +143,10 @@ export default function Index() {
 		if (isUpdate) {
 			const receive_entry_description_data = {
 				...data,
+				receive_uuid: receive_entry_description_uuid,
 				updated_at: GetDateTime(),
 			};
-
+			delete receive_entry_description_data['receive_entry'];
 			const receive_entry_description_promise =
 				await updateData.mutateAsync({
 					url: `${receive_entryDescriptionUrl}/${data?.uuid}`,
@@ -326,14 +336,18 @@ export default function Index() {
 							))}>
 							{receiveEntry.map((item, index) => (
 								<tr key={item.id}>
-									<td className={`${rowClass}`}>
+									{/* Material Name */}
+									<td className={`w-48`}>
 										<FormField
-											label={`receive_entry[${index}].material_uuid`}
+											label={`receive_entry[${index}].name_uuid`}
 											title='Material'
 											is_title_needed='false'
-											errors={errors}>
+											dynamicerror={
+												errors?.receive_entry?.[index]
+													.name_uuid
+											}>
 											<Controller
-												name={`receive_entry[${index}].material_uuid`}
+												name={`receive_entry[${index}].name_uuid`}
 												control={control}
 												render={({
 													field: { onChange },
@@ -341,21 +355,12 @@ export default function Index() {
 													return (
 														<ReactSelect
 															placeholder='Select Material'
-															options={material?.filter(
-																(inItem) =>
-																	!excludeItem.some(
-																		(
-																			excluded
-																		) =>
-																			excluded?.value ===
-																			inItem?.value
-																	)
-															)}
-															value={material?.find(
+															options={material}
+															value={material?.filter(
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
-																		`receive_entry[${index}].material_uuid`
+																		`receive_entry[${index}].name_uuid`
 																	)
 															)}
 															onChange={(e) => {
@@ -373,12 +378,15 @@ export default function Index() {
 										</FormField>
 									</td>
 									{/* Article */}
-									<td className={`${rowClass}`}>
+									<td className={`w-48`}>
 										<FormField
 											label={`receive_entry[${index}].article_uuid`}
 											title='Article'
 											is_title_needed='false'
-											errors={errors}>
+											dynamicerror={
+												errors?.receive_entry?.[index]
+													.article_uuid
+											}>
 											<Controller
 												name={`receive_entry[${index}].article_uuid`}
 												control={control}
@@ -388,17 +396,8 @@ export default function Index() {
 													return (
 														<ReactSelect
 															placeholder='Select Article'
-															options={article?.filter(
-																(inItem) =>
-																	!excludeItem.some(
-																		(
-																			excluded
-																		) =>
-																			excluded?.value ===
-																			inItem?.value
-																	)
-															)}
-															value={article?.find(
+															options={article}
+															value={article?.filter(
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
@@ -421,12 +420,15 @@ export default function Index() {
 									</td>
 
 									{/* Category */}
-									<td className={`${rowClass}`}>
+									<td className={`w-48`}>
 										<FormField
 											label={`receive_entry[${index}].category_uuid`}
 											title='Category'
 											is_title_needed='false'
-											errors={errors}>
+											dynamicerror={
+												errors?.receive_entry?.[index]
+													.category_uuid
+											}>
 											<Controller
 												name={`receive_entry[${index}].category_uuid`}
 												control={control}
@@ -436,17 +438,8 @@ export default function Index() {
 													return (
 														<ReactSelect
 															placeholder='Select Category'
-															options={category?.filter(
-																(inItem) =>
-																	!excludeItem.some(
-																		(
-																			excluded
-																		) =>
-																			excluded?.value ===
-																			inItem?.value
-																	)
-															)}
-															value={category?.find(
+															options={category}
+															value={category?.filter(
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
@@ -469,12 +462,15 @@ export default function Index() {
 									</td>
 
 									{/* Color */}
-									<td className={`${rowClass}`}>
+									<td className={`w-48`}>
 										<FormField
 											label={`receive_entry[${index}].color_uuid`}
 											title='Color'
 											is_title_needed='false'
-											errors={errors}>
+											dynamicerror={
+												errors?.receive_entry?.[index]
+													.color_uuid
+											}>
 											<Controller
 												name={`receive_entry[${index}].color_uuid`}
 												control={control}
@@ -484,17 +480,8 @@ export default function Index() {
 													return (
 														<ReactSelect
 															placeholder='Select Color'
-															options={color?.filter(
-																(inItem) =>
-																	!excludeItem.some(
-																		(
-																			excluded
-																		) =>
-																			excluded?.value ===
-																			inItem?.value
-																	)
-															)}
-															value={color?.find(
+															options={color}
+															value={color?.filter(
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
@@ -517,12 +504,15 @@ export default function Index() {
 									</td>
 
 									{/* Size */}
-									<td className={`${rowClass}`}>
+									<td className={`w-48`}>
 										<FormField
 											label={`receive_entry[${index}].size_uuid`}
 											title='Size'
 											is_title_needed='false'
-											errors={errors}>
+											dynamicerror={
+												errors?.receive_entry?.[index]
+													.size_uuid
+											}>
 											<Controller
 												name={`receive_entry[${index}].size_uuid`}
 												control={control}
@@ -532,17 +522,8 @@ export default function Index() {
 													return (
 														<ReactSelect
 															placeholder='Select Size'
-															options={size?.filter(
-																(inItem) =>
-																	!excludeItem.some(
-																		(
-																			excluded
-																		) =>
-																			excluded?.value ===
-																			inItem?.value
-																	)
-															)}
-															value={size?.find(
+															options={size}
+															value={size?.filter(
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
@@ -563,7 +544,7 @@ export default function Index() {
 											/>
 										</FormField>
 									</td>
-									<td className={`w-48 ${rowClass}`}>
+									<td className={`w-48`}>
 										<Input
 											title='quantity'
 											label={`receive_entry[${index}].quantity`}
@@ -575,11 +556,15 @@ export default function Index() {
 											register={register}
 										/>
 									</td>
-									<td className={`${rowClass}`}>
+									<td className={`w-48`}>
 										<FormField
 											label={`receive_entry[${index}].unit_uuid`}
 											title='Unit'
 											is_title_needed='false'
+											dynamicerror={
+												errors?.receive_entry?.[index]
+													.unit_uuid
+											}
 											errors={errors}>
 											<Controller
 												name={`receive_entry[${index}].unit_uuid`}
@@ -590,17 +575,8 @@ export default function Index() {
 													return (
 														<ReactSelect
 															placeholder='Select Unit'
-															options={unit?.filter(
-																(inItem) =>
-																	!excludeItem.some(
-																		(
-																			excluded
-																		) =>
-																			excluded?.value ===
-																			inItem?.value
-																	)
-															)}
-															value={unit?.find(
+															options={unit}
+															value={unit?.filter(
 																(inItem) =>
 																	inItem.value ==
 																	getValues(
@@ -621,7 +597,7 @@ export default function Index() {
 											/>
 										</FormField>
 									</td>
-									<td className={`w-48 ${rowClass}`}>
+									<td className={`w-48`}>
 										<Input
 											title='price'
 											label={`receive_entry[${index}].price`}
@@ -633,13 +609,13 @@ export default function Index() {
 											register={register}
 										/>
 									</td>
-									<td className={`w-48 ${rowClass}`}>
+									<td className={`w-48`}>
 										{`${(watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`)).toLocaleString()}`}
 									</td>
-									<td className={`w-48 ${rowClass}`}>
+									<td className={`w-48`}>
 										{`${(watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`) * watch('convention_rate')).toLocaleString()}`}
 									</td>
-									<td className={`w-48 ${rowClass}`}>
+									<td className={`w-48`}>
 										<Textarea
 											title='remarks'
 											label={`receive_entry[${index}].remarks`}
@@ -651,7 +627,7 @@ export default function Index() {
 											register={register}
 										/>
 									</td>
-									<td className={`w-12 ${rowClass} pl-0`}>
+									<td className={`w-12 pl-0`}>
 										<RemoveButton
 											className={'justify-center'}
 											onClick={() =>
@@ -702,6 +678,10 @@ export default function Index() {
 					setItems={receiveEntry}
 					url={receive_entryEntryUrl}
 					deleteData={deleteData}
+					invalidateQueryArray={[
+						invalidateEntryByDetails,
+						invalidateStock,
+					]}
 				/>
 			</Suspense>
 			<DevTool control={control} placement='top-left' />

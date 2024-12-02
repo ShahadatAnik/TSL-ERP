@@ -3,6 +3,7 @@ import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
 import Color from '@/pages/store/color';
 import Log from '@/pages/store/log';
+import Material from '@/pages/store/material';
 import Receive from '@/pages/store/receive';
 import ReceiveInd from '@/pages/store/receive/details';
 import ReceiveEntry from '@/pages/store/receive/entry';
@@ -30,7 +31,7 @@ export const StoreRoutes = [
 				path: '/store/receive',
 				element: <Receive />,
 				page_name: 'store__receive',
-				actions: ['create', 'read', 'update'],
+				actions: ['create', 'read', 'update', 'delete'],
 				disableCollapse: true,
 				children: [
 					{
@@ -39,7 +40,7 @@ export const StoreRoutes = [
 						element: <ReceiveInd />,
 						hidden: true,
 						page_name: 'store__receive_by_uuid',
-						actions: ['create', 'read', 'update'],
+						actions: ['read'],
 					},
 					{
 						name: 'Entry',
@@ -47,7 +48,7 @@ export const StoreRoutes = [
 						element: <ReceiveEntry />,
 						hidden: true,
 						page_name: 'store__receive_entry',
-						actions: ['create', 'read', 'update'],
+						actions: ['create', 'read', 'update', 'delete'],
 					},
 					{
 						name: 'Entry',
@@ -55,7 +56,7 @@ export const StoreRoutes = [
 						element: <ReceiveEntry />,
 						hidden: true,
 						page_name: 'store__receive_update',
-						actions: ['create', 'read', 'update'],
+						actions: ['create', 'read', 'update', 'delete'],
 					},
 				],
 			},
@@ -79,6 +80,13 @@ export const StoreRoutes = [
 				path: '/store/buyer',
 				element: <Buyer />,
 				page_name: 'store__buyer',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Material',
+				path: '/store/material',
+				element: <Material />,
+				page_name: 'store__material',
 				actions: ['create', 'read', 'update', 'delete'],
 			},
 			{

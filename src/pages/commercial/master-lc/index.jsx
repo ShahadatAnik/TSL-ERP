@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
+import { useOtherMasterLcValueLabel } from '@/state/other';
 import { useStoreMasterLC } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -14,6 +15,8 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreMasterLC();
+	const { invalidateQuery: invalidateMasterLcValueLabel } =
+		useOtherMasterLcValueLabel();
 	const info = new PageInfo(
 		'Commercial/Master LC',
 		url,
@@ -87,6 +90,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateMasterLcValueLabel}
 					{...{
 						deleteItem,
 						setDeleteItem,

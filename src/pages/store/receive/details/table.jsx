@@ -31,13 +31,13 @@ export default function Index({ receive_entry, convention_rate }) {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'color',
+				accessorKey: 'color_name',
 				header: 'Color',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'size',
+				accessorKey: 'size_name',
 				header: 'Size',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -49,7 +49,7 @@ export default function Index({ receive_entry, convention_rate }) {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'material_unit',
+				accessorKey: 'unit_name',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),

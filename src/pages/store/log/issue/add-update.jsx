@@ -16,7 +16,7 @@ export default function Index({
 	update = {
 		uuid: null,
 		quantity: null,
-		quantity: null,
+		stock_quantity: null,
 		material_name: null,
 	},
 	setUpdate,
@@ -27,7 +27,7 @@ export default function Index({
 	const schema = {
 		...ISSUE_SCHEMA,
 		quantity: ISSUE_SCHEMA.quantity.max(
-			Number(update?.quantity) + Number(update?.quantity),
+			Number(update?.stock_quantity) + Number(update?.quantity),
 			`Quantity cannot be greater than ${update?.quantity}`
 		),
 	};
@@ -61,6 +61,7 @@ export default function Index({
 		if (update?.uuid !== null && update?.uuid !== undefined) {
 			const updatedData = {
 				...data,
+				uuid: update?.uuid,
 				updated_at: GetDateTime(),
 			};
 
@@ -86,7 +87,7 @@ export default function Index({
 			onClose={onClose}>
 			<Input
 				label='quantity'
-				sub_label={`Max: ${Number(update?.quantity) + Number(update?.quantity)}`}
+				sub_label={`Max: ${Number(update?.stock_quantity) + Number(update?.quantity)}`}
 				{...{ register, errors }}
 			/>
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />

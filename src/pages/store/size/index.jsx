@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
+import { useOtherSizeValueLabel } from '@/state/other';
 import { useStoreSize } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -14,6 +15,9 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreSize();
+	const { invalidateQuery: invalidateSizeValueLabel } =
+		useOtherSizeValueLabel();
+
 	const info = new PageInfo('Store/Size', url, 'store__size');
 	const haveAccess = useAccess('store__size');
 
@@ -81,6 +85,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateSizeValueLabel}
 					{...{
 						deleteItem,
 						setDeleteItem,

@@ -21,6 +21,7 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreColor();
+	
 	const { invalidateQuery: invalidateColorValueLabel } =
 		useOtherColorValueLabel();
 

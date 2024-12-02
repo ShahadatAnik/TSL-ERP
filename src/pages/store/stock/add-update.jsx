@@ -91,21 +91,21 @@ export default function Index({
 		});
 		invalidateMaterialValueLabel();
 	};
-	const selectUnit = [
-		{ label: 'KG', value: 'kg' },
-		{ label: 'Box', value: 'box' },
-		{ label: 'Cone', value: 'cone' },
-		{ label: 'Meter', value: 'mtr' },
-		{ label: 'Pair', value: 'pair' },
-		{ label: 'Pak', value: 'pak' },
-		{ label: 'Pcs', value: 'pcs' },
-		{ label: 'Roll', value: 'roll' },
-		{ label: 'S.Fit', value: 's_fit' },
-		{ label: 'S.Mtr', value: 's_mtr' },
-		{ label: 'Set', value: 'set' },
-		{ label: 'Sheet', value: 'sheet' },
-		{ label: 'Yard', value: 'yard' },
-	];
+	// const selectUnit = [
+	// 	{ label: 'KG', value: 'kg' },
+	// 	{ label: 'Box', value: 'box' },
+	// 	{ label: 'Cone', value: 'cone' },
+	// 	{ label: 'Meter', value: 'mtr' },
+	// 	{ label: 'Pair', value: 'pair' },
+	// 	{ label: 'Pak', value: 'pak' },
+	// 	{ label: 'Pcs', value: 'pcs' },
+	// 	{ label: 'Roll', value: 'roll' },
+	// 	{ label: 'S.Fit', value: 's_fit' },
+	// 	{ label: 'S.Mtr', value: 's_mtr' },
+	// 	{ label: 'Set', value: 'set' },
+	// 	{ label: 'Sheet', value: 'sheet' },
+	// 	{ label: 'Yard', value: 'yard' },
+	// ];
 
 	return (
 		<AddModal
@@ -114,7 +114,7 @@ export default function Index({
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}>
-			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
+			{/* <div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<FormField label='article_uuid' title='Article' errors={errors}>
 					<Controller
 						name={'article_uuid'}
@@ -167,9 +167,9 @@ export default function Index({
 					/>
 				</FormField>
 			</div>
-			<FormField label='material_uuid' title='Material' errors={errors}>
+			<FormField label='name_uuid' title='Material' errors={errors}>
 				<Controller
-					name={'material_uuid'}
+					name={'name_uuid'}
 					control={control}
 					render={({ field: { onChange } }) => {
 						return (
@@ -178,8 +178,7 @@ export default function Index({
 								options={material}
 								value={material?.filter(
 									(item) =>
-										item.value ===
-										getValues('material_uuid')
+										item.value === getValues('name_uuid')
 								)}
 								onChange={(e) => onChange(e.value)}
 								isDisabled={
@@ -265,7 +264,7 @@ export default function Index({
 							);
 						}}
 					/>
-				</FormField>
+				</FormField> */}
 				{/* <FormField label='unit' title='Unit' errors={errors}>
 					<Controller
 						name={'unit'}
@@ -289,7 +288,7 @@ export default function Index({
 						}}
 					/>
 				</FormField> */}
-			</div>
+			{/* </div> */}
 			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
 				<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			</div>

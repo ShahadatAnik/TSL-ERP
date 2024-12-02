@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
+import { useOtherVendorValueLabel } from '@/state/other';
 import { useStoreVendor } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -14,6 +15,8 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreVendor();
+	const { invalidateQuery: invalidateVendorValueLabel } =
+		useOtherVendorValueLabel();
 	const info = new PageInfo('Store/Vendor', url, 'store__vendor');
 	const haveAccess = useAccess('store__vendor');
 
@@ -83,6 +86,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateVendorValueLabel}
 					{...{
 						deleteItem,
 						setDeleteItem,

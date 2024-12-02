@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
+import { useOtherColorValueLabel } from '@/state/other';
 import { useStoreColor } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -14,6 +15,8 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreColor();
+	const { invalidateQuery: invalidateColorValueLabel } =
+		useOtherColorValueLabel();
 	const info = new PageInfo('Store/Color', url, 'store__color');
 	const haveAccess = useAccess('store__color');
 
@@ -84,6 +87,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateColorValueLabel}
 					{...{
 						deleteItem,
 						setDeleteItem,

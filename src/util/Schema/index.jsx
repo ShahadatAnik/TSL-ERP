@@ -1,3 +1,4 @@
+import { color } from 'framer-motion';
 import * as yup from 'yup';
 
 import {
@@ -213,17 +214,20 @@ export const LIBRARY_NULL = {
 export const STOCK_SCHEMA = {
 	article_uuid: STRING_REQUIRED,
 	category_uuid: STRING_REQUIRED,
-	name: STRING_REQUIRED,
-	color: STRING.nullable(),
-	unit: STRING_REQUIRED,
+	name_uuid: STRING_REQUIRED,
+	color_uuid: STRING.nullable(),
+	unit_uuid: STRING_REQUIRED,
+	size_uuid: STRING_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const STOCK_NULL = {
 	uuid: null,
 	article_uuid: null,
 	category_uuid: null,
-	name: '',
-	color: '',
+	name_uuid: '',
+	color_uuid: '',
+	unit_uuid: '',
+	size_uuid: '',
 	quantity: 0.0,
 	remarks: null,
 };
@@ -249,7 +253,12 @@ export const RECEIVE_SCHEMA = {
 
 	receive_entry: yup.array().of(
 		yup.object().shape({
-			material_uuid: STRING_REQUIRED,
+			name_uuid: STRING_REQUIRED,
+			article_uuid: STRING_REQUIRED,
+			category_uuid: STRING_REQUIRED,
+			color_uuid: STRING_REQUIRED,
+			size_uuid: STRING_REQUIRED,
+			unit_uuid: STRING_REQUIRED,
 			quantity: NUMBER_REQUIRED,
 			price: NUMBER_DOUBLE_REQUIRED,
 			remarks: STRING.nullable(),
@@ -268,6 +277,11 @@ export const RECEIVE_NULL = {
 	receive_entry: [
 		{
 			material_uuid: null,
+			article_uuid: null,
+			category_uuid: null,
+			color_uuid: null,
+			size_uuid: null,
+			unit_uuid: null,
 			quantity: null,
 			price: 0.0,
 			remarks: null,

@@ -1,7 +1,7 @@
 import createGlobalState from '.';
 import { otherQK } from './query-keys';
 
-// GET OTHER HR USERS
+//* GET OTHER HR USERS
 export const useOtherHRUser = () =>
 	createGlobalState({
 		queryKey: otherQK.hrUser(),
@@ -62,7 +62,7 @@ export const useOtherVendorValueLabel = () =>
 export const useOtherMaterialValueLabel = () =>
 	createGlobalState({
 		queryKey: otherQK.materialValueLabel(),
-		url: '/other/material/value/label',
+		url: '/other/material-name/value/label',
 	});
 //* GET LC VALUE LABEL
 export const useOtherLcValueLabel = () =>

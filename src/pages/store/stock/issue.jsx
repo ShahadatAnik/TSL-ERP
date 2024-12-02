@@ -73,11 +73,7 @@ export default function Index({
 				title='quantity'
 				label={`quantity`}
 				sub_label={`Max: ${updateIssue?.quantity}`}
-				unit={
-					material?.find(
-						(inItem) => inItem.value == updateIssue?.uuid
-					)?.unit
-				}
+				unit={updateIssue?.unit}
 				{...{ register, errors }}
 			/>
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />

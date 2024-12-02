@@ -98,7 +98,7 @@ export const StockColumns = ({
 	return useMemo(
 		() => [
 			{
-				accessorKey: 'name',
+				accessorKey: 'material_name',
 				header: 'Name',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -122,13 +122,13 @@ export const StockColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'color',
+				accessorKey: 'color_name',
 				header: 'Color',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'size',
+				accessorKey: 'size_name',
 				header: 'Size',
 				enableColumnFilter: false,
 				cell: (info) => (info.getValue() ? info.getValue() : '-'),
@@ -140,7 +140,7 @@ export const StockColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'unit',
+				accessorKey: 'unit_name',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -156,7 +156,32 @@ export const StockColumns = ({
 					<Transfer onClick={() => handleIssue(info.row.index)} />
 				),
 			},
-			...DEFAULT_COLUMNS({ handelUpdate, handelDelete, haveAccess }),
+			{
+				accessorKey: 'remarks',
+				header: 'Remarks',
+				enableColumnFilter: false,
+				width: 'w-32',
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'actions',
+				header: 'Actions',
+				enableColumnFilter: false,
+				enableSorting: false,
+				hidden:
+					!haveAccess?.includes('update') &&
+					!haveAccess?.includes('delete'),
+				width: 'w-24',
+				cell: (info) => (
+					<EditDelete
+						idx={info.row.index}
+						handelUpdate={handelUpdate}
+						handelDelete={handelDelete}
+						showUpdate={haveAccess?.includes('update')}
+						showDelete={haveAccess?.includes('delete')}
+					/>
+				),
+			},
 		],
 		[data]
 	);
@@ -203,7 +228,7 @@ export const IssueLogColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'material_unit',
+				accessorKey: 'unit_name',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -272,12 +297,12 @@ export const ReceiveLogColumns = ({
 				header: 'ID',
 				enableColumnFilter: false,
 				cell: (info) => {
-					const { receive_uuid } = info.row.original;
+					const { receive_uuid } = info?.row?.original;
 					return (
 						<LinkOnly
 							uri='/store/receive'
 							id={receive_uuid}
-							title={info.getValue()}
+							title={info?.getValue()}
 						/>
 					);
 				},
@@ -315,13 +340,13 @@ export const ReceiveLogColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'color',
+				accessorKey: 'color_name',
 				header: 'Color',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'size',
+				accessorKey: 'size_name',
 				header: 'Size',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -333,7 +358,7 @@ export const ReceiveLogColumns = ({
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'material_unit',
+				accessorKey: 'unit_name',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -342,12 +367,13 @@ export const ReceiveLogColumns = ({
 				accessorKey: 'price',
 				header: 'Unit Price',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => info.getValue().toLocaleString(),
 			},
 
 			{
 				id: 'total_price_usd',
-				accessorFn: (row) => row.price * row.quantity,
+				accessorFn: (row) =>
+					(row.price * row.quantity).toLocaleString(),
 				header: (
 					<>
 						Total Price <br /> (USD)
@@ -359,7 +385,11 @@ export const ReceiveLogColumns = ({
 			{
 				id: 'total_price_bdt',
 				accessorFn: (row) =>
-					row.price * row.quantity * row.convention_rate,
+					(
+						row.price *
+						row.quantity *
+						row.convention_rate
+					).toLocaleString(),
 				header: (
 					<>
 						Total Price <br /> (BDT)
@@ -422,7 +452,134 @@ export const ReceiveLogColumns = ({
 		[data]
 	);
 };
+export const ReceiveColumns = ({
+	handelUpdate,
+	handelDelete,
+	haveAccess,
+	data,
+}) => {
+	console.log(haveAccess);
+	return useMemo(
+		() => [
+			{
+				accessorKey: 'receive_id',
+				header: 'ID',
+				enableColumnFilter: false,
+				cell: (info) => {
+					const { uuid } = info.row.original;
+					return (
+						<LinkOnly
+							uri='/store/receive'
+							id={uuid}
+							title={info.getValue()}
+						/>
+					);
+				},
+			},
+			{
+				accessorKey: 'vendor_name',
+				header: 'Vendor',
+				enableColumnFilter: false,
+				width: 'w-32',
+				cell: (info) => info.getValue(),
+			},
 
+			{
+				accessorKey: 'is_import',
+				header: 'Local/Import',
+				enableColumnFilter: false,
+				cell: (info) => {
+					return info.getValue() === 1 ? 'Import' : 'Local';
+				},
+			},
+			{
+				accessorKey: 'lc_number',
+				header: 'LC',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'commercial_invoice_number',
+				header: (
+					<>
+						Commercial Invoice <br /> Number
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'commercial_invoice_value',
+				header: (
+					<>
+						Commercial Invoice <br /> Value
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'convention_rate',
+				header: (
+					<>
+						Conversion
+						<br /> Rate
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'created_by_name',
+				header: 'Created By',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'created_at',
+				header: 'Created At',
+				enableColumnFilter: false,
+				filterFn: 'isWithinRange',
+				cell: (info) => <DateTime date={info.getValue()} />,
+			},
+			{
+				accessorKey: 'updated_at',
+				header: 'Updated At',
+				enableColumnFilter: false,
+				cell: (info) => <DateTime date={info.getValue()} />,
+			},
+			{
+				accessorKey: 'remarks',
+				header: 'Remarks',
+				enableColumnFilter: false,
+				width: 'w-32',
+				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'actions',
+				header: 'Actions',
+				enableColumnFilter: false,
+				enableSorting: false,
+				hidden:
+					!haveAccess?.includes('update') &&
+					!haveAccess?.includes('delete'),
+				width: 'w-24',
+				cell: (info) => {
+					return (
+						<EditDelete
+							idx={info.row.index}
+							handelUpdate={handelUpdate}
+							handelDelete={handelDelete}
+							showUpdate={haveAccess?.includes('update')}
+							showDelete={haveAccess?.includes('delete')}
+						/>
+					);
+				},
+			},
+		],
+		[data, haveAccess]
+	);
+};
 export const ReportColumns = ({ data }) => {
 	return useMemo(
 		() => [

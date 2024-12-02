@@ -3,18 +3,27 @@ import { IssueLogColumns } from '@/pages/store/columns';
 import { useStoreBuyer, useStoreIssue, useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 
+
+
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
 import { DateTime, EditDelete, Transfer } from '@/ui';
 
+
+
 import PageInfo from '@/util/PageInfo';
 import { DEFAULT_COLUMNS } from '@/util/table/default-columns';
+
+
+
+
 
 const AddOrUpdate = lazy(() => import('./add-update'));
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreIssue();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const info = new PageInfo('Store/Issue Log', url, 'store__log');
 	const haveAccess = useAccess('store__log');
 
@@ -32,7 +41,7 @@ export default function Index() {
 	const [update, setUpdate] = useState({
 		uuid: null,
 		quantity: null,
-		quantity: null,
+		stock_quantity: null,
 		material_name: null,
 	});
 
@@ -41,7 +50,7 @@ export default function Index() {
 			...prev,
 			uuid: data[idx].uuid,
 			quantity: data[idx].quantity,
-			quantity: data[idx].quantity,
+			stock_quantity: data[idx].store_quantity,
 			material_name: data[idx].material_name,
 		}));
 		window[info.getAddOrUpdateModalId()].showModal();
@@ -93,6 +102,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateStock}
 					{...{
 						deleteItem,
 						setDeleteItem,

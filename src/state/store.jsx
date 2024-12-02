@@ -46,13 +46,13 @@ export const useStoreCategoryByUUID = (uuid) =>
 export const useStoreColor = () =>
 	createGlobalState({
 		queryKey: storeQK.color(),
-		url: `/public/category`,
+		url: `/store/color`,
 	});
 
 export const useStoreColorByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.colorByUUID(uuid),
-		url: `/public/category/${uuid}`,
+		url: `/store/color/${uuid}`,
 		//enabled: !!uuid,
 	});
 
@@ -60,13 +60,13 @@ export const useStoreColorByUUID = (uuid) =>
 export const useStoreUnit = () =>
 	createGlobalState({
 		queryKey: storeQK.unit(),
-		url: `/public/category`,
+		url: `/store/unit`,
 	});
 
 export const useStoreUnitByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.unitByUUID(uuid),
-		url: `/public/category/${uuid}`,
+		url: `/store/unit/${uuid}`,
 		//enabled: !!uuid,
 	});
 
@@ -74,13 +74,13 @@ export const useStoreUnitByUUID = (uuid) =>
 export const useStoreSize = () =>
 	createGlobalState({
 		queryKey: storeQK.size(),
-		url: `/public/category`,
+		url: `/store/size`,
 	});
 
 export const useStoreSizeByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.sizeByUUID(uuid),
-		url: `/public/category/${uuid}`,
+		url: `/store/size/${uuid}`,
 		//enabled: !!uuid,
 	});
 
@@ -88,13 +88,13 @@ export const useStoreSizeByUUID = (uuid) =>
 export const useStoreMaterial = () =>
 	createGlobalState({
 		queryKey: storeQK.material(),
-		url: `/public/category`,
+		url: `/store/material-name`,
 	});
 
 export const useStoreMaterialByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.materialByUUID(uuid),
-		url: `/public/category/${uuid}`,
+		url: `/store/material-name/${uuid}`,
 		//enabled: !!uuid,
 	});
 
@@ -189,5 +189,11 @@ export const useStoreReceiveEntryByUUID = (uuid) =>
 	createGlobalState({
 		queryKey: storeQK.receiveEntryByUUID(uuid),
 		url: `/store/receive-entry/${uuid}`,
+		//enabled: !!uuid,
+	});
+export const useStoreReceiveEntryByDetails = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.receiveEntryByDetails(uuid),
+		url: `/store/receive-entry-details/by/${uuid}`,
 		//enabled: !!uuid,
 	});
