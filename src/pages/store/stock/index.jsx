@@ -55,6 +55,7 @@ export default function Index() {
 			name: data[idx].name,
 			article: data[idx].article_name,
 			buyer: data[idx].buyer_name,
+			unit: data[idx].unit_name,
 		}));
 		window['Issue'].showModal();
 	};
@@ -67,7 +68,9 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
-			itemName: data[idx].name.replace(/#/g, '').replace(/\//g, '-'),
+			itemName: data[idx].material_name
+				.replace(/#/g, '')
+				.replace(/\//g, '-'),
 		}));
 
 		window[info.getDeleteModalId()].showModal();

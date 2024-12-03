@@ -1,4 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
+import { useOtherLcValueLabel } from '@/state/other';
 import { useStoreLC } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -16,6 +17,7 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreLC();
+	const { invalidateQuery: invalidateLCValueLabel } = useOtherLcValueLabel();
 	const info = new PageInfo('Commercial/LC', url, 'commercial__lc');
 	const haveAccess = useAccess('commercial__lc');
 
@@ -80,6 +82,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateLCValueLabel}
 					{...{
 						deleteItem,
 						setDeleteItem,

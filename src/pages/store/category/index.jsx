@@ -1,4 +1,5 @@
 import { lazy, useEffect, useState } from 'react';
+import { useOtherCategoryValueLabel } from '@/state/other';
 import { useStoreCategory } from '@/state/store';
 import { useAccess } from '@/hooks';
 
@@ -14,6 +15,8 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreCategory();
+	const { invalidateQuery: invalidateCategoryValueLabel } =
+		useOtherCategoryValueLabel();
 	const info = new PageInfo('Store/Category', url, 'store__category');
 	const haveAccess = useAccess('store__category');
 
@@ -84,6 +87,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateCategoryValueLabel}
 					{...{
 						deleteItem,
 						setDeleteItem,

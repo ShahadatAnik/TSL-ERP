@@ -1,6 +1,6 @@
 import { lazy, useEffect, useState } from 'react';
 import { ReceiveLogColumns } from '@/pages/store/columns';
-import { useStoreReceiveEntry } from '@/state/store';
+import { useStoreReceiveEntry, useStoreStock } from '@/state/store';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -14,6 +14,7 @@ const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } =
 		useStoreReceiveEntry();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const info = new PageInfo('Store/Receive Log', url, 'store__log');
 	const haveAccess = useAccess('store__log');
 
@@ -87,6 +88,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateStock}
 					{...{
 						deleteItem,
 						setDeleteItem,

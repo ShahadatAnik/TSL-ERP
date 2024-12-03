@@ -45,7 +45,7 @@ export default function Header({
 										// lcSelected
 										// 	? null
 										// 	:
-										vendor?.find(
+										vendor?.filter(
 											(item) => item.value === value
 										)
 									}
@@ -71,7 +71,7 @@ export default function Header({
 								<ReactSelect
 									placeholder='Select'
 									options={purchaseOptions}
-									value={purchaseOptions?.find(
+									value={purchaseOptions?.filter(
 										(item) =>
 											item.value == getValues('is_import')
 									)}
@@ -98,7 +98,9 @@ export default function Header({
 										// vendorSelected
 										// 	? null
 										// 	:
-										lc?.find((item) => item.value === value)
+										lc?.filter(
+											(item) => item.value === value
+										)
 									}
 									onChange={(e) => {
 										onChange(e.value);
@@ -116,7 +118,7 @@ export default function Header({
 						label='commercial_invoice_number'
 						{...{ register, errors }}
 					/>
-					<JoinInput
+					<Input
 						label='commercial_invoice_value'
 						{...{ register, errors }}
 					/>

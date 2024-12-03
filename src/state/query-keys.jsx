@@ -81,6 +81,11 @@ export const storeQK = {
 	//* Receive Entry
 	receiveEntry: () => [...storeQK.all(), 'receive-entry'],
 	receiveEntryByUUID: (uuid) => [...storeQK.receiveEntry(), uuid],
+	receiveEntryByDetails: (uuid) => [
+		...storeQK.receiveEntry(),
+		'details',
+		uuid,
+	],
 };
 //* Other
 export const otherQK = {

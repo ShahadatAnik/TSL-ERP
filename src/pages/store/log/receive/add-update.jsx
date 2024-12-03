@@ -1,6 +1,15 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import {
+	useOtherArticleValueLabel,
+	useOtherCategoryValueLabel,
+	useOtherColorValueLabel,
+	useOtherMaterialValueLabel,
+	useOtherSizeValueLabel,
+	useOtherUnitValueLabel,
+} from '@/state/other';
+import {
+	useStoreArticle,
 	useStoreBuyer,
 	useStoreReceiveEntry,
 	useStoreStock,
@@ -34,6 +43,12 @@ export default function Index({
 	const { url, updateData, postData } = useStoreReceiveEntry();
 	const { invalidateQuery: invalidateStock } = useStoreStock();
 
+	const { data: article } = useOtherArticleValueLabel();
+	const { data: material } = useOtherMaterialValueLabel();
+	const { data: category } = useOtherCategoryValueLabel();
+	const { data: color } = useOtherColorValueLabel();
+	const { data: size } = useOtherSizeValueLabel();
+	const { data: unit } = useOtherUnitValueLabel();
 	const {
 		register,
 		handleSubmit,
@@ -45,7 +60,7 @@ export default function Index({
 		context,
 	} = useRHF(RECEIVE_ENTRY_SCHEMA, RECEIVE_ENTRY_NULL);
 	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
-	const { value: material } = useFetch('/other/material/value/label');
+	// const { value: material } = useFetch('/other/material/value/label');
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -83,43 +98,182 @@ export default function Index({
 			formContext={context}
 			onSubmit={handleSubmit(onSubmit)}
 			onClose={onClose}
-			isSmall={true}>
-			<FormField label='material_uuid' title='Material' errors={errors}>
-				<Controller
-					name={'material_uuid'}
-					control={control}
-					render={({ field: { onChange } }) => {
-						return (
-							<ReactSelect
-								placeholder='Select Transaction Area'
-								options={material}
-								value={material?.find(
-									(inItem) =>
-										inItem.value ==
-										getValues(`material_uuid`)
-								)}
-								onChange={(e) => {
-									onChange(e.value);
-									setValue('unit', e.unit);
-								}}
-							/>
-						);
-					}}
+			isSmall={false}>
+			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
+				<FormField label='name_uuid' title='Material' errors={errors}>
+					<Controller
+						name={'name_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Material'
+									options={material}
+									value={material?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`name_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+				<FormField label='article_uuid' title='Article' errors={errors}>
+					<Controller
+						name={'article_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Article'
+									options={article}
+									value={article?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`article_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+				<FormField
+					label='category_uuid'
+					title='Category'
+					errors={errors}>
+					<Controller
+						name={'category_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Category'
+									options={category}
+									value={category?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`category_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+			</div>
+			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
+				<FormField label='unit_uuid' title='Unit' errors={errors}>
+					<Controller
+						name={'unit_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Unit'
+									options={unit}
+									value={unit?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`unit_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+				<FormField label='size_uuid' title='Size' errors={errors}>
+					<Controller
+						name={'size_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Size'
+									options={size}
+									value={size?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`size_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+				<FormField label='unit_uuid' title='Unit' errors={errors}>
+					<Controller
+						name={'unit_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Unit'
+									options={unit}
+									value={unit?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`unit_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+			</div>
+			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
+				<FormField label='color_uuid' title='Color' errors={errors}>
+					<Controller
+						name={'color_uuid'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<ReactSelect
+									placeholder='Select Color'
+									options={color}
+									value={color?.find(
+										(inItem) =>
+											inItem.value ==
+											getValues(`color_uuid`)
+									)}
+									onChange={(e) => {
+										onChange(e.value);
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
+				<Input
+					title='quantity'
+					label={`quantity`}
+					unit={getValues('unit_name')}
+					register={register}
 				/>
-			</FormField>
+				<Input
+					title='price'
+					label={`price`}
+					{...{ register, errors }}
+				/>
+			</div>
 
-			<JoinInput
-				title='quantity'
-				label={`quantity`}
-				unit={
-					material?.find(
-						(inItem) => inItem.value == getValues(`material_uuid`)
-					)?.unit
-				}
-				register={register}
-			/>
-
-			<Input title='price' label={`price`} {...{ register, errors }} />
 			<Textarea label='remarks' rows={2} {...{ register, errors }} />
 			<DevTool control={control} placement='top-left' />
 		</AddModal>
