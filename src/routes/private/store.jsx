@@ -1,3 +1,4 @@
+import { Children } from 'react';
 import Article from '@/pages/store/article';
 import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
@@ -61,62 +62,68 @@ export const StoreRoutes = [
 				],
 			},
 			{
-				name: 'Vendor',
-				path: '/store/vendor',
-				element: <Vendor />,
-				page_name: 'store__vendor',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Article',
-				path: '/store/article',
-				element: <Article />,
-				page_name: 'store__article',
-				actions: ['create', 'read', 'update', 'delete'],
+				name: 'Library',
+				children: [
+					{
+						name: 'Vendor',
+						path: '/store/vendor',
+						element: <Vendor />,
+						page_name: 'store__vendor',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+					{
+						name: 'Article',
+						path: '/store/article',
+						element: <Article />,
+						page_name: 'store__article',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+
+					{
+						name: 'Buyer',
+						path: '/store/buyer',
+						element: <Buyer />,
+						page_name: 'store__buyer',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+					{
+						name: 'Material',
+						path: '/store/material',
+						element: <Material />,
+						page_name: 'store__material',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+					{
+						name: 'Size',
+						path: '/store/size',
+						element: <Size />,
+						page_name: 'store__size',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+					{
+						name: 'Unit',
+						path: '/store/unit',
+						element: <Unit />,
+						page_name: 'store__unit',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+					{
+						name: 'Color',
+						path: '/store/color',
+						element: <Color />,
+						page_name: 'store__color',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+					{
+						name: 'Category',
+						path: '/store/category',
+						element: <Category />,
+						page_name: 'store__category',
+						actions: ['create', 'read', 'update', 'delete'],
+					},
+				],
 			},
 
-			{
-				name: 'Buyer',
-				path: '/store/buyer',
-				element: <Buyer />,
-				page_name: 'store__buyer',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Material',
-				path: '/store/material',
-				element: <Material />,
-				page_name: 'store__material',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Size',
-				path: '/store/size',
-				element: <Size />,
-				page_name: 'store__size',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Unit',
-				path: '/store/unit',
-				element: <Unit />,
-				page_name: 'store__unit',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Color',
-				path: '/store/color',
-				element: <Color />,
-				page_name: 'store__color',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
-			{
-				name: 'Category',
-				path: '/store/category',
-				element: <Category />,
-				page_name: 'store__category',
-				actions: ['create', 'read', 'update', 'delete'],
-			},
 			{
 				name: 'Log',
 				path: '/store/log',

@@ -97,7 +97,6 @@ export default function Index({
 				label='number'
 				{...{ register, errors }}
 			/>
-			<Input label='value' {...{ register, errors }} />
 			<div className='flex flex-col gap-4 md:flex-row'>
 				<Input label='value' {...{ register, errors }} />
 				<FormField label='unit' title='Currency' errors={errors}>

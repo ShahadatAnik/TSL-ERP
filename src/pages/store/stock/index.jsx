@@ -52,7 +52,7 @@ export default function Index() {
 			...prev,
 			uuid: data[idx].uuid,
 			quantity: data[idx].quantity,
-			name: data[idx].name,
+			name: data[idx].material_name,
 			article: data[idx].article_name,
 			buyer: data[idx].buyer_name,
 			unit: data[idx].unit_name,
