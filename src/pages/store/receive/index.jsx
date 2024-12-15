@@ -160,10 +160,10 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
-			itemName:
-				data[idx].receive_id +
-				'-Total Material:' +
-				data[idx].receive_entry_count,
+			itemName: `${data[idx].receive_id} 
+				(Total Material: 
+				${data[idx].receive_entry_count})
+				`,
 		}));
 
 		window[info.getDeleteModalId()].showModal();
