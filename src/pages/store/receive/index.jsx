@@ -1,5 +1,5 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { useStoreReceive } from '@/state/store';
+import { useStoreReceive, useStoreStock } from '@/state/store';
 import { useNavigate } from 'react-router-dom';
 import { useAccess } from '@/hooks';
 
@@ -15,6 +15,7 @@ export default function Index() {
 	const navigate = useNavigate();
 	const haveAccess = useAccess('store__receive');
 	const { data, isLoading, url, deleteData } = useStoreReceive();
+	const { invalidateQuery: invalidateStock } = useStoreStock();
 	const info = new PageInfo(
 		'Store / Material Receive',
 		url,
@@ -159,7 +160,10 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
-			itemName: data[idx].uuid,
+			itemName:
+				data[idx].receive_id +
+				'-Total Material:' +
+				data[idx].receive_entry_count,
 		}));
 
 		window[info.getDeleteModalId()].showModal();
@@ -182,6 +186,7 @@ export default function Index() {
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
 					title={info.getTitle()}
+					invalidateQuery={invalidateStock}
 					{...{
 						deleteItem,
 						setDeleteItem,
