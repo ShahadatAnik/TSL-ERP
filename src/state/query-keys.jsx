@@ -19,6 +19,7 @@ export const adminQK = {
 	//* users
 	users: () => [...adminQK.all(), 'users'],
 	user: (uuid) => [...adminQK.users(), uuid],
+	usersByUUID: (uuid) => [...adminQK.users(), uuid],
 };
 
 //* Store

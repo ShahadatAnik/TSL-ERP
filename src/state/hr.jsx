@@ -8,7 +8,11 @@ export const useAdminUsers = () =>
 		queryKey: adminQK.users(),
 		url: '/hr/user',
 	});
-
+export const useAdminUsersByUUID = (uuid) =>
+	createGlobalState({
+		queryKey: adminQK.usersByUUID(uuid),
+		url: '/hr/user/' + uuid,
+	});
 // * Department
 export const useAdminDepartments = () =>
 	createGlobalState({
