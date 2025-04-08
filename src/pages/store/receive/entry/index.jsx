@@ -114,20 +114,22 @@ export default function Index() {
 				itemName: getValues(`receive_entry[${index}].material_name`),
 			});
 			window['receive_entry_delete'].showModal();
+		} else {
+			receiveEntryRemove(index);
 		}
 	};
 
 	const handelReceiveEntryAppend = () => {
 		receiveEntryAppend({
-			material_uuid: '',
-			article_uuid: '',
-			category_uuid: '',
-			color_uuid: '',
-			size_uuid: '',
-			unit_uuid: '',
-			quantity: '',
-			price: '',
-			remarks: '',
+			material_uuid: null,
+			article_uuid: null,
+			category_uuid: null,
+			color_uuid: null,
+			size_uuid: null,
+			unit_uuid: null,
+			quantity: 0,
+			price: 0,
+			remarks: null,
 		});
 	};
 
@@ -344,7 +346,7 @@ export default function Index() {
 											is_title_needed='false'
 											dynamicerror={
 												errors?.receive_entry?.[index]
-													.name_uuid
+													?.name_uuid
 											}>
 											<Controller
 												name={`receive_entry[${index}].name_uuid`}
@@ -385,7 +387,7 @@ export default function Index() {
 											is_title_needed='false'
 											dynamicerror={
 												errors?.receive_entry?.[index]
-													.article_uuid
+													?.article_uuid
 											}>
 											<Controller
 												name={`receive_entry[${index}].article_uuid`}
@@ -427,7 +429,7 @@ export default function Index() {
 											is_title_needed='false'
 											dynamicerror={
 												errors?.receive_entry?.[index]
-													.category_uuid
+													?.category_uuid
 											}>
 											<Controller
 												name={`receive_entry[${index}].category_uuid`}
@@ -469,7 +471,7 @@ export default function Index() {
 											is_title_needed='false'
 											dynamicerror={
 												errors?.receive_entry?.[index]
-													.color_uuid
+													?.color_uuid
 											}>
 											<Controller
 												name={`receive_entry[${index}].color_uuid`}
@@ -511,7 +513,7 @@ export default function Index() {
 											is_title_needed='false'
 											dynamicerror={
 												errors?.receive_entry?.[index]
-													.size_uuid
+													?.size_uuid
 											}>
 											<Controller
 												name={`receive_entry[${index}].size_uuid`}
@@ -563,7 +565,7 @@ export default function Index() {
 											is_title_needed='false'
 											dynamicerror={
 												errors?.receive_entry?.[index]
-													.unit_uuid
+													?.unit_uuid
 											}
 											errors={errors}>
 											<Controller
