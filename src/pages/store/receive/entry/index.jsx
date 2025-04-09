@@ -48,6 +48,7 @@ import Header from './header';
 
 export default function Index() {
 	const { user } = useAuth();
+	const [status, setStatus] = useState(false);
 	const haveAccess = useAccess('store__receive_entry');
 	const navigate = useNavigate();
 	const { receive_entry_description_uuid } = useParams();
@@ -141,7 +142,8 @@ export default function Index() {
 		watch,
 		material,
 		'receive_entry',
-		'material_uuid'
+		'material_uuid',
+		status
 	);
 	// Submit
 	const onSubmit = async (data) => {
@@ -293,7 +295,7 @@ export default function Index() {
 			receive_entry?.reduce((acc, item) => {
 				return acc + Number(item.price) * Number(item.quantity);
 			}, 0),
-		[watch()]
+		[status]
 	);
 	const defaultColumns = useMemo(
 		() => [
@@ -333,6 +335,7 @@ export default function Index() {
 											)}
 											onChange={(e) => {
 												onChange(e.value);
+												setStatus(!status);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -379,6 +382,7 @@ export default function Index() {
 											)}
 											onChange={(e) => {
 												onChange(e.value);
+												setStatus(!status);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -425,6 +429,7 @@ export default function Index() {
 											)}
 											onChange={(e) => {
 												onChange(e.value);
+												setStatus(!status);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -471,6 +476,7 @@ export default function Index() {
 											)}
 											onChange={(e) => {
 												onChange(e.value);
+												setStatus(!status);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -517,6 +523,7 @@ export default function Index() {
 											)}
 											onChange={(e) => {
 												onChange(e.value);
+												setStatus(!status);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -545,6 +552,9 @@ export default function Index() {
 								errors?.receive_entry?.[idx]?.quantity
 							}
 							register={register}
+							onChange={(e) => {
+								setStatus(!status);
+							}}
 						/>
 					);
 				},
@@ -584,6 +594,7 @@ export default function Index() {
 											)}
 											onChange={(e) => {
 												onChange(e.value);
+												setStatus(!status);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -597,7 +608,7 @@ export default function Index() {
 			},
 			{
 				accessorKey: 'price',
-				header: 'Price',
+				header: 'Unit Price',
 				enableColumnFilter: false,
 				width: 'w-32',
 				enableSorting: false,
@@ -609,16 +620,19 @@ export default function Index() {
 							label={`receive_entry[${idx}].price`}
 							is_title_needed='false'
 							dynamicerror={errors?.receive_entry?.[idx]?.price}
+							onChange={(e) => {
+								setStatus(!status);
+							}}
 							register={register}
 						/>
 					);
 				},
 			},
 			{
-				accessorKey: 'expected_weight',
+				accessorKey: 'price_usd',
 				header: (
 					<div>
-						Expected <br /> Weight
+						Price <br /> (USD)
 					</div>
 				),
 				enableColumnFilter: false,
@@ -628,10 +642,10 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'expected_weight',
+				accessorKey: 'price_bdt',
 				header: (
 					<div>
-						Expected <br /> Weight
+						Price <br /> (BDT)
 					</div>
 				),
 				enableColumnFilter: false,
@@ -673,7 +687,17 @@ export default function Index() {
 				),
 			},
 		],
-		[receiveEntry, register, errors]
+		[
+			receiveEntry,
+			register,
+			errors,
+			unit,
+			color,
+			size,
+			material,
+			article,
+			category,
+		]
 	);
 	return (
 		<>

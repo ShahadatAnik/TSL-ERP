@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const exclude = (watch, material, entry, uuid) => {
+export const exclude = (watch, material, entry, uuid,status) => {
 	const [excludeItem, setExcludeItem] = useState([]);
 	useEffect(() => {
 		const newExcludeItems = watch(`${entry}`)?.map((item) => {
@@ -16,7 +16,7 @@ export const exclude = (watch, material, entry, uuid) => {
 		});
 
 		setExcludeItem(newExcludeItems);
-	}, [watch(), material]);
+	}, [status, material]);
 	return excludeItem;
 };
 //recipe , shad_recipe

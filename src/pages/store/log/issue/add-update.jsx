@@ -49,7 +49,6 @@ export default function Index({
 			...prev,
 			uuid: null,
 			quantity: 0,
-			quantity: 0,
 			material_name: null,
 		}));
 		reset(ISSUE_NULL);
