@@ -13,6 +13,7 @@ const ReactSelect = ({ className, ...props }) => {
 			classNamePrefix={'react-select-'}
 			classNames={{
 				...classNames,
+				
 				control: ({ isFocused, isDisabled }) =>
 					cn(
 						classNames.control({ isDisabled, isFocused }),

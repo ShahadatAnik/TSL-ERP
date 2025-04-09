@@ -7,12 +7,12 @@ const TableTitleOnly = ({ title, subtitle }) => {
 				'mb-0 flex items-center justify-between gap-2 rounded-t-md border border-b-0 border-secondary/30 bg-primary px-4 py-3 md:justify-start'
 			)}>
 			<div className='flex flex-col'>
-				<h1
+				<h2
 					className={cn(
-						'text-2xl font-semibold capitalize leading-tight text-primary-content md:text-3xl'
+						'text-sm font-semibold capitalize leading-tight text-primary-content md:text-lg'
 					)}>
 					{title}
-				</h1>
+				</h2>
 				{subtitle && (
 					<p className='-mt-1 text-[0.8rem] capitalize text-secondary-content'>
 						{subtitle}

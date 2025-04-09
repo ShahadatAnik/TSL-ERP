@@ -1,4 +1,10 @@
-import { Suspense, useCallback, useEffect, useState } from 'react';
+import React, {
+	Suspense,
+	useCallback,
+	useEffect,
+	useMemo,
+	useState,
+} from 'react';
 import {
 	useOtherArticleValueLabel,
 	useOtherCategoryValueLabel,
@@ -17,11 +23,14 @@ import { useAuth } from '@context/auth';
 import { DevTool } from '@hookform/devtools';
 import { configure, HotKeys } from 'react-hotkeys';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useFetchForRhfReset, useRHF } from '@/hooks';
+import { useAccess, useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { DeleteModal } from '@/components/Modal';
+import ReactTable from '@/components/Table';
+import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
 import {
 	DynamicField,
+	EditDelete,
 	FormField,
 	Input,
 	JoinInput,
@@ -39,6 +48,8 @@ import Header from './header';
 
 export default function Index() {
 	const { user } = useAuth();
+	const [status, setStatus] = useState(false);
+	const haveAccess = useAccess('store__receive_entry');
 	const navigate = useNavigate();
 	const { receive_entry_description_uuid } = useParams();
 	const { data, invalidateQuery: invalidateEntryByDetails } =
@@ -81,12 +92,6 @@ export default function Index() {
 	} = useRHF(RECEIVE_SCHEMA, RECEIVE_NULL);
 
 	const isUpdate = receive_entry_description_uuid !== undefined;
-	// isUpdate &&
-	// 	useFetchForRhfReset(
-	// 		`/store/receive-entry-details/by/${receive_entry_description_uuid}`,
-	// 		receive_entry_description_uuid,
-	// 		reset
-	// 	);
 
 	// receive_entry
 	const {
@@ -137,7 +142,8 @@ export default function Index() {
 		watch,
 		material,
 		'receive_entry',
-		'material_uuid'
+		'material_uuid',
+		status
 	);
 	// Submit
 	const onSubmit = async (data) => {
@@ -289,9 +295,410 @@ export default function Index() {
 			receive_entry?.reduce((acc, item) => {
 				return acc + Number(item.price) * Number(item.quantity);
 			}, 0),
-		[watch()]
+		[status]
 	);
+	const defaultColumns = useMemo(
+		() => [
+			{
+				accessorKey: 'name_uuid',
+				header: 'Material',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
 
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.name_uuid;
+					return (
+						<FormField
+							label={`receive_entry[${idx}].name_uuid`}
+							title='Material'
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.name_uuid
+							}>
+							<Controller
+								name={`receive_entry[${idx}].name_uuid`}
+								control={control}
+								render={({ field: { onChange } }) => {
+									return (
+										<ReactSelect
+											placeholder='Select Material'
+											options={material}
+											value={material?.filter(
+												(inItem) =>
+													inItem.value ==
+													getValues(
+														`receive_entry[${idx}].name_uuid`
+													)
+											)}
+											onChange={(e) => {
+												onChange(e.value);
+												setStatus(!status);
+											}}
+											menuPortalTarget={document.body}
+											dynamicerror={dynamicerror}
+										/>
+									);
+								}}
+							/>
+						</FormField>
+					);
+				},
+			},
+			{
+				accessorKey: 'article_uuid',
+				header: 'Article',
+				width: 'w-64',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.article_uuid;
+					return (
+						<FormField
+							label={`receive_entry[${idx}].article_uuid`}
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.article_uuid
+							}>
+							<Controller
+								name={`receive_entry[${idx}].article_uuid`}
+								control={control}
+								render={({ field: { onChange } }) => {
+									return (
+										<ReactSelect
+											placeholder='Select Article'
+											options={article}
+											value={article?.filter(
+												(inItem) =>
+													inItem.value ==
+													getValues(
+														`receive_entry[${idx}].article_uuid`
+													)
+											)}
+											onChange={(e) => {
+												onChange(e.value);
+												setStatus(!status);
+											}}
+											menuPortalTarget={document.body}
+											dynamicerror={dynamicerror}
+										/>
+									);
+								}}
+							/>
+						</FormField>
+					);
+				},
+			},
+			{
+				accessorKey: 'category_uuid',
+				header: 'Category',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.category_uuid;
+					return (
+						<FormField
+							label={`receive_entry[${idx}].category_uuid`}
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.category_uuid
+							}>
+							<Controller
+								name={`receive_entry[${idx}].category_uuid`}
+								control={control}
+								render={({ field: { onChange } }) => {
+									return (
+										<ReactSelect
+											placeholder='Select Category'
+											options={category}
+											value={category?.filter(
+												(inItem) =>
+													inItem.value ==
+													getValues(
+														`receive_entry[${idx}].category_uuid`
+													)
+											)}
+											onChange={(e) => {
+												onChange(e.value);
+												setStatus(!status);
+											}}
+											menuPortalTarget={document.body}
+											dynamicerror={dynamicerror}
+										/>
+									);
+								}}
+							/>
+						</FormField>
+					);
+				},
+			},
+			{
+				accessorKey: 'color_uuid',
+				header: 'Color',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.color_uuid;
+					return (
+						<FormField
+							label={`receive_entry[${idx}].color_uuid`}
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.color_uuid
+							}>
+							<Controller
+								name={`receive_entry[${idx}].color_uuid`}
+								control={control}
+								render={({ field: { onChange } }) => {
+									return (
+										<ReactSelect
+											placeholder='Select Color'
+											options={color}
+											value={color?.filter(
+												(inItem) =>
+													inItem.value ==
+													getValues(
+														`receive_entry[${idx}].color_uuid`
+													)
+											)}
+											onChange={(e) => {
+												onChange(e.value);
+												setStatus(!status);
+											}}
+											menuPortalTarget={document.body}
+											dynamicerror={dynamicerror}
+										/>
+									);
+								}}
+							/>
+						</FormField>
+					);
+				},
+			},
+			{
+				accessorKey: 'size_uuid',
+				header: 'Size',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.size_uuid;
+					return (
+						<FormField
+							label={`receive_entry[${idx}].size_uuid`}
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.size_uuid
+							}>
+							<Controller
+								name={`receive_entry[${idx}].size_uuid`}
+								control={control}
+								render={({ field: { onChange } }) => {
+									return (
+										<ReactSelect
+											placeholder='Select Size'
+											options={size}
+											value={size?.filter(
+												(inItem) =>
+													inItem.value ==
+													getValues(
+														`receive_entry[${idx}].size_uuid`
+													)
+											)}
+											onChange={(e) => {
+												onChange(e.value);
+												setStatus(!status);
+											}}
+											menuPortalTarget={document.body}
+											dynamicerror={dynamicerror}
+										/>
+									);
+								}}
+							/>
+						</FormField>
+					);
+				},
+			},
+			{
+				accessorKey: 'quantity',
+				header: 'Quantity',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
+				cell: (info) => {
+					const idx = info.row.index;
+					return (
+						<Input
+							title='quantity'
+							label={`receive_entry[${idx}].quantity`}
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.quantity
+							}
+							register={register}
+							onChange={(e) => {
+								setStatus(!status);
+							}}
+						/>
+					);
+				},
+			},
+			{
+				accessorKey: 'unit_uuid',
+				header: 'Unit',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.unit_uuid;
+					return (
+						<FormField
+							label={`receive_entry[${idx}].unit_uuid`}
+							is_title_needed='false'
+							dynamicerror={
+								errors?.receive_entry?.[idx]?.unit_uuid
+							}>
+							<Controller
+								name={`receive_entry[${idx}].unit_uuid`}
+								control={control}
+								render={({ field: { onChange } }) => {
+									return (
+										<ReactSelect
+											placeholder='Select Unit'
+											options={unit}
+											value={unit?.filter(
+												(inItem) =>
+													inItem.value ==
+													getValues(
+														`receive_entry[${idx}].unit_uuid`
+													)
+											)}
+											onChange={(e) => {
+												onChange(e.value);
+												setStatus(!status);
+											}}
+											menuPortalTarget={document.body}
+											dynamicerror={dynamicerror}
+										/>
+									);
+								}}
+							/>
+						</FormField>
+					);
+				},
+			},
+			{
+				accessorKey: 'price',
+				header: 'Unit Price',
+				enableColumnFilter: false,
+				width: 'w-32',
+				enableSorting: false,
+				cell: (info) => {
+					const idx = info.row.index;
+					return (
+						<Input
+							title='price'
+							label={`receive_entry[${idx}].price`}
+							is_title_needed='false'
+							dynamicerror={errors?.receive_entry?.[idx]?.price}
+							onChange={(e) => {
+								setStatus(!status);
+							}}
+							register={register}
+						/>
+					);
+				},
+			},
+			{
+				accessorKey: 'price_usd',
+				header: (
+					<div>
+						Price <br /> (USD)
+					</div>
+				),
+				enableColumnFilter: false,
+				enableSorting: false,
+				cell: (info) => {
+					return `${(watch(`receive_entry[${info.row.index}].quantity`) * watch(`receive_entry[${info.row.index}].price`)).toLocaleString()}`;
+				},
+			},
+			{
+				accessorKey: 'price_bdt',
+				header: (
+					<div>
+						Price <br /> (BDT)
+					</div>
+				),
+				enableColumnFilter: false,
+				enableSorting: false,
+				cell: (info) => {
+					return `${(watch(`receive_entry[${info.row.index}].quantity`) * watch(`receive_entry[${info.row.index}].price`) * watch('convention_rate')).toLocaleString()}`;
+				},
+			},
+			{
+				accessorKey: 'remarks',
+				header: 'Remarks',
+				enableColumnFilter: false,
+				enableSorting: false,
+				width: 'w-44',
+				cell: (info) => (
+					<Textarea
+						label={`receive_entry[${info.row.index}].remarks`}
+						is_title_needed='false'
+						height='h-8'
+						{...{ register, errors }}
+					/>
+				),
+			},
+
+			{
+				accessorKey: 'actions',
+				header: 'Actions',
+				enableColumnFilter: false,
+				enableSorting: false,
+				hidden: !haveAccess.includes('delete') || !isUpdate,
+				width: 'w-24',
+				cell: (info) => (
+					<EditDelete
+						idx={info.row.index}
+						handelDelete={handleReceiveEntryRemove}
+						showDelete={haveAccess.includes('delete')}
+						showUpdate={false}
+					/>
+				),
+			},
+		],
+		[
+			receiveEntry,
+			register,
+			errors,
+			unit,
+			color,
+			size,
+			material,
+			article,
+			category,
+		]
+	);
 	return (
 		<>
 			<HotKeys {...{ keyMap, handlers }}>
@@ -311,347 +718,22 @@ export default function Index() {
 								setValue,
 							}}
 						/>
-
-						<DynamicField
-							title='Details'
-							handelAppend={handelReceiveEntryAppend}
-							tableHead={[
-								'Material',
-								'Article',
-								'Category',
-								'Color',
-								'Size',
-								'Quantity',
-								'Unit',
-								'Unit Price',
-								'Price',
-								'Price(BDT)',
-								'Remarks',
-								'Action',
-							].map((item) => (
-								<th
-									key={item}
-									scope='col'
-									className='group cursor-pointer select-none whitespace-nowrap bg-secondary px-4 py-2 text-left font-semibold tracking-wide text-secondary-content transition duration-300'>
-									{item}
-								</th>
-							))}>
-							{receiveEntry.map((item, index) => (
-								<tr key={item.id}>
-									{/* Material Name */}
-									<td className={`w-48`}>
-										<FormField
-											label={`receive_entry[${index}].name_uuid`}
-											title='Material'
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.name_uuid
-											}>
-											<Controller
-												name={`receive_entry[${index}].name_uuid`}
-												control={control}
-												render={({
-													field: { onChange },
-												}) => {
-													return (
-														<ReactSelect
-															placeholder='Select Material'
-															options={material}
-															value={material?.filter(
-																(inItem) =>
-																	inItem.value ==
-																	getValues(
-																		`receive_entry[${index}].name_uuid`
-																	)
-															)}
-															onChange={(e) => {
-																onChange(
-																	e.value
-																);
-															}}
-															menuPortalTarget={
-																document.body
-															}
-														/>
-													);
-												}}
-											/>
-										</FormField>
-									</td>
-									{/* Article */}
-									<td className={`w-48`}>
-										<FormField
-											label={`receive_entry[${index}].article_uuid`}
-											title='Article'
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.article_uuid
-											}>
-											<Controller
-												name={`receive_entry[${index}].article_uuid`}
-												control={control}
-												render={({
-													field: { onChange },
-												}) => {
-													return (
-														<ReactSelect
-															placeholder='Select Article'
-															options={article}
-															value={article?.filter(
-																(inItem) =>
-																	inItem.value ==
-																	getValues(
-																		`receive_entry[${index}].article_uuid`
-																	)
-															)}
-															onChange={(e) =>
-																onChange(
-																	e.value
-																)
-															}
-															menuPortalTarget={
-																document.body
-															}
-														/>
-													);
-												}}
-											/>
-										</FormField>
-									</td>
-
-									{/* Category */}
-									<td className={`w-48`}>
-										<FormField
-											label={`receive_entry[${index}].category_uuid`}
-											title='Category'
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.category_uuid
-											}>
-											<Controller
-												name={`receive_entry[${index}].category_uuid`}
-												control={control}
-												render={({
-													field: { onChange },
-												}) => {
-													return (
-														<ReactSelect
-															placeholder='Select Category'
-															options={category}
-															value={category?.filter(
-																(inItem) =>
-																	inItem.value ==
-																	getValues(
-																		`receive_entry[${index}].category_uuid`
-																	)
-															)}
-															onChange={(e) =>
-																onChange(
-																	e.value
-																)
-															}
-															menuPortalTarget={
-																document.body
-															}
-														/>
-													);
-												}}
-											/>
-										</FormField>
-									</td>
-
-									{/* Color */}
-									<td className={`w-48`}>
-										<FormField
-											label={`receive_entry[${index}].color_uuid`}
-											title='Color'
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.color_uuid
-											}>
-											<Controller
-												name={`receive_entry[${index}].color_uuid`}
-												control={control}
-												render={({
-													field: { onChange },
-												}) => {
-													return (
-														<ReactSelect
-															placeholder='Select Color'
-															options={color}
-															value={color?.filter(
-																(inItem) =>
-																	inItem.value ==
-																	getValues(
-																		`receive_entry[${index}].color_uuid`
-																	)
-															)}
-															onChange={(e) =>
-																onChange(
-																	e.value
-																)
-															}
-															menuPortalTarget={
-																document.body
-															}
-														/>
-													);
-												}}
-											/>
-										</FormField>
-									</td>
-
-									{/* Size */}
-									<td className={`w-48`}>
-										<FormField
-											label={`receive_entry[${index}].size_uuid`}
-											title='Size'
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.size_uuid
-											}>
-											<Controller
-												name={`receive_entry[${index}].size_uuid`}
-												control={control}
-												render={({
-													field: { onChange },
-												}) => {
-													return (
-														<ReactSelect
-															placeholder='Select Size'
-															options={size}
-															value={size?.filter(
-																(inItem) =>
-																	inItem.value ==
-																	getValues(
-																		`receive_entry[${index}].size_uuid`
-																	)
-															)}
-															onChange={(e) =>
-																onChange(
-																	e.value
-																)
-															}
-															menuPortalTarget={
-																document.body
-															}
-														/>
-													);
-												}}
-											/>
-										</FormField>
-									</td>
-									<td className={`w-48`}>
-										<Input
-											title='quantity'
-											label={`receive_entry[${index}].quantity`}
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.quantity
-											}
-											register={register}
-										/>
-									</td>
-									<td className={`w-48`}>
-										<FormField
-											label={`receive_entry[${index}].unit_uuid`}
-											title='Unit'
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.unit_uuid
-											}
-											errors={errors}>
-											<Controller
-												name={`receive_entry[${index}].unit_uuid`}
-												control={control}
-												render={({
-													field: { onChange },
-												}) => {
-													return (
-														<ReactSelect
-															placeholder='Select Unit'
-															options={unit}
-															value={unit?.filter(
-																(inItem) =>
-																	inItem.value ==
-																	getValues(
-																		`receive_entry[${index}].unit_uuid`
-																	)
-															)}
-															onChange={(e) =>
-																onChange(
-																	e.value
-																)
-															}
-															menuPortalTarget={
-																document.body
-															}
-														/>
-													);
-												}}
-											/>
-										</FormField>
-									</td>
-									<td className={`w-48`}>
-										<Input
-											title='price'
-											label={`receive_entry[${index}].price`}
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.price
-											}
-											register={register}
-										/>
-									</td>
-									<td className={`w-48`}>
-										{`${(watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`)).toLocaleString()}`}
-									</td>
-									<td className={`w-48`}>
-										{`${(watch(`receive_entry[${index}].quantity`) * watch(`receive_entry[${index}].price`) * watch('convention_rate')).toLocaleString()}`}
-									</td>
-									<td className={`w-48`}>
-										<Textarea
-											title='remarks'
-											label={`receive_entry[${index}].remarks`}
-											is_title_needed='false'
-											dynamicerror={
-												errors?.receive_entry?.[index]
-													?.remarks
-											}
-											register={register}
-										/>
-									</td>
-									<td className={`w-12 pl-0`}>
-										<RemoveButton
-											className={'justify-center'}
-											onClick={() =>
-												handleReceiveEntryRemove(index)
-											}
-											showButton={receiveEntry.length > 1}
-										/>
-									</td>
-								</tr>
-							))}
+						<ReactTableTitleOnly
+							title={'Receive Entry'}
+							data={receiveEntry}
+							columns={defaultColumns}>
 							<tr className='border-t border-primary/30'>
 								<td
-									className='px-3 py-2 text-right font-bold'
+									className='px-3 py-2 text-right text-sm font-bold'
 									colSpan='8'>
 									Total:
 								</td>
-								<td className='px-3 py-2 font-bold'>
+								<td className='px-3 py-2 text-sm font-bold'>
 									{getTotalPrice(
 										watch('receive_entry')
 									).toLocaleString()}
 								</td>
-								<td className='px-3 py-2 font-bold'>
+								<td className='px-3 py-2 text-sm font-bold'>
 									{(
 										getTotalPrice(watch('receive_entry')) *
 										watch('convention_rate')
@@ -659,7 +741,7 @@ export default function Index() {
 								</td>
 								<td className='px-3 py-2 font-bold'></td>
 							</tr>
-						</DynamicField>
+						</ReactTableTitleOnly>
 					</div>
 
 					<div className='modal-action'>
