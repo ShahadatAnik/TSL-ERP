@@ -69,7 +69,7 @@ export default function Index({ receive_entry, convention_rate }) {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => info.getValue().toLocaleString(),
 			},
 			{
 				id: 'total_price_bdt',
@@ -80,7 +80,7 @@ export default function Index({ receive_entry, convention_rate }) {
 					</>
 				),
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => info.getValue().toLocaleString(),
 			},
 			{
 				accessorKey: 'remarks',
