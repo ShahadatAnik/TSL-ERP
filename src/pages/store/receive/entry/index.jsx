@@ -675,13 +675,13 @@ export default function Index() {
 				header: 'Actions',
 				enableColumnFilter: false,
 				enableSorting: false,
-				hidden: !haveAccess.includes('delete') || !isUpdate,
+				hidden: !haveAccess.includes('delete') || isUpdate,
 				width: 'w-24',
 				cell: (info) => (
 					<EditDelete
 						idx={info.row.index}
 						handelDelete={handleReceiveEntryRemove}
-						showDelete={haveAccess.includes('delete')}
+						showDelete={haveAccess.includes('delete') || !isUpdate}
 						showUpdate={false}
 					/>
 				),
@@ -721,6 +721,7 @@ export default function Index() {
 						<ReactTableTitleOnly
 							title={'Receive Entry'}
 							data={receiveEntry}
+							handelAppend={handelReceiveEntryAppend}
 							columns={defaultColumns}>
 							<tr className='border-t border-primary/30'>
 								<td
