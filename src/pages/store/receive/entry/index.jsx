@@ -721,6 +721,7 @@ export default function Index() {
 						<ReactTableTitleOnly
 							title={'Receive Entry'}
 							data={receiveEntry}
+							handelAppend={handelReceiveEntryAppend}
 							columns={defaultColumns}>
 							<tr className='border-t border-primary/30'>
 								<td
