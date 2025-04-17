@@ -1,12 +1,12 @@
 import { useAuth } from '@/context/auth';
 import { useStoreIssue, useStoreStock } from '@/state/store';
-import { DevTool } from '@hookform/devtools';
 import { useFetch, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { JoinInput, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
+import { DevTool } from '@lib/react-hook-devtool';
 import GetDateTime from '@/util/GetDateTime';
 import { ISSUE_NULL, ISSUE_SCHEMA } from '@/util/Schema';
 

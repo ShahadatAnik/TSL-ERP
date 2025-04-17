@@ -8,13 +8,13 @@ import {
 	useOtherUnitValueLabel,
 } from '@/state/other';
 import { useStoreStock } from '@/state/store';
-import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
+import { DevTool } from '@lib/react-hook-devtool';
 import GetDateTime from '@/util/GetDateTime';
 import { STOCK_NULL, STOCK_SCHEMA } from '@/util/Schema';
 
@@ -265,7 +265,7 @@ export default function Index({
 						}}
 					/>
 				</FormField> */}
-				{/* <FormField label='unit' title='Unit' errors={errors}>
+			{/* <FormField label='unit' title='Unit' errors={errors}>
 					<Controller
 						name={'unit'}
 						control={control}

@@ -4,7 +4,6 @@ import {
 	useOtherMasterLcValueLabel,
 } from '@/state/other';
 import { useStoreLC } from '@/state/store';
-import { DevTool } from '@hookform/devtools';
 import DatePicker from 'react-datepicker';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -12,6 +11,7 @@ import { AddModal } from '@/components/Modal';
 import { FormField, Input, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
+import { DevTool } from '@lib/react-hook-devtool';
 import GetDateTime from '@/util/GetDateTime';
 import { LC_NULL, LC_SCHEMA } from '@/util/Schema';
 
