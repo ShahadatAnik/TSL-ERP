@@ -20,7 +20,7 @@ import {
 	useStoreStock,
 } from '@/state/store';
 import { useAuth } from '@context/auth';
-import { DevTool } from '@hookform/devtools';
+import { DevTool } from '@lib/react-hook-devtool';
 import { configure, HotKeys } from 'react-hotkeys';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
 import { useAccess, useFetchForRhfReset, useRHF } from '@/hooks';

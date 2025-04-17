@@ -1,13 +1,13 @@
 import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import { useStoreBuyer, useStoreIssue, useStoreStock } from '@/state/store';
-import { DevTool } from '@hookform/devtools';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
 
 import { AddModal } from '@/components/Modal';
 import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
+import { DevTool } from '@lib/react-hook-devtool';
 import GetDateTime from '@/util/GetDateTime';
 import { ISSUE_NULL, ISSUE_SCHEMA } from '@/util/Schema';
 
