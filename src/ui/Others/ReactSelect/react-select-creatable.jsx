@@ -1,13 +1,14 @@
-import Select from 'react-select';
+import React from 'react';
+import Creatable from 'react-select/creatable';
 
 import cn from '@/lib/cn';
 
 import { ButtonComponents } from './buttons';
 import { classNames, styles } from './utils';
 
-const ReactSelect = ({ className, ...props }) => {
+const ReactSelectCreatable = ({ className, ...props }) => {
 	return (
-		<Select
+		<Creatable
 			unstyled
 			classNamePrefix={'react-select-'}
 			classNames={{
@@ -25,9 +26,10 @@ const ReactSelect = ({ className, ...props }) => {
 			hideSelectedOptions
 			maxMenuHeight={150}
 			placeholder={props.placeholder}
+			options={props.options}
 			{...props}
 		/>
 	);
 };
 
-export default ReactSelect;
+export default ReactSelectCreatable;

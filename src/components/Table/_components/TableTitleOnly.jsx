@@ -2,13 +2,13 @@ import { Plus } from '@/assets/icons';
 
 import cn from '@/lib/cn';
 
-const TableTitleOnly = ({ title, subtitle, handelAppend }) => {
+const TableTitleOnly = ({ title, subtitle, handelAppend, extraButton }) => {
 	return (
 		<div
 			className={cn(
 				'mb-0 flex items-center justify-between gap-2 rounded-t-md border border-b-0 border-secondary/30 bg-primary px-4 py-3 md:justify-start'
 			)}>
-			<div className='flex'>
+			<div className='flex w-full'>
 				<div className='flex flex-col'>
 					<h2
 						className={cn(
@@ -22,8 +22,8 @@ const TableTitleOnly = ({ title, subtitle, handelAppend }) => {
 						</p>
 					)}
 				</div>
-				<div className='flex-1 justify-items-center justify-end'>
-					(
+				<div className='flex flex-1 justify-end justify-items-center gap-4'>
+					{extraButton && extraButton}
 					{handelAppend && (
 						<button
 							type='button'

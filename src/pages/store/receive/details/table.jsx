@@ -7,37 +7,37 @@ export default function Index({ receive_entry, convention_rate }) {
 	const columns = useMemo(
 		() => [
 			{
-				accessorKey: 'material_name',
+				accessorKey: 'material_uuid',
 				header: 'Material',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'article_name',
+				accessorKey: 'article_uuid',
 				header: 'Article',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'buyer_name',
+				accessorKey: 'buyer_uuid',
 				header: 'Buyer',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'category_name',
+				accessorKey: 'category_uuid',
 				header: 'Category',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'color_name',
+				accessorKey: 'color_uuid',
 				header: 'Color',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'size_name',
+				accessorKey: 'size_uuid',
 				header: 'Size',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
@@ -49,7 +49,7 @@ export default function Index({ receive_entry, convention_rate }) {
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'unit_name',
+				accessorKey: 'unit_uuid',
 				header: 'Unit',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
