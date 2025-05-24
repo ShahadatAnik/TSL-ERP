@@ -20,26 +20,20 @@ import {
 	useStoreStock,
 } from '@/state/store';
 import { useAuth } from '@context/auth';
-import { DevTool } from '@lib/react-hook-devtool';
+import { FileSpreadsheet } from 'lucide-react';
+import { CSVLink } from 'react-csv';
 import { configure, HotKeys } from 'react-hotkeys';
 import { Navigate, useNavigate, useParams } from 'react-router-dom';
-import { useAccess, useFetchForRhfReset, useRHF } from '@/hooks';
+import { useAccess, useRHF } from '@/hooks';
 
 import { DeleteModal } from '@/components/Modal';
-import ReactTable from '@/components/Table';
+import ReadFile from '@/components/read-file';
 import ReactTableTitleOnly from '@/components/Table/ReactTableTitleOnly';
-import {
-	DynamicField,
-	EditDelete,
-	FormField,
-	Input,
-	JoinInput,
-	ReactSelect,
-	RemoveButton,
-	Textarea,
-} from '@/ui';
+import ReactSelectCreatable from '@/ui/Others/ReactSelect/react-select-creatable';
+import { EditDelete, FormField, Input, Textarea } from '@/ui';
 
 import nanoid from '@/lib/nanoid';
+import { DevTool } from '@lib/react-hook-devtool';
 import { exclude } from '@/util/Exclude';
 import GetDateTime from '@/util/GetDateTime';
 import { RECEIVE_NULL, RECEIVE_SCHEMA } from '@/util/Schema';
@@ -145,6 +139,7 @@ export default function Index() {
 		'material_uuid',
 		status
 	);
+
 	// Submit
 	const onSubmit = async (data) => {
 		// Update item
@@ -323,19 +318,31 @@ export default function Index() {
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
-										<ReactSelect
+										<ReactSelectCreatable
 											placeholder='Select Material'
 											options={material}
 											value={material?.filter(
 												(inItem) =>
+													inItem.label ==
+														getValues(
+															`receive_entry[${idx}].name_uuid`
+														) ||
 													inItem.value ==
-													getValues(
-														`receive_entry[${idx}].name_uuid`
-													)
+														getValues(
+															`receive_entry[${idx}].name_uuid`
+														)
 											)}
 											onChange={(e) => {
-												onChange(e.value);
+												onChange(e.label);
 												setStatus(!status);
+											}}
+											onCreateOption={(inputValue) => {
+												const newOption = {
+													label: inputValue,
+													value: inputValue,
+												};
+												material.push(newOption);
+												onChange(newOption.label);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -370,19 +377,31 @@ export default function Index() {
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
-										<ReactSelect
+										<ReactSelectCreatable
 											placeholder='Select Article'
 											options={article}
 											value={article?.filter(
 												(inItem) =>
+													inItem.label ==
+														getValues(
+															`receive_entry[${idx}].article_uuid`
+														) ||
 													inItem.value ==
-													getValues(
-														`receive_entry[${idx}].article_uuid`
-													)
+														getValues(
+															`receive_entry[${idx}].article_uuid`
+														)
 											)}
 											onChange={(e) => {
-												onChange(e.value);
+												onChange(e.label);
 												setStatus(!status);
+											}}
+											onCreateOption={(inputValue) => {
+												const newOption = {
+													label: inputValue,
+													value: inputValue,
+												};
+												article.push(newOption);
+												onChange(newOption.label);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -417,19 +436,31 @@ export default function Index() {
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
-										<ReactSelect
+										<ReactSelectCreatable
 											placeholder='Select Category'
 											options={category}
 											value={category?.filter(
 												(inItem) =>
+													inItem.label ==
+														getValues(
+															`receive_entry[${idx}].category_uuid`
+														) ||
 													inItem.value ==
-													getValues(
-														`receive_entry[${idx}].category_uuid`
-													)
+														getValues(
+															`receive_entry[${idx}].category_uuid`
+														)
 											)}
 											onChange={(e) => {
-												onChange(e.value);
+												onChange(e.label);
 												setStatus(!status);
+											}}
+											onCreateOption={(inputValue) => {
+												const newOption = {
+													label: inputValue,
+													value: inputValue,
+												};
+												category.push(newOption);
+												onChange(newOption.label);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -464,19 +495,31 @@ export default function Index() {
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
-										<ReactSelect
+										<ReactSelectCreatable
 											placeholder='Select Color'
 											options={color}
 											value={color?.filter(
 												(inItem) =>
+													inItem.label ==
+														getValues(
+															`receive_entry[${idx}].color_uuid`
+														) ||
 													inItem.value ==
-													getValues(
-														`receive_entry[${idx}].color_uuid`
-													)
+														getValues(
+															`receive_entry[${idx}].color_uuid`
+														)
 											)}
 											onChange={(e) => {
-												onChange(e.value);
+												onChange(e.label);
 												setStatus(!status);
+											}}
+											onCreateOption={(inputValue) => {
+												const newOption = {
+													label: inputValue,
+													value: inputValue,
+												};
+												color.push(newOption);
+												onChange(newOption.label);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -511,19 +554,31 @@ export default function Index() {
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
-										<ReactSelect
+										<ReactSelectCreatable
 											placeholder='Select Size'
 											options={size}
 											value={size?.filter(
 												(inItem) =>
+													inItem.label ==
+														getValues(
+															`receive_entry[${idx}].size_uuid`
+														) ||
 													inItem.value ==
-													getValues(
-														`receive_entry[${idx}].size_uuid`
-													)
+														getValues(
+															`receive_entry[${idx}].size_uuid`
+														)
 											)}
 											onChange={(e) => {
-												onChange(e.value);
+												onChange(e.label);
 												setStatus(!status);
+											}}
+											onCreateOption={(inputValue) => {
+												const newOption = {
+													label: inputValue,
+													value: inputValue,
+												};
+												size.push(newOption);
+												onChange(newOption.label);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -582,19 +637,31 @@ export default function Index() {
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
-										<ReactSelect
+										<ReactSelectCreatable
 											placeholder='Select Unit'
 											options={unit}
 											value={unit?.filter(
 												(inItem) =>
+													inItem.label ==
+														getValues(
+															`receive_entry[${idx}].unit_uuid`
+														) ||
 													inItem.value ==
-													getValues(
-														`receive_entry[${idx}].unit_uuid`
-													)
+														getValues(
+															`receive_entry[${idx}].unit_uuid`
+														)
 											)}
 											onChange={(e) => {
-												onChange(e.value);
+												onChange(e.label);
 												setStatus(!status);
+											}}
+											onCreateOption={(inputValue) => {
+												const newOption = {
+													label: inputValue,
+													value: inputValue,
+												};
+												unit.push(newOption);
+												onChange(newOption.label);
 											}}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
@@ -699,6 +766,117 @@ export default function Index() {
 			category,
 		]
 	);
+
+	/// Upload file function ///
+	const [isLoading, setIsLoading] = useState(false);
+
+	const appendInChunks = async (appendFn, items, chunkSize = 10) => {
+		let index = 0;
+
+		return new Promise((resolve) => {
+			const process = () => {
+				const chunk = items.slice(index, index + chunkSize);
+
+				chunk.forEach((item) => {
+					appendFn(item, { shouldFocus: false }); // Prevent re-render/focus
+				});
+
+				index += chunkSize;
+
+				if (index < items.length) {
+					// Let UI breathe
+					setTimeout(process, 0);
+				} else {
+					resolve();
+				}
+			};
+
+			process();
+		});
+	};
+
+	const handleUploadFile = async (data) => {
+		if (!data || data.length === 0) return;
+
+		// Prepare your data
+		const newData = data
+			.filter((item) => item?.name_uuid)
+			.map((item, index) => {
+				material.find((m) => m.label === item.name_uuid) ||
+					material.push({
+						label: item.name_uuid,
+						value: item.name_uuid,
+					});
+
+				article.find((m) => m.label === item.article_uuid) ||
+					article.push({
+						label: item.article_uuid,
+						value: item.article_uuid,
+					});
+
+				category.find((m) => m.label === item.category_uuid) ||
+					category.push({
+						label: item.category_uuid,
+						value: item.category_uuid,
+					});
+
+				color.find((m) => m.label === item.color_uuid) ||
+					color.push({
+						label: item.color_uuid,
+						value: item.color_uuid,
+					});
+
+				size.find((m) => m.label === item.size_uuid) ||
+					size.push({
+						label: item.size_uuid,
+						value: item.size_uuid,
+					});
+
+				unit.find((m) => m.label === item.unit_uuid) ||
+					unit.push({
+						label: item.unit_uuid,
+						value: item.unit_uuid,
+					});
+
+				return {
+					name_uuid: item.name_uuid,
+					article_uuid: item.article_uuid,
+					category_uuid: item.category_uuid,
+					color_uuid: item.color_uuid,
+					size_uuid: item.size_uuid,
+					unit_uuid: item.unit_uuid,
+					quantity: item.quantity,
+					price: item.price,
+					remarks: item.remarks,
+				};
+			});
+
+		try {
+			setIsLoading(true);
+
+			const isValid = RECEIVE_SCHEMA.receive_entry.isValid(newData[0]);
+			if (!isValid) throw new Error('Invalid data');
+
+			// Clear existing fields
+			receiveEntryRemove();
+
+			// Append items in chunks with shouldFocus: false
+			await appendInChunks(receiveEntryAppend, newData, 20);
+		} catch (error) {
+			console.log('Error uploading file:', error);
+		} finally {
+			setIsLoading(false);
+		}
+	};
+
+	if (isLoading) {
+		return <FileUploading />;
+	}
+
+	const csvData = Object.keys(
+		RECEIVE_SCHEMA.receive_entry.describe().innerType.fields
+	);
+
 	return (
 		<>
 			<HotKeys {...{ keyMap, handlers }}>
@@ -722,7 +900,25 @@ export default function Index() {
 							title={'Receive Entry'}
 							data={receiveEntry}
 							handelAppend={handelReceiveEntryAppend}
-							columns={defaultColumns}>
+							columns={defaultColumns}
+							extraButton={
+								<div className='flex items-center gap-4'>
+									{csvData &&
+										Array.isArray(csvData) &&
+										csvData.length > 0 && (
+											<CSVLink
+												title='Demo Sheet'
+												type='button'
+												className='btn btn-warning btn-xs gap-1 rounded'
+												data={[csvData]}>
+												<FileSpreadsheet className='size-4' />
+												Demo
+											</CSVLink>
+										)}
+
+									<ReadFile onChange={handleUploadFile} />
+								</div>
+							}>
 							<tr className='border-t border-primary/30'>
 								<td
 									className='px-3 py-2 text-right text-sm font-bold'

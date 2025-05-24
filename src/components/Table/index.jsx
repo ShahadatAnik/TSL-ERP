@@ -109,6 +109,7 @@ function Table({
 						subtitle={subtitle}
 						handelAdd={handelAdd}
 						handelAppend={handelAppend}
+						extraButton={extraButton}
 					/>
 				</Suspense>
 			);

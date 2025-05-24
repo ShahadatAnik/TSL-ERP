@@ -1,6 +1,6 @@
 import { useEffect, useState } from 'react';
 
-export const exclude = (watch, material, entry, uuid,status) => {
+export const exclude = (watch, material, entry, uuid, status) => {
 	const [excludeItem, setExcludeItem] = useState([]);
 	useEffect(() => {
 		const newExcludeItems = watch(`${entry}`)?.map((item) => {
