@@ -56,7 +56,7 @@ export default function Index() {
 				header: 'Local/Import',
 				enableColumnFilter: false,
 				cell: (info) => {
-					return info.getValue() === 1 ? 'Import' : 'Local';
+					return info.getValue() === 1 ? 'Import' : info.getValue() === 0 ? 'Local': 'Loan';
 				},
 			},
 			{
@@ -95,6 +95,13 @@ export default function Index() {
 				),
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
+			},
+			{
+				accessorKey: 'inventory_date',
+				header: 'Inventory Date',
+				enableColumnFilter: false,
+				filterFn: 'isWithinRange',
+				cell: (info) => <DateTime date={info.getValue()} />,
 			},
 			{
 				accessorKey: 'created_by_name',

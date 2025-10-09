@@ -243,24 +243,25 @@ export const ISSUE_NULL = {
 };
 //* Store -> Receive
 export const RECEIVE_SCHEMA = {
-	vendor_uuid: STRING.nullable(),
+	vendor_uuid: STRING_REQUIRED,
 	is_import: NUMBER_REQUIRED,
 	lc_uuid: STRING.nullable(),
 	commercial_invoice_number: STRING.nullable(),
 	commercial_invoice_value: NUMBER_DOUBLE.nullable(),
 	convention_rate: NUMBER_DOUBLE_REQUIRED.default(1),
+	inventory_date: STRING.nullable(),
 	remarks: STRING.nullable(),
 
 	receive_entry: yup.array().of(
 		yup.object().shape({
 			name_uuid: STRING_REQUIRED,
-			article_uuid: STRING_REQUIRED,
-			category_uuid: STRING_REQUIRED,
-			color_uuid: STRING_REQUIRED,
-			size_uuid: STRING_REQUIRED,
+			article_uuid: STRING.nullable(),
+			category_uuid: STRING.nullable(),
+			color_uuid: STRING.nullable(),
+			size_uuid: STRING.nullable(),
 			unit_uuid: STRING_REQUIRED,
-			quantity: NUMBER_REQUIRED,
-			price: NUMBER_DOUBLE_REQUIRED,
+			quantity: NUMBER_DOUBLE_REQUIRED,
+			price: NUMBER_DOUBLE.nullable(),
 			remarks: STRING.nullable(),
 		})
 	),
@@ -273,6 +274,7 @@ export const RECEIVE_NULL = {
 	commercial_invoice_number: '',
 	commercial_invoice_value: 0.0,
 	convention_rate: 1,
+	inventory_date: null,
 	remarks: null,
 	receive_entry: [
 		{

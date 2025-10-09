@@ -33,6 +33,7 @@ export default function Information({
 		receive_id,
 		remarks,
 		updated_at,
+		inventory_date,
 	} = purchase;
 
 	const renderItems = [
@@ -47,7 +48,8 @@ export default function Information({
 		},
 		{
 			label: 'Import/Local',
-			value: is_import == 1 ? 'Import' : 'Local',
+			value:
+				is_import == 1 ? 'Import' : is_import == 2 ? 'Loan' : 'Local',
 		},
 
 		{
@@ -74,6 +76,13 @@ export default function Information({
 		{
 			label: 'Created By',
 			value: created_by_name,
+		},
+		{
+			label: 'Inventory Date',
+			value:
+				inventory_date !== '1970-01-01 06:00:00'
+					? format(new Date(inventory_date), 'dd/MM/yyyy')
+					: null,
 		},
 		{
 			label: 'Created',
