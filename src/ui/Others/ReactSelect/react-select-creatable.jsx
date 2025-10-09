@@ -27,6 +27,7 @@ const ReactSelectCreatable = ({ className, ...props }) => {
 			maxMenuHeight={150}
 			placeholder={props.placeholder}
 			options={props.options}
+			isDisabled={props.isDisabled}
 			{...props}
 		/>
 	);

@@ -1,5 +1,7 @@
 import { lazy, useEffect, useState } from 'react';
 import { useStoreStock } from '@/state/store';
+import { FileUp } from 'lucide-react';
+import { useNavigate, useNavigation } from 'react-router-dom';
 import { useAccess } from '@/hooks';
 
 import { Suspense } from '@/components/Feedback';
@@ -17,6 +19,7 @@ export default function Index() {
 	const { data, isLoading, url, deleteData, refetch } = useStoreStock();
 	const info = new PageInfo('Store/Stock', url, 'store__stock');
 	const haveAccess = useAccess('store__stock');
+	const navigation = useNavigate();
 
 	//* Fetching data from server
 	useEffect(() => {
@@ -75,6 +78,9 @@ export default function Index() {
 
 		window[info.getDeleteModalId()].showModal();
 	};
+	const handleBulkIssue = () => {
+		navigation('/store/stock/bulk-issue');
+	};
 	const columns = StockColumns({
 		handelUpdate,
 		handelDelete,
@@ -93,6 +99,14 @@ export default function Index() {
 				// accessor={haveAccess.includes('create')}
 				data={data}
 				columns={columns}
+				// customButtons={
+				// 	<button
+				// 		className='z-50 flex gap-2 rounded bg-warning p-1.5 text-sm font-bold text-white'
+				// 		onClick={handleBulkIssue}>
+				// 		<FileUp size={18} />
+				// 		Bulk Issue
+				// 	</button>
+				// }
 			/>
 
 			<Suspense>

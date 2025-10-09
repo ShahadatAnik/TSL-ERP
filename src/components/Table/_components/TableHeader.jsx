@@ -71,6 +71,7 @@ const TableHeader = (props) => {
 							title: props.title,
 						}}
 					/>
+					{props.customButtons && props.customButtons}
 				</div>
 
 				<div className='flex w-fit items-end gap-2'>

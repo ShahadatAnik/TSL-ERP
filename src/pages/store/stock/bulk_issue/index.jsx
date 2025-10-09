@@ -14,9 +14,9 @@ import {
 	useOtherUnitValueLabel,
 } from '@/state/other';
 import {
+	useStoreIssue,
 	useStoreReceive,
 	useStoreReceiveEntry,
-	useStoreReceiveEntryByDetails,
 	useStoreStock,
 } from '@/state/store';
 import { useAuth } from '@context/auth';
@@ -37,22 +37,21 @@ import nanoid from '@/lib/nanoid';
 import { DevTool } from '@lib/react-hook-devtool';
 import { exclude } from '@/util/Exclude';
 import GetDateTime from '@/util/GetDateTime';
-import { RECEIVE_NULL, RECEIVE_SCHEMA } from '@/util/Schema';
-
-import Header from './header';
+import { BULK_ISSUE_NULL, BULK_ISSUE_SCHEMA } from '@/util/Schema';
 
 export default function Index() {
 	const { user } = useAuth();
 	const [status, setStatus] = useState(false);
-	const haveAccess = useAccess('store__receive_entry');
+	const haveAccess = useAccess('store__bulk_entry');
 	const navigate = useNavigate();
-	const { receive_entry_description_uuid } = useParams();
-	const { data, invalidateQuery: invalidateEntryByDetails } =
-		useStoreReceiveEntryByDetails(receive_entry_description_uuid);
-	const { url: receive_entryEntryUrl, invalidateQuery: invalidateEntry } =
+	const { bulk_entry_description_uuid } = useParams();
+	const { data, invalidateQuery: invalidateEntryByDetails } = useStoreIssue(
+		bulk_entry_description_uuid
+	);
+	const { url: bulk_entryEntryUrl, invalidateQuery: invalidateEntry } =
 		useStoreReceiveEntry();
 	const {
-		url: receive_entryDescriptionUrl,
+		url: bulk_entryDescriptionUrl,
 		updateData,
 		postData,
 		deleteData,
@@ -67,10 +66,10 @@ export default function Index() {
 	const { invalidateQuery: invalidateStock } = useStoreStock();
 
 	useEffect(() => {
-		receive_entry_description_uuid !== undefined
+		bulk_entry_description_uuid !== undefined
 			? (document.title =
-					'Update Receive Entry: ' + receive_entry_description_uuid)
-			: (document.title = 'Receive Entry');
+					'Update Bulk Entry: ' + bulk_entry_description_uuid)
+			: (document.title = 'Bulk Entry');
 	}, []);
 
 	const {
@@ -84,51 +83,39 @@ export default function Index() {
 		getValues,
 		watch,
 		setValue,
-	} = useRHF(RECEIVE_SCHEMA, RECEIVE_NULL);
+	} = useRHF(BULK_ISSUE_SCHEMA, BULK_ISSUE_NULL);
 
-	const isUpdate = receive_entry_description_uuid !== undefined;
+	const isUpdate = bulk_entry_description_uuid !== undefined;
 
-	// receive_entry
+	// bulk_entry
 	const {
 		fields: receiveEntry,
 		append: receiveEntryAppend,
 		remove: receiveEntryRemove,
 	} = useFieldArray({
 		control,
-		name: 'receive_entry',
+		name: 'bulk_entry',
 	});
-	useEffect(() => {
-		if (data !== undefined && isUpdate) {
-			reset(data);
-		}
-	}, [data, isUpdate]);
+
 	const [deleteItem, setDeleteItem] = useState({
 		itemId: null,
 		itemName: null,
 	});
 
 	const handleReceiveEntryRemove = (index) => {
-		if (getValues(`receive_entry[${index}].uuid`) !== undefined) {
-			setDeleteItem({
-				itemId: getValues(`receive_entry[${index}].uuid`),
-				itemName: getValues(`receive_entry[${index}].material_name`),
-			});
-			window['receive_entry_delete'].showModal();
-		} else {
-			receiveEntryRemove(index);
-		}
+		receiveEntryRemove(index);
 	};
 
 	const handelReceiveEntryAppend = () => {
 		receiveEntryAppend({
-			material_uuid: null,
-			article_uuid: null,
-			category_uuid: null,
-			color_uuid: null,
-			size_uuid: null,
-			unit_uuid: null,
-			quantity: 0,
-			price: 0,
+			material: null,
+			article: null,
+			category: null,
+			color: null,
+			size: null,
+			unit: null,
+			stock_quantity: 0,
+			issue_quantity: 0,
 			remarks: null,
 		});
 	};
@@ -136,134 +123,62 @@ export default function Index() {
 	let excludeItem = exclude(
 		watch,
 		material,
-		'receive_entry',
+		'bulk_entry',
 		'material_uuid',
 		status
 	);
 
 	// Submit
 	const onSubmit = async (data) => {
-		// Update item
-		if (isUpdate) {
-			const receive_entry_description_data = {
-				...data,
-				inventory_date: format(
-					data?.inventory_date,
-					'yyyy-MM-dd HH:mm:ss'
-				),
-				receive_uuid: receive_entry_description_uuid,
-				updated_at: GetDateTime(),
-			};
-			delete receive_entry_description_data['receive_entry'];
-			const receive_entry_description_promise =
-				await updateData.mutateAsync({
-					url: `${receive_entryDescriptionUrl}/${data?.uuid}`,
-					updatedData: receive_entry_description_data,
-					uuid: data.uuid,
-					isOnCloseNeeded: false,
-				});
-
-			const receive_entry_entries_promise = data.receive_entry.map(
-				async (item, index) => {
-					if (item.uuid === undefined || item.uuid === null) {
-						item.receive_uuid = receive_entry_description_uuid;
-						item.created_at = GetDateTime();
-						item.created_by = user?.uuid;
-						item.uuid = nanoid();
-						item.index = index + 1;
-						return await postData.mutateAsync({
-							url: receive_entryEntryUrl,
-							newData: [item],
-							isOnCloseNeeded: false,
-						});
-					} else {
-						item.updated_at = GetDateTime();
-						item.index = index + 1;
-						const updatedData = {
-							...item,
-						};
-						return await updateData.mutateAsync({
-							url: `${receive_entryEntryUrl}/${item.uuid}`,
-							uuid: item.uuid,
-							updatedData,
-							isOnCloseNeeded: false,
-						});
-					}
-				}
-			);
-
-			try {
-				await Promise.all([
-					receive_entry_description_promise,
-					...receive_entry_entries_promise,
-				])
-					.then(() => reset(RECEIVE_NULL))
-					.then(() => {
-						invalidateStock();
-						invalidateEntry();
-						navigate(
-							`/store/receive/${receive_entry_description_uuid}`
-						);
-					});
-			} catch (err) {
-				console.error(`Error with Promise.all: ${err}`);
-			}
-
-			return;
-		}
-
 		// Add new item
-		const new_receive_entry_description_uuid = nanoid();
+		const new_bulk_entry_description_uuid = nanoid();
 		const created_at = GetDateTime();
 		const created_by = user.uuid;
 
-		// Create receive_entry description
-		const receive_entry_description_data = {
+		// Create bulk_entry description
+		const bulk_entry_description_data = {
 			...data,
 			inventory_date: format(data?.inventory_date, 'yyyy-MM-dd HH:mm:ss'),
-			uuid: new_receive_entry_description_uuid,
+			uuid: new_bulk_entry_description_uuid,
 			created_at,
 			created_by,
 		};
 
-		// delete receive_entry field from data to be sent
-		delete receive_entry_description_data['receive_entry'];
+		// delete bulk_entry field from data to be sent
+		delete bulk_entry_description_data['bulk_entry'];
 
-		const receive_entry_description_promise = await postData.mutateAsync({
-			url: receive_entryDescriptionUrl,
-			newData: receive_entry_description_data,
+		const bulk_entry_description_promise = await postData.mutateAsync({
+			url: bulk_entryDescriptionUrl,
+			newData: bulk_entry_description_data,
 			isOnCloseNeeded: false,
 		});
 
-		// Create receive_entry entries
-		const receive_entry_entries = [...data.receive_entry].map(
-			(item, index) => ({
-				...item,
-				index: index + 1,
-				receive_uuid: new_receive_entry_description_uuid,
-				uuid: nanoid(),
-				created_at,
-				created_by,
-			})
-		);
+		// Create bulk_entry entries
+		const bulk_entry_entries = [...data.bulk_entry].map((item) => ({
+			...item,
+			receive_uuid: new_bulk_entry_description_uuid,
+			uuid: nanoid(),
+			created_at,
+			created_by,
+		}));
 
-		const receive_entry_entries_promise = await postData.mutateAsync({
-			url: receive_entryEntryUrl,
-			newData: receive_entry_entries,
+		const bulk_entry_entries_promise = await postData.mutateAsync({
+			url: bulk_entryEntryUrl,
+			newData: bulk_entry_entries,
 			isOnCloseNeeded: false,
 		});
 
 		try {
 			await Promise.all([
-				receive_entry_description_promise,
-				receive_entry_entries_promise,
+				bulk_entry_description_promise,
+				bulk_entry_entries_promise,
 			])
-				.then(() => reset(RECEIVE_NULL))
+				.then(() => reset(BULK_ISSUE_NULL))
 				.then(() => {
 					invalidateStock();
 					invalidateEntry();
 					navigate(
-						`/store/receive/${new_receive_entry_description_uuid}`
+						`/store/receive/${new_bulk_entry_description_uuid}`
 					);
 				});
 		} catch (err) {
@@ -292,8 +207,8 @@ export default function Index() {
 		'group whitespace-nowrap text-left text-sm font-normal tracking-wide px-3 py-2';
 
 	const getTotalPrice = useCallback(
-		(receive_entry) =>
-			receive_entry?.reduce((acc, item) => {
+		(bulk_entry) =>
+			bulk_entry?.reduce((acc, item) => {
 				return acc + Number(item.price) * Number(item.quantity);
 			}, 0),
 		[status]
@@ -301,7 +216,7 @@ export default function Index() {
 	const defaultColumns = useMemo(
 		() => [
 			{
-				accessorKey: 'name_uuid',
+				accessorKey: 'material',
 				header: 'Material',
 				width: 'w-32',
 				enableColumnFilter: false,
@@ -309,18 +224,15 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.name_uuid;
+					const dynamicerror = errors?.bulk_entry?.[idx]?.material;
 					return (
 						<FormField
-							label={`receive_entry[${idx}].name_uuid`}
+							label={`bulk_entry[${idx}].material`}
 							title='Material'
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.name_uuid
-							}>
+							dynamicerror={errors?.bulk_entry?.[idx]?.material}>
 							<Controller
-								name={`receive_entry[${idx}].name_uuid`}
+								name={`bulk_entry[${idx}].material`}
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
@@ -331,11 +243,11 @@ export default function Index() {
 												(inItem) =>
 													inItem.label ==
 														getValues(
-															`receive_entry[${idx}].name_uuid`
+															`bulk_entry[${idx}].material`
 														) ||
 													inItem.value ==
 														getValues(
-															`receive_entry[${idx}].name_uuid`
+															`bulk_entry[${idx}].material`
 														)
 											)}
 											onChange={(e) => {
@@ -350,6 +262,7 @@ export default function Index() {
 												material.push(newOption);
 												onChange(newOption.label);
 											}}
+											isDisabled={true}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
 										/>
@@ -361,7 +274,7 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'article_uuid',
+				accessorKey: 'article',
 				header: 'Article',
 				width: 'w-64',
 				enableColumnFilter: false,
@@ -369,17 +282,14 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.article_uuid;
+					const dynamicerror = errors?.bulk_entry?.[idx]?.article;
 					return (
 						<FormField
-							label={`receive_entry[${idx}].article_uuid`}
+							label={`bulk_entry[${idx}].article`}
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.article_uuid
-							}>
+							dynamicerror={errors?.bulk_entry?.[idx]?.article}>
 							<Controller
-								name={`receive_entry[${idx}].article_uuid`}
+								name={`bulk_entry[${idx}].article`}
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
@@ -390,11 +300,11 @@ export default function Index() {
 												(inItem) =>
 													inItem.label ==
 														getValues(
-															`receive_entry[${idx}].article_uuid`
+															`bulk_entry[${idx}].article`
 														) ||
 													inItem.value ==
 														getValues(
-															`receive_entry[${idx}].article_uuid`
+															`bulk_entry[${idx}].article`
 														)
 											)}
 											onChange={(e) => {
@@ -409,6 +319,7 @@ export default function Index() {
 												article.push(newOption);
 												onChange(newOption.label);
 											}}
+											isDisabled={true}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
 										/>
@@ -420,7 +331,7 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'category_uuid',
+				accessorKey: 'category',
 				header: 'Category',
 				width: 'w-32',
 				enableColumnFilter: false,
@@ -428,17 +339,14 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.category_uuid;
+					const dynamicerror = errors?.bulk_entry?.[idx]?.category;
 					return (
 						<FormField
-							label={`receive_entry[${idx}].category_uuid`}
+							label={`bulk_entry[${idx}].category`}
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.category_uuid
-							}>
+							dynamicerror={errors?.bulk_entry?.[idx]?.category}>
 							<Controller
-								name={`receive_entry[${idx}].category_uuid`}
+								name={`bulk_entry[${idx}].category`}
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
@@ -449,11 +357,11 @@ export default function Index() {
 												(inItem) =>
 													inItem.label ==
 														getValues(
-															`receive_entry[${idx}].category_uuid`
+															`bulk_entry[${idx}].category`
 														) ||
 													inItem.value ==
 														getValues(
-															`receive_entry[${idx}].category_uuid`
+															`bulk_entry[${idx}].category`
 														)
 											)}
 											onChange={(e) => {
@@ -468,6 +376,7 @@ export default function Index() {
 												category.push(newOption);
 												onChange(newOption.label);
 											}}
+											isDisabled={true}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
 										/>
@@ -479,7 +388,7 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'color_uuid',
+				accessorKey: 'color',
 				header: 'Color',
 				width: 'w-32',
 				enableColumnFilter: false,
@@ -487,17 +396,14 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.color_uuid;
+					const dynamicerror = errors?.bulk_entry?.[idx]?.color;
 					return (
 						<FormField
-							label={`receive_entry[${idx}].color_uuid`}
+							label={`bulk_entry[${idx}].color`}
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.color_uuid
-							}>
+							dynamicerror={errors?.bulk_entry?.[idx]?.color}>
 							<Controller
-								name={`receive_entry[${idx}].color_uuid`}
+								name={`bulk_entry[${idx}].color`}
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
@@ -508,11 +414,11 @@ export default function Index() {
 												(inItem) =>
 													inItem.label ==
 														getValues(
-															`receive_entry[${idx}].color_uuid`
+															`bulk_entry[${idx}].color`
 														) ||
 													inItem.value ==
 														getValues(
-															`receive_entry[${idx}].color_uuid`
+															`bulk_entry[${idx}].color`
 														)
 											)}
 											onChange={(e) => {
@@ -527,6 +433,7 @@ export default function Index() {
 												color.push(newOption);
 												onChange(newOption.label);
 											}}
+											isDisabled={true}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
 										/>
@@ -538,7 +445,7 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'size_uuid',
+				accessorKey: 'size',
 				header: 'Size',
 				width: 'w-32',
 				enableColumnFilter: false,
@@ -546,17 +453,14 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.size_uuid;
+					const dynamicerror = errors?.bulk_entry?.[idx]?.size;
 					return (
 						<FormField
-							label={`receive_entry[${idx}].size_uuid`}
+							label={`bulk_entry[${idx}].size`}
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.size_uuid
-							}>
+							dynamicerror={errors?.bulk_entry?.[idx]?.size}>
 							<Controller
-								name={`receive_entry[${idx}].size_uuid`}
+								name={`bulk_entry[${idx}].size`}
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
@@ -567,11 +471,11 @@ export default function Index() {
 												(inItem) =>
 													inItem.label ==
 														getValues(
-															`receive_entry[${idx}].size_uuid`
+															`bulk_entry[${idx}].size`
 														) ||
 													inItem.value ==
 														getValues(
-															`receive_entry[${idx}].size_uuid`
+															`bulk_entry[${idx}].size`
 														)
 											)}
 											onChange={(e) => {
@@ -586,6 +490,7 @@ export default function Index() {
 												size.push(newOption);
 												onChange(newOption.label);
 											}}
+											isDisabled={true}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
 										/>
@@ -607,11 +512,10 @@ export default function Index() {
 					return (
 						<Input
 							title='quantity'
-							label={`receive_entry[${idx}].quantity`}
+							label={`bulk_entry[${idx}].quantity`}
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.quantity
-							}
+							dynamicerror={errors?.bulk_entry?.[idx]?.quantity}
+							disabled={true}
 							register={register}
 							onChange={(e) => {
 								setStatus(!status);
@@ -621,7 +525,7 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'unit_uuid',
+				accessorKey: 'unit',
 				header: 'Unit',
 				width: 'w-32',
 				enableColumnFilter: false,
@@ -629,17 +533,14 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.unit_uuid;
+					const dynamicerror = errors?.bulk_entry?.[idx]?.unit;
 					return (
 						<FormField
-							label={`receive_entry[${idx}].unit_uuid`}
+							label={`bulk_entry[${idx}].unit`}
 							is_title_needed='false'
-							dynamicerror={
-								errors?.receive_entry?.[idx]?.unit_uuid
-							}>
+							dynamicerror={errors?.bulk_entry?.[idx]?.unit}>
 							<Controller
-								name={`receive_entry[${idx}].unit_uuid`}
+								name={`bulk_entry[${idx}].unit`}
 								control={control}
 								render={({ field: { onChange } }) => {
 									return (
@@ -650,11 +551,11 @@ export default function Index() {
 												(inItem) =>
 													inItem.label ==
 														getValues(
-															`receive_entry[${idx}].unit_uuid`
+															`bulk_entry[${idx}].unit`
 														) ||
 													inItem.value ==
 														getValues(
-															`receive_entry[${idx}].unit_uuid`
+															`bulk_entry[${idx}].unit`
 														)
 											)}
 											onChange={(e) => {
@@ -669,6 +570,7 @@ export default function Index() {
 												unit.push(newOption);
 												onChange(newOption.label);
 											}}
+											isDisabled={true}
 											menuPortalTarget={document.body}
 											dynamicerror={dynamicerror}
 										/>
@@ -680,8 +582,8 @@ export default function Index() {
 				},
 			},
 			{
-				accessorKey: 'price',
-				header: 'Unit Price',
+				accessorKey: 'issue_quantity',
+				header: 'Issue Quantity',
 				enableColumnFilter: false,
 				width: 'w-32',
 				enableSorting: false,
@@ -690,9 +592,9 @@ export default function Index() {
 					return (
 						<Input
 							title='price'
-							label={`receive_entry[${idx}].price`}
+							label={`bulk_entry[${idx}].price`}
 							is_title_needed='false'
-							dynamicerror={errors?.receive_entry?.[idx]?.price}
+							dynamicerror={errors?.bulk_entry?.[idx]?.price}
 							onChange={(e) => {
 								setStatus(!status);
 							}}
@@ -700,47 +602,6 @@ export default function Index() {
 						/>
 					);
 				},
-			},
-			{
-				accessorKey: 'price_usd',
-				header: (
-					<div>
-						Price <br /> (USD)
-					</div>
-				),
-				enableColumnFilter: false,
-				enableSorting: false,
-				cell: (info) => {
-					return `${(watch(`receive_entry[${info.row.index}].quantity`) * watch(`receive_entry[${info.row.index}].price`)).toLocaleString()}`;
-				},
-			},
-			{
-				accessorKey: 'price_bdt',
-				header: (
-					<div>
-						Price <br /> (BDT)
-					</div>
-				),
-				enableColumnFilter: false,
-				enableSorting: false,
-				cell: (info) => {
-					return `${(watch(`receive_entry[${info.row.index}].quantity`) * watch(`receive_entry[${info.row.index}].price`) * watch('convention_rate')).toLocaleString()}`;
-				},
-			},
-			{
-				accessorKey: 'remarks',
-				header: 'Remarks',
-				enableColumnFilter: false,
-				enableSorting: false,
-				width: 'w-44',
-				cell: (info) => (
-					<Textarea
-						label={`receive_entry[${info.row.index}].remarks`}
-						is_title_needed='false'
-						height='h-8'
-						{...{ register, errors }}
-					/>
-				),
 			},
 
 			{
@@ -806,53 +667,53 @@ export default function Index() {
 
 		// Prepare your data
 		const newData = data
-			.filter((item) => item?.name_uuid)
+			.filter((item) => item?.material)
 			.map((item, index) => {
-				material.find((m) => m.label === item.name_uuid) ||
+				material.find((m) => m.label === item.material) ||
 					material.push({
-						label: item.name_uuid,
-						value: item.name_uuid,
+						label: item.material,
+						value: item.material,
 					});
 
-				article.find((m) => m.label === item.article_uuid) ||
+				article.find((m) => m.label === item.article) ||
 					article.push({
-						label: item.article_uuid,
-						value: item.article_uuid,
+						label: item.article,
+						value: item.article,
 					});
 
-				category.find((m) => m.label === item.category_uuid) ||
+				category.find((m) => m.label === item.category) ||
 					category.push({
-						label: item.category_uuid,
-						value: item.category_uuid,
+						label: item.category,
+						value: item.category,
 					});
 
-				color.find((m) => m.label === item.color_uuid) ||
+				color.find((m) => m.label === item.color) ||
 					color.push({
-						label: item.color_uuid,
-						value: item.color_uuid,
+						label: item.color,
+						value: item.color,
 					});
 
-				size.find((m) => m.label === item.size_uuid) ||
+				size.find((m) => m.label === item.size) ||
 					size.push({
-						label: item.size_uuid,
-						value: item.size_uuid,
+						label: item.size,
+						value: item.size,
 					});
 
-				unit.find((m) => m.label === item.unit_uuid) ||
+				unit.find((m) => m.label === item.unit) ||
 					unit.push({
-						label: item.unit_uuid,
-						value: item.unit_uuid,
+						label: item.unit,
+						value: item.unit,
 					});
 
 				return {
-					name_uuid: item.name_uuid,
-					article_uuid: item.article_uuid,
-					category_uuid: item.category_uuid,
-					color_uuid: item.color_uuid,
-					size_uuid: item.size_uuid,
-					unit_uuid: item.unit_uuid,
-					quantity: item.quantity,
-					price: item.price,
+					material: item.material,
+					article: item.article,
+					category: item.category,
+					color: item.color,
+					size: item.size,
+					unit: item.unit,
+					stock_quantity: item.stock_quantity,
+					issue_quantity: item.issue_quantity,
 					remarks: item.remarks,
 				};
 			});
@@ -860,7 +721,7 @@ export default function Index() {
 		try {
 			setIsLoading(true);
 
-			const isValid = RECEIVE_SCHEMA.receive_entry.isValid(newData[0]);
+			const isValid = BULK_ISSUE_SCHEMA.isValid(newData[0]);
 			if (!isValid) throw new Error('Invalid data');
 
 			// Clear existing fields
@@ -880,7 +741,7 @@ export default function Index() {
 	}
 
 	const csvData = Object.keys(
-		RECEIVE_SCHEMA.receive_entry.describe().innerType.fields
+		BULK_ISSUE_SCHEMA.bulk_entry.describe().innerType.fields
 	);
 
 	return (
@@ -891,19 +752,8 @@ export default function Index() {
 					noValidate
 					className='flex flex-col'>
 					<div className='space-y-6'>
-						<Header
-							{...{
-								register,
-								errors,
-								control,
-								getValues,
-								Controller,
-								watch,
-								setValue,
-							}}
-						/>
 						<ReactTableTitleOnly
-							title={'Receive Entry'}
+							title={'Bulk Entry'}
 							data={receiveEntry}
 							handelAppend={handelReceiveEntryAppend}
 							columns={defaultColumns}
@@ -928,21 +778,14 @@ export default function Index() {
 							<tr className='border-t border-primary/30'>
 								<td
 									className='px-3 py-2 text-right text-sm font-bold'
-									colSpan='8'>
+									colSpan='7'>
 									Total:
 								</td>
 								<td className='px-3 py-2 text-sm font-bold'>
 									{getTotalPrice(
-										watch('receive_entry')
-									).toLocaleString()}
+										watch('bulk_entry')
+									)?.toLocaleString()}
 								</td>
-								<td className='px-3 py-2 text-sm font-bold'>
-									{(
-										getTotalPrice(watch('receive_entry')) *
-										watch('convention_rate')
-									).toLocaleString()}
-								</td>
-								<td className='px-3 py-2 font-bold'></td>
 							</tr>
 						</ReactTableTitleOnly>
 					</div>
@@ -958,12 +801,12 @@ export default function Index() {
 			</HotKeys>
 			<Suspense>
 				<DeleteModal
-					modalId={'receive_entry_delete'}
-					title={'Receive Entry'}
+					modalId={'bulk_entry_delete'}
+					title={'Bulk Entry'}
 					deleteItem={deleteItem}
 					setDeleteItem={setDeleteItem}
 					setItems={receiveEntry}
-					url={receive_entryEntryUrl}
+					url={bulk_entryEntryUrl}
 					deleteData={deleteData}
 					invalidateQueryArray={[
 						invalidateEntryByDetails,

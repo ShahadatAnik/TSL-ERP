@@ -12,6 +12,7 @@ import ReportMaterial from '@/pages/store/report/material';
 import ReportVendor from '@/pages/store/report/vendor';
 import Size from '@/pages/store/size';
 import Stock from '@/pages/store/stock';
+import StockBulkIssue from '@/pages/store/stock/bulk_issue';
 import Unit from '@/pages/store/unit';
 import Vendor from '@/pages/store/vendor';
 
@@ -25,6 +26,15 @@ export const StoreRoutes = [
 				element: <Stock />,
 				page_name: 'store__stock',
 				actions: ['create', 'read', 'update', 'delete', 'click_issue'],
+			},
+
+			{
+				name: 'Stock Bulk Issue',
+				path: '/store/stock/bulk-issue',
+				element: <StockBulkIssue />,
+				hidden: true,
+				page_name: 'store__stock_bulk_issue',
+				actions: ['create', 'read', 'update', 'delete'],
 			},
 
 			{

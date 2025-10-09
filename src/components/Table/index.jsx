@@ -134,6 +134,7 @@ function Table({
 					showColumns={showColumns}
 					extraButton={extraButton}
 					select={select}
+					customButtons={props.customButtons}
 				/>
 			</Suspense>
 		);

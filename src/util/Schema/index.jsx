@@ -314,3 +314,31 @@ export const REPORT_NULL = {
 	start_date: null,
 	end_date: null,
 };
+//* Store Bulk Issue Schema
+export const BULK_ISSUE_SCHEMA = {
+	bulk_entry: yup.array().of(
+		yup.object().shape({
+			name: STRING_REQUIRED,
+			article: STRING.nullable(),
+			category: STRING.nullable(),
+			color: STRING.nullable(),
+			size: STRING.nullable(),
+			unit: STRING_REQUIRED,
+			stock_quantity: NUMBER_DOUBLE_REQUIRED,
+			issue_quantity: NUMBER_DOUBLE.nullable(),
+			remarks: STRING.nullable(),
+		})
+	),
+};
+
+export const BULK_ISSUE_NULL = {
+	name: '',
+	article: null,
+	category: null,
+	color: null,
+	size: null,
+	unit: '',
+	stock_quantity: 0.0,
+	issue_quantity: null,
+	remarks: null,
+};
