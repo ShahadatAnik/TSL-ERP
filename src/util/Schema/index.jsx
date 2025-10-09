@@ -233,7 +233,7 @@ export const STOCK_NULL = {
 };
 //* Store -> Issue
 export const ISSUE_SCHEMA = {
-	quantity: NUMBER_REQUIRED,
+	quantity: NUMBER_DOUBLE_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const ISSUE_NULL = {
