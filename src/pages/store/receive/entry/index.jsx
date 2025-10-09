@@ -20,6 +20,7 @@ import {
 	useStoreStock,
 } from '@/state/store';
 import { useAuth } from '@context/auth';
+import { format } from 'date-fns';
 import { FileSpreadsheet } from 'lucide-react';
 import { CSVLink } from 'react-csv';
 import { configure, HotKeys } from 'react-hotkeys';
@@ -146,6 +147,10 @@ export default function Index() {
 		if (isUpdate) {
 			const receive_entry_description_data = {
 				...data,
+				inventory_date: format(
+					data?.inventory_date,
+					'yyyy-MM-dd HH:mm:ss'
+				),
 				receive_uuid: receive_entry_description_uuid,
 				updated_at: GetDateTime(),
 			};
@@ -159,6 +164,7 @@ export default function Index() {
 				});
 
 			const receive_entry_entries_promise = data.receive_entry.map(
+				
 				async (item) => {
 					if (item.uuid === undefined || item.uuid === null) {
 						item.receive_uuid = receive_entry_description_uuid;
@@ -167,7 +173,7 @@ export default function Index() {
 						item.uuid = nanoid();
 						return await postData.mutateAsync({
 							url: receive_entryEntryUrl,
-							newData: item,
+							newData: [item],
 							isOnCloseNeeded: false,
 						});
 					} else {
@@ -213,6 +219,7 @@ export default function Index() {
 		// Create receive_entry description
 		const receive_entry_description_data = {
 			...data,
+			inventory_date: format(data?.inventory_date, 'yyyy-MM-dd HH:mm:ss'),
 			uuid: new_receive_entry_description_uuid,
 			created_at,
 			created_by,
@@ -236,21 +243,16 @@ export default function Index() {
 			created_by,
 		}));
 
-		const receive_entry_entries_promise = [
-			...receive_entry_entries.map(
-				async (item) =>
-					await postData.mutateAsync({
-						url: receive_entryEntryUrl,
-						newData: item,
-						isOnCloseNeeded: false,
-					})
-			),
-		];
+		const receive_entry_entries_promise = await postData.mutateAsync({
+			url: receive_entryEntryUrl,
+			newData: receive_entry_entries,
+			isOnCloseNeeded: false,
+		});
 
 		try {
 			await Promise.all([
 				receive_entry_description_promise,
-				...receive_entry_entries_promise,
+				receive_entry_entries_promise,
 			])
 				.then(() => reset(RECEIVE_NULL))
 				.then(() => {

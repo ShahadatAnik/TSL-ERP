@@ -1,5 +1,6 @@
 import { useOtherLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
 import { set } from 'date-fns';
+import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router-dom';
 
 import {
@@ -26,6 +27,7 @@ export default function Header({
 	const purchaseOptions = [
 		{ label: 'Import', value: 1 },
 		{ label: 'Local', value: 0 },
+		{ label: 'Loan', value: 2 },
 	];
 
 	return (
@@ -111,7 +113,25 @@ export default function Header({
 						}}
 					/>
 				</FormField>
+				<FormField label='inventory_date' title='Inventory Date' errors={errors}>
+					<Controller
+						name={'inventory_date'}
+						control={control}
+						render={({ field: { onChange } }) => {
+							return (
+								<DatePicker
+									className='input input-secondary w-full rounded border-secondary/30 bg-base-100 px-2 text-sm text-primary transition-all duration-100 ease-in-out placeholder:text-sm placeholder:text-secondary/50 focus:border-secondary/30 focus:outline-secondary/30'
+									placeholderText='Select Date'
+									dateFormat='dd/MM/yyyy'
+									selected={getValues('inventory_date')}
+									onChange={(date) => onChange(date)}
+								/>
+							);
+						}}
+					/>
+				</FormField>
 			</div>
+
 			<div className='flex flex-col gap-6 px-2 text-secondary-content md:flex-row'>
 				<>
 					<Input
