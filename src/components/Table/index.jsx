@@ -57,6 +57,7 @@ function Table({
 			return acc;
 		}, {})
 	);
+	console.log(data);
 
 	//* Initialize React Table
 	const table = useReactTable({
@@ -170,7 +171,7 @@ function Table({
 					</table>
 				</div>
 			</Suspense>
-			{!showTitleOnly && showPagination && table.getPageCount() > 1 && (
+			{showPagination && table.getPageCount() > 1 && (
 				<Suspense>
 					<TablePagination {...table} />
 				</Suspense>
