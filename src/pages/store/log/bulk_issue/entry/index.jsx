@@ -620,7 +620,6 @@ export default function Index() {
 		];
 
 		const dataRows = stockData
-			.slice(0, 10)
 			.map((item) => [
 				item.uuid || '',
 				item.material_name || '',
