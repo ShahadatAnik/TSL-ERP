@@ -7,10 +7,10 @@ export default function Index({ receive_entry, convention_rate }) {
 	const columns = useMemo(
 		() => [
 			{
-				accessorKey: 'material_uuid',
-				header: 'Material',
+				accessorKey: 'index',
+				header: 'Index',
 				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
+				cell: (info) => info.row.original.index,
 			},
 			{
 				accessorKey: 'article_uuid',

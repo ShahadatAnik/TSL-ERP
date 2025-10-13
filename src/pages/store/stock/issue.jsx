@@ -49,13 +49,13 @@ export default function Index({
 		const updatedData = {
 			...data,
 			uuid: nanoid(),
-			material_uuid: updateIssue?.uuid,
+			material_uuid: updateIssue?.material_uuid,
 			created_at: GetDateTime(),
 			created_by: user?.uuid,
 		};
 		await postData.mutateAsync({
 			url,
-			newData: updatedData,
+			newData: [updatedData],
 			onClose,
 		});
 		invalidateStock();

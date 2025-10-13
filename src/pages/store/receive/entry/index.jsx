@@ -164,13 +164,13 @@ export default function Index() {
 				});
 
 			const receive_entry_entries_promise = data.receive_entry.map(
-				
-				async (item) => {
+				async (item, index) => {
 					if (item.uuid === undefined || item.uuid === null) {
 						item.receive_uuid = receive_entry_description_uuid;
 						item.created_at = GetDateTime();
 						item.created_by = user?.uuid;
 						item.uuid = nanoid();
+						item.index = index + 1;
 						return await postData.mutateAsync({
 							url: receive_entryEntryUrl,
 							newData: [item],
@@ -178,6 +178,7 @@ export default function Index() {
 						});
 					} else {
 						item.updated_at = GetDateTime();
+						item.index = index + 1;
 						const updatedData = {
 							...item,
 						};
@@ -235,13 +236,16 @@ export default function Index() {
 		});
 
 		// Create receive_entry entries
-		const receive_entry_entries = [...data.receive_entry].map((item) => ({
-			...item,
-			receive_uuid: new_receive_entry_description_uuid,
-			uuid: nanoid(),
-			created_at,
-			created_by,
-		}));
+		const receive_entry_entries = [...data.receive_entry].map(
+			(item, index) => ({
+				...item,
+				index: index + 1,
+				receive_uuid: new_receive_entry_description_uuid,
+				uuid: nanoid(),
+				created_at,
+				created_by,
+			})
+		);
 
 		const receive_entry_entries_promise = await postData.mutateAsync({
 			url: receive_entryEntryUrl,
@@ -296,6 +300,21 @@ export default function Index() {
 	);
 	const defaultColumns = useMemo(
 		() => [
+			{
+				accessorKey: 'index',
+				header: 'Index',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.index;
+					return (
+						<span>{info.row.original?.index}</span>
+					);
+				},
+			},
 			{
 				accessorKey: 'name_uuid',
 				header: 'Material',
@@ -841,6 +860,7 @@ export default function Index() {
 					});
 
 				return {
+					index: index+1,
 					name_uuid: item.name_uuid,
 					article_uuid: item.article_uuid,
 					category_uuid: item.category_uuid,
@@ -903,6 +923,7 @@ export default function Index() {
 							data={receiveEntry}
 							handelAppend={handelReceiveEntryAppend}
 							columns={defaultColumns}
+							pageSize={25}
 							extraButton={
 								<div className='flex items-center gap-4'>
 									{csvData &&

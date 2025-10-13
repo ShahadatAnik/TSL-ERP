@@ -197,3 +197,14 @@ export const useStoreReceiveEntryByDetails = (uuid) =>
 		url: `/store/receive-entry-details/by/${uuid}`,
 		//enabled: !!uuid,
 	});
+//*Bulk Issue
+export const useStoreBulkIssue = () =>
+	createGlobalState({
+		queryKey: storeQK.bulkIssue(),
+		url: `/store/issue-header`,
+	});
+export const useStoreBulkDetails = (uuid) =>
+	createGlobalState({
+		queryKey: storeQK.bulkDetails(uuid),
+		url: `/store/issue-details/by/${uuid}`,
+	});

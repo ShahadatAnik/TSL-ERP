@@ -6,6 +6,7 @@ const ReactTableTitleOnly = ({
 	columns,
 	children,
 	handelAppend,
+	pageSize,
 	extraButton,
 }) => {
 	return (
@@ -15,6 +16,7 @@ const ReactTableTitleOnly = ({
 			data={data}
 			columns={columns}
 			handelAppend={handelAppend}
+			pageSize={pageSize}
 			extraButton={extraButton}
 			showTitleOnly>
 			{children}

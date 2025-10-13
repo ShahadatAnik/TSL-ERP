@@ -1,7 +1,8 @@
+import { ChevronLeft, ChevronRight } from 'lucide-react';
+
 import { PaginationButton } from '../../ui';
 import Paginated from './Paginated';
 import PaginatedButton from './PaginatedButton';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
 
 const TablePagination = ({
 	getState,
@@ -14,6 +15,7 @@ const TablePagination = ({
 	previousPage,
 }) => {
 	const { pageIndex, pageSize } = getState().pagination;
+	const uniqPageSize = new Set([pageSize, 10, 20, 50, 100]);
 
 	return (
 		<div className='rounded-b-md border-[1px] border-t-0 border-secondary/20 p-3'>
@@ -29,11 +31,13 @@ const TablePagination = ({
 							onChange={(e) =>
 								setPageSize(Number(e.target.value))
 							}>
-							{[10, 20, 50, 100].map((pageSize) => (
-								<option key={pageSize} value={pageSize}>
-									{pageSize}
-								</option>
-							))}
+							{[...uniqPageSize]
+								.sort((a, b) => a - b)
+								.map((pageSize) => (
+									<option key={pageSize} value={pageSize}>
+										{pageSize}
+									</option>
+								))}
 						</select>
 					</div>
 				</div>

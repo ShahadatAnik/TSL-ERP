@@ -46,6 +46,7 @@ function Table({
 	indicatorValue,
 	containerClassName = '',
 	handelAppend,
+	pageSize = 10,
 	...props
 }) {
 	//* Define state variables
@@ -84,6 +85,11 @@ function Table({
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: props.setRowSelection,
+		initialState: {
+			pagination: {
+				pageSize: pageSize,
+			},
+		},
 	});
 
 	//* Extract React Table functions
@@ -134,6 +140,7 @@ function Table({
 					showColumns={showColumns}
 					extraButton={extraButton}
 					select={select}
+					customButtons={props.customButtons}
 				/>
 			</Suspense>
 		);
@@ -169,9 +176,9 @@ function Table({
 					</table>
 				</div>
 			</Suspense>
-			{!showTitleOnly && showPagination && table.getPageCount() > 1 && (
+			{showPagination && table.getPageCount() > 1 && (
 				<Suspense>
-					<TablePagination {...table} />
+					<TablePagination {...table} pageSize={pageSize} />
 				</Suspense>
 			)}
 		</div>
