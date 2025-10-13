@@ -301,6 +301,21 @@ export default function Index() {
 	const defaultColumns = useMemo(
 		() => [
 			{
+				accessorKey: 'index',
+				header: 'Index',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+					const dynamicerror =
+						errors?.receive_entry?.[idx]?.index;
+					return (
+						<span>{info.row.original?.index}</span>
+					);
+				},
+			},
+			{
 				accessorKey: 'name_uuid',
 				header: 'Material',
 				width: 'w-32',
@@ -845,6 +860,7 @@ export default function Index() {
 					});
 
 				return {
+					index: index+1,
 					name_uuid: item.name_uuid,
 					article_uuid: item.article_uuid,
 					category_uuid: item.category_uuid,
@@ -907,6 +923,7 @@ export default function Index() {
 							data={receiveEntry}
 							handelAppend={handelReceiveEntryAppend}
 							columns={defaultColumns}
+							pageSize={25}
 							extraButton={
 								<div className='flex items-center gap-4'>
 									{csvData &&

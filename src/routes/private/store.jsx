@@ -4,6 +4,8 @@ import Buyer from '@/pages/store/buyer';
 import Category from '@/pages/store/category';
 import Color from '@/pages/store/color';
 import Log from '@/pages/store/log';
+import StockBulkIssue from '@/pages/store/log/bulk_issue/entry';
+import StockBulkIssueDetails from '@/pages/store/log/bulk_issue/details';
 import Material from '@/pages/store/material';
 import Receive from '@/pages/store/receive';
 import ReceiveInd from '@/pages/store/receive/details';
@@ -12,7 +14,6 @@ import ReportMaterial from '@/pages/store/report/material';
 import ReportVendor from '@/pages/store/report/vendor';
 import Size from '@/pages/store/size';
 import Stock from '@/pages/store/stock';
-import StockBulkIssue from '@/pages/store/stock/bulk_issue';
 import Unit from '@/pages/store/unit';
 import Vendor from '@/pages/store/vendor';
 
@@ -36,7 +37,22 @@ export const StoreRoutes = [
 				page_name: 'store__stock_bulk_issue',
 				actions: ['create', 'read', 'update', 'delete'],
 			},
-
+			{
+				name: 'Stock Bulk Issue Update',
+				path: '/store/stock/bulk-issue/:uuid/update',
+				element: <StockBulkIssue />,
+				hidden: true,
+				page_name: 'store__stock_bulk_issue_update',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
+			{
+				name: 'Stock Bulk Issue Details',
+				path: '/store/stock/bulk-issue/:uuid/details',
+				element: <StockBulkIssueDetails />,
+				hidden: true,
+				page_name: 'store__stock_bulk_issue_details',
+				actions: ['create', 'read', 'update', 'delete'],
+			},
 			{
 				name: 'Receive',
 				path: '/store/receive',
@@ -145,6 +161,8 @@ export const StoreRoutes = [
 					'click_issue_delete',
 					'click_receive_update',
 					'click_receive_delete',
+					'click_bulk_issue_update',
+					'click_bulk_issue_delete',
 				],
 			},
 			{

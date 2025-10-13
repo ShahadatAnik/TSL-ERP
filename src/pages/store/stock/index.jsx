@@ -55,7 +55,7 @@ export default function Index() {
 			...prev,
 			uuid: data[idx].uuid,
 			quantity: data[idx].quantity,
-			name: data[idx].material_name,
+			material_uuid: data[idx].uuid,
 			article: data[idx].article_name,
 			buyer: data[idx].buyer_name,
 			unit: data[idx].unit_name,
@@ -99,14 +99,14 @@ export default function Index() {
 				// accessor={haveAccess.includes('create')}
 				data={data}
 				columns={columns}
-				// customButtons={
-				// 	<button
-				// 		className='z-50 flex gap-2 rounded bg-warning p-1.5 text-sm font-bold text-white'
-				// 		onClick={handleBulkIssue}>
-				// 		<FileUp size={18} />
-				// 		Bulk Issue
-				// 	</button>
-				// }
+				customButtons={
+					<button
+						className='z-50 flex gap-2 rounded bg-warning p-1.5 text-sm font-bold text-white'
+						onClick={handleBulkIssue}>
+						<FileUp size={18} />
+						Bulk Issue
+					</button>
+				}
 			/>
 
 			<Suspense>

@@ -46,6 +46,7 @@ function Table({
 	indicatorValue,
 	containerClassName = '',
 	handelAppend,
+	pageSize = 10,
 	...props
 }) {
 	//* Define state variables
@@ -57,7 +58,6 @@ function Table({
 			return acc;
 		}, {})
 	);
-	console.log(data);
 
 	//* Initialize React Table
 	const table = useReactTable({
@@ -85,6 +85,11 @@ function Table({
 		getFacetedMinMaxValues: getFacetedMinMaxValues(),
 		onColumnVisibilityChange: setColumnVisibility,
 		onRowSelectionChange: props.setRowSelection,
+		initialState: {
+			pagination: {
+				pageSize: pageSize,
+			},
+		},
 	});
 
 	//* Extract React Table functions
@@ -173,7 +178,7 @@ function Table({
 			</Suspense>
 			{showPagination && table.getPageCount() > 1 && (
 				<Suspense>
-					<TablePagination {...table} />
+					<TablePagination {...table} pageSize={pageSize} />
 				</Suspense>
 			)}
 		</div>

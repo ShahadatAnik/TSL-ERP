@@ -1,6 +1,7 @@
-import { ShowLocalToast } from '@/components/Toast';
 import { Clipboard } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
+
+import { ShowLocalToast } from '@/components/Toast';
 
 const CopyButton = ({ id }) => {
 	const handleOnClick = () => {
@@ -41,11 +42,13 @@ const LinkWithCopy = ({ title = '', id, uri = '' }) => {
 	return <BaseBody value={value} to={to} />;
 };
 
-const LinkOnly = ({ title = '', id, uri = '' }) => {
+const LinkOnly = ({ title = '', id, uri = '', url = null }) => {
 	const value = title ? title : id;
 	const to = `${uri}/${id}`;
 
-	return <BaseBody value={value} to={to} showCopyButton={false} />;
+	return (
+		<BaseBody value={value} to={url ? url : to} showCopyButton={false} />
+	);
 };
 
 const LinkCopyOnly = ({ id }) => (

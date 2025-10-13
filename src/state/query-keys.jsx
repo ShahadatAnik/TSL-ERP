@@ -87,6 +87,8 @@ export const storeQK = {
 		'details',
 		uuid,
 	],
+	bulkIssue: () => [...storeQK.all(), 'bulk-issue'],
+	bulkDetails: (uuid) => [...storeQK.bulkIssue(), uuid],
 };
 //* Other
 export const otherQK = {

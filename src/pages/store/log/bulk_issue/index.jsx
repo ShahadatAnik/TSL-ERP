@@ -1,26 +1,30 @@
 import { lazy, useEffect, useMemo, useState } from 'react';
-import { useStoreReceive, useStoreStock } from '@/state/store';
+import { useStoreBulkIssue, useStoreReceive, useStoreStock } from '@/state/store';
 import { useNavigate } from 'react-router-dom';
 import { useAccess } from '@/hooks';
+
+
 
 import { Suspense } from '@/components/Feedback';
 import ReactTable from '@/components/Table';
 import { DateTime, EditDelete, LinkOnly } from '@/ui';
 
+
+
 import PageInfo from '@/util/PageInfo';
+
+
+
+
 
 const DeleteModal = lazy(() => import('@/components/Modal/Delete'));
 
 export default function Index() {
 	const navigate = useNavigate();
-	const haveAccess = useAccess('store__receive');
-	const { data, isLoading, url, deleteData } = useStoreReceive();
+	const haveAccess = useAccess('store__log');
+	const { data, isLoading, url, deleteData } = useStoreBulkIssue();
 	const { invalidateQuery: invalidateStock } = useStoreStock();
-	const info = new PageInfo(
-		'Store / Material Receive',
-		url,
-		'store__receive'
-	);
+	const info = new PageInfo('Store / Bulk Issue', url, 'store__log');
 
 	useEffect(() => {
 		document.title = info.getTabName();
@@ -29,76 +33,35 @@ export default function Index() {
 	const columns = useMemo(
 		() => [
 			{
-				accessorKey: 'receive_id',
-				header: 'ID',
+				accessorKey: 'issue_id',
+				header: 'Issue ID',
 				enableColumnFilter: false,
 				cell: (info) => {
-					const { uuid } = info.row.original;
+					const { uuid } = info?.row?.original;
 					return (
 						<LinkOnly
-							uri='/store/receive'
+							url={`/store/stock/bulk-issue/${uuid}/details`}
 							id={uuid}
-							title={info.getValue()}
+							title={info?.getValue()}
 						/>
 					);
 				},
 			},
 			{
-				accessorKey: 'vendor_name',
-				header: 'Vendor',
-				enableColumnFilter: false,
-				width: 'w-32',
-				cell: (info) => info.getValue(),
-			},
-
-			{
-				accessorKey: 'is_import',
-				header: 'Local/Import',
-				enableColumnFilter: false,
-				cell: (info) => {
-					return info.getValue() === 1 ? 'Import' : info.getValue() === 0 ? 'Local': 'Loan';
-				},
-			},
-			{
-				accessorKey: 'lc_number',
-				header: 'LC',
+				accessorKey: 'serial_no',
+				header: 'SL Number',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'commercial_invoice_number',
-				header: (
-					<>
-						Commercial Invoice <br /> Number
-					</>
-				),
+				accessorKey: 'section',
+				header: 'Section',
 				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 			{
-				accessorKey: 'commercial_invoice_value',
-				header: (
-					<>
-						Commercial Invoice <br /> Value
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'convention_rate',
-				header: (
-					<>
-						Conversion
-						<br /> Rate
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => info.getValue(),
-			},
-			{
-				accessorKey: 'inventory_date',
-				header: 'Inventory Date',
+				accessorKey: 'issue_date',
+				header: 'Date',
 				enableColumnFilter: false,
 				filterFn: 'isWithinRange',
 				cell: (info) => <DateTime date={info.getValue()} />,
@@ -134,7 +97,9 @@ export default function Index() {
 				header: 'Actions',
 				enableColumnFilter: false,
 				enableSorting: false,
-				hidden: !haveAccess.includes('update'),
+				hidden:
+					!haveAccess.includes('click_bulk_issue_update') &&
+					!haveAccess.includes('click_bulk_issue_delete'),
 				width: 'w-24',
 				cell: (info) => {
 					return (
@@ -151,11 +116,8 @@ export default function Index() {
 		[data]
 	);
 
-	// Add
-	const handelAdd = () => navigate('/store/receive/entry');
-
 	const handelUpdate = (idx) => {
-		navigate(`/store/receive/${data[idx].uuid}/update`);
+		navigate(`/store/stock/bulk-issue/${data[idx].uuid}/update`);
 	};
 
 	// Delete
@@ -167,10 +129,7 @@ export default function Index() {
 		setDeleteItem((prev) => ({
 			...prev,
 			itemId: data[idx].uuid,
-			itemName: `${data[idx].receive_id} 
-				(Total Material: 
-				${data[idx].receive_entry_count})
-				`,
+			itemName: data[idx].sl_number,
 		}));
 
 		window[info.getDeleteModalId()].showModal();
@@ -183,11 +142,11 @@ export default function Index() {
 		<>
 			<ReactTable
 				title={info.getTitle()}
-				handelAdd={handelAdd}
 				accessor={haveAccess.includes('create')}
 				data={data}
 				columns={columns}
 			/>
+
 			<Suspense>
 				<DeleteModal
 					modalId={info.getDeleteModalId()}
