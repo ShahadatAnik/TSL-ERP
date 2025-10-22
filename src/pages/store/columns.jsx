@@ -98,6 +98,12 @@ export const StockColumns = ({
 	return useMemo(
 		() => [
 			{
+				accessorKey: 'material_id',
+				header: 'Stock ID',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
+			{
 				accessorKey: 'material_name',
 				header: 'Name',
 				enableColumnFilter: false,
@@ -195,6 +201,12 @@ export const IssueLogColumns = ({
 }) => {
 	return useMemo(
 		() => [
+			{
+				accessorKey: 'material_id',
+				header: 'Stock ID',
+				enableColumnFilter: false,
+				cell: (info) => info.getValue(),
+			},
 			{
 				accessorKey: 'material_name',
 				header: 'Name',
@@ -458,7 +470,6 @@ export const ReceiveColumns = ({
 	haveAccess,
 	data,
 }) => {
-	console.log(haveAccess);
 	return useMemo(
 		() => [
 			{

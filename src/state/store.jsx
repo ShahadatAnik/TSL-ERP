@@ -208,3 +208,10 @@ export const useStoreBulkDetails = (uuid) =>
 		queryKey: storeQK.bulkDetails(uuid),
 		url: `/store/issue-details/by/${uuid}`,
 	});
+
+//* Stock Material Value Label
+export const useStoreStockMaterialValueLabel = () =>
+	createGlobalState({
+		queryKey: storeQK.stockMaterialValueLabel(),
+		url: '/other/material/value/label',
+	});

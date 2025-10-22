@@ -42,7 +42,6 @@ export default function Index({
 		reset(ISSUE_NULL);
 		window[modalId].close();
 	};
-	const { value: material } = useFetch('/other/material/value/label');
 
 	const onSubmit = async (data) => {
 		// Add Item

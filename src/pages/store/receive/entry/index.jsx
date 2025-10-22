@@ -201,6 +201,7 @@ export default function Index() {
 					.then(() => {
 						invalidateStock();
 						invalidateEntry();
+						invalidateStockMaterialValueLabel();
 						navigate(
 							`/store/receive/${receive_entry_description_uuid}`
 						);
@@ -262,6 +263,7 @@ export default function Index() {
 				.then(() => {
 					invalidateStock();
 					invalidateEntry();
+					invalidateStockMaterialValueLabel();
 					navigate(
 						`/store/receive/${new_receive_entry_description_uuid}`
 					);
@@ -308,11 +310,8 @@ export default function Index() {
 
 				cell: (info) => {
 					const idx = info.row.index;
-					const dynamicerror =
-						errors?.receive_entry?.[idx]?.index;
-					return (
-						<span>{info.row.original?.index}</span>
-					);
+					const dynamicerror = errors?.receive_entry?.[idx]?.index;
+					return <span>{info.row.original?.index}</span>;
 				},
 			},
 			{
@@ -860,7 +859,7 @@ export default function Index() {
 					});
 
 				return {
-					index: index+1,
+					index: index + 1,
 					name_uuid: item.name_uuid,
 					article_uuid: item.article_uuid,
 					category_uuid: item.category_uuid,

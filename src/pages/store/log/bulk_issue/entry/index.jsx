@@ -146,8 +146,6 @@ export default function Index() {
 	);
 	// Submit
 	const onSubmit = async (data) => {
-		// console.log(data);
-		// return;
 		if (data?.bulk_entry.length === 0) {
 			ShowLocalToast({
 				type: 'error',
@@ -189,12 +187,13 @@ export default function Index() {
 					// 		isOnCloseNeeded: false,
 					// 	});
 					// } else {
+
 					item.updated_at = GetDateTime();
-					item.index = index + 1;
 					item.issue_header_uuid = uuid;
 					item.quantity = item.issue_quantity;
 					const updatedData = {
 						...item,
+						index: index + 1,
 					};
 					return await updateData.mutateAsync({
 						url: `/store/issue/${item.uuid}`,
@@ -248,10 +247,10 @@ export default function Index() {
 			isOnCloseNeeded: false,
 		});
 		// Create bulk_entry entries
-		const bulk_entry_entries = [...data.bulk_entry].map((item) => ({
+		const bulk_entry_entries = [...data.bulk_entry].map((item,index) => ({
 			...item,
 			uuid: nanoid(),
-
+			index: index,
 			issue_header_uuid: issue_header_uuid,
 			quantity: item?.issue_quantity,
 			created_at,
@@ -314,6 +313,19 @@ export default function Index() {
 	);
 	const defaultColumns = useMemo(
 		() => [
+			{
+				accessorKey: 'index',
+				header: 'Index',
+				width: 'w-32',
+				enableColumnFilter: false,
+				enableSorting: false,
+
+				cell: (info) => {
+					const idx = info.row.index;
+
+					return <span>{idx + 1}</span>;
+				},
+			},
 			{
 				accessorKey: 'material',
 				header: 'Material',
@@ -619,18 +631,17 @@ export default function Index() {
 			'issue_quantity',
 		];
 
-		const dataRows = stockData
-			.map((item) => [
-				item.uuid || '',
-				item.material_name || '',
-				item.article_name || '',
-				item.category_name || '',
-				item.color_name || '',
-				item.size_name || '',
-				item.unit_name || '',
-				Math.abs(item.quantity) || 0,
-				0,
-			]);
+		const dataRows = stockData.map((item) => [
+			item.uuid || '',
+			item.material_name || '',
+			item.article_name || '',
+			item.category_name || '',
+			item.color_name || '',
+			item.size_name || '',
+			item.unit_name || '',
+			Math.abs(item.quantity) || 0,
+			0,
+		]);
 
 		const worksheetData = [headers, ...dataRows];
 		const worksheet = XLSX.utils.aoa_to_sheet(worksheetData);

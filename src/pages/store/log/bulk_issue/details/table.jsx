@@ -10,6 +10,12 @@ export default function Index({ bulk_entry }) {
 				accessorKey: 'material_name',
 				header: 'Name',
 				enableColumnFilter: false,
+				cell: (info) => info.row.original.index + 1,
+			},
+			{
+				accessorKey: 'material_name',
+				header: 'Name',
+				enableColumnFilter: false,
 				cell: (info) => info.getValue(),
 			},
 

@@ -1,5 +1,5 @@
 import { useOtherLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
-import { set } from 'date-fns';
+import { format, set } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import { useParams } from 'react-router-dom';
 
@@ -11,6 +11,8 @@ import {
 	SectionEntryBody,
 	Textarea,
 } from '@/ui';
+
+import GetDateTime from '@/util/GetDateTime';
 
 export default function Header({
 	register,
@@ -58,12 +60,36 @@ export default function Header({
 						name={'issue_date'}
 						control={control}
 						render={({ field: { onChange } }) => {
+							// Helper function to validate and create a valid date
+							const getValidDate = (dateValue) => {
+								if (!dateValue || dateValue === null) {
+									return undefined;
+								}
+
+								if (typeof dateValue === 'string') {
+									const parsedDate = new Date(dateValue);
+									return isNaN(parsedDate.getTime())
+										? undefined
+										: parsedDate;
+								}
+
+								if (dateValue instanceof Date) {
+									return isNaN(dateValue.getTime())
+										? undefined
+										: dateValue;
+								}
+
+								return new Date();
+							};
+
 							return (
 								<DatePicker
 									className='input input-secondary w-full rounded border-secondary/30 bg-base-100 px-2 text-sm text-primary transition-all duration-100 ease-in-out placeholder:text-sm placeholder:text-secondary/50 focus:border-secondary/30 focus:outline-secondary/30'
 									placeholderText='Select Date'
 									dateFormat='dd/MM/yyyy'
-									selected={getValues('issue_date')}
+									selected={getValidDate(
+										getValues('issue_date')
+									)}
 									onChange={(date) => onChange(date)}
 								/>
 							);

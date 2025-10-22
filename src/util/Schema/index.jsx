@@ -233,11 +233,13 @@ export const STOCK_NULL = {
 };
 //* Store -> Issue
 export const ISSUE_SCHEMA = {
+	material_uuid: STRING.nullable(),
 	quantity: NUMBER_DOUBLE_REQUIRED,
 	remarks: STRING.nullable(),
 };
 export const ISSUE_NULL = {
 	uuid: null,
+	material_uuid: null,
 	quantity: null,
 	remarks: null,
 };

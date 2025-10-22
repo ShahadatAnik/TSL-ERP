@@ -89,6 +89,12 @@ export const storeQK = {
 	],
 	bulkIssue: () => [...storeQK.all(), 'bulk-issue'],
 	bulkDetails: (uuid) => [...storeQK.bulkIssue(), uuid],
+
+	//* Stock Material Value Label
+	stockMaterialValueLabel: () => [
+		...storeQK.all(),
+		'stock-material-value-label',
+	],
 };
 //* Other
 export const otherQK = {
