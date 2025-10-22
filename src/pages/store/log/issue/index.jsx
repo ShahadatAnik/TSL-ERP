@@ -41,6 +41,7 @@ export default function Index() {
 		setUpdate((prev) => ({
 			...prev,
 			uuid: data[idx].uuid,
+			material_uuid: data[idx].material_uuid,
 			quantity: data[idx].quantity,
 			stock_quantity: data[idx].store_quantity,
 			material_name: data[idx].material_name,

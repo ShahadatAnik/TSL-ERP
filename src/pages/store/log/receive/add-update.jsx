@@ -13,6 +13,7 @@ import {
 	useStoreBuyer,
 	useStoreReceiveEntry,
 	useStoreStock,
+	useStoreStockMaterialValueLabel,
 } from '@/state/store';
 import { useFetch, useFetchForRhfReset, useRHF } from '@/hooks';
 
@@ -41,6 +42,8 @@ export default function Index({
 }) {
 	const { user } = useAuth();
 	const { url, updateData, postData } = useStoreReceiveEntry();
+	const { invalidateQuery: invalidateStockMaterialValueLabel } =
+		useStoreStockMaterialValueLabel();
 	const { invalidateQuery: invalidateStock } = useStoreStock();
 
 	const { data: article } = useOtherArticleValueLabel();
@@ -60,7 +63,6 @@ export default function Index({
 		context,
 	} = useRHF(RECEIVE_ENTRY_SCHEMA, RECEIVE_ENTRY_NULL);
 	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
-	// const { value: material } = useFetch('/other/material/value/label');
 
 	const onClose = () => {
 		setUpdate((prev) => ({
@@ -72,6 +74,7 @@ export default function Index({
 	};
 
 	const onSubmit = async (data) => {
+
 		// Update item
 		if (update?.uuid !== null && update?.uuid !== undefined) {
 			const updatedData = {
@@ -80,7 +83,7 @@ export default function Index({
 			};
 
 			await updateData.mutateAsync({
-				url: `${url}/${update?.uuid}`,
+				url: `/store/receive-entry/for/receive-log/${update?.uuid}`,
 				uuid: update?.uuid,
 				updatedData,
 				onClose,
@@ -89,6 +92,7 @@ export default function Index({
 			return;
 		}
 		invalidateStock();
+		invalidateStockMaterialValueLabel();
 	};
 
 	return (
@@ -171,28 +175,6 @@ export default function Index({
 				</FormField>
 			</div>
 			<div className='mb-4 flex flex-col gap-2 md:flex-row'>
-				<FormField label='unit_uuid' title='Unit' errors={errors}>
-					<Controller
-						name={'unit_uuid'}
-						control={control}
-						render={({ field: { onChange } }) => {
-							return (
-								<ReactSelect
-									placeholder='Select Unit'
-									options={unit}
-									value={unit?.find(
-										(inItem) =>
-											inItem.value ==
-											getValues(`unit_uuid`)
-									)}
-									onChange={(e) => {
-										onChange(e.value);
-									}}
-								/>
-							);
-						}}
-					/>
-				</FormField>
 				<FormField label='size_uuid' title='Size' errors={errors}>
 					<Controller
 						name={'size_uuid'}
@@ -264,7 +246,11 @@ export default function Index({
 				<Input
 					title='quantity'
 					label={`quantity`}
-					unit={getValues('unit_name')}
+					unit={
+						unit?.find(
+							(item) => item.value === getValues('unit_uuid')
+						)?.label || ''
+					}
 					register={register}
 				/>
 				<Input
