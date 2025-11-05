@@ -759,6 +759,22 @@ export const ReportColumns = ({ data }) => {
 				),
 			},
 			{
+				accessorKey: 'purchased_quantity_avg_conversion_rate',
+				header: (
+					<>
+						Conversion
+						<br />
+						Rate
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
+			},
+			{
 				accessorKey: 'purchased_quantity_rate_bdt',
 				header: (
 					<>
@@ -790,22 +806,7 @@ export const ReportColumns = ({ data }) => {
 					</div>
 				),
 			},
-			{
-				accessorKey: 'purchased_quantity_avg_conversion_rate',
-				header: (
-					<>
-						Conversion
-						<br />
-						Rate
-					</>
-				),
-				enableColumnFilter: false,
-				cell: (info) => (
-					<div className='text-right'>
-						{info.getValue().toFixed(4)}
-					</div>
-				),
-			},
+
 			// Total Stock
 			{
 				accessorKey: 'sub_total_quantity',
