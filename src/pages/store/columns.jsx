@@ -668,6 +668,22 @@ export const ReportColumns = ({ data }) => {
 				),
 			},
 			{
+				accessorKey: 'opening_quantity_avg_conversion_rate',
+				header: (
+					<>
+						Conversion
+						<br />
+						Rate
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
+			},
+			{
 				accessorKey: 'opening_quantity_rate_bdt',
 				header: (
 					<>
@@ -765,6 +781,22 @@ export const ReportColumns = ({ data }) => {
 						Total Value
 						<br />
 						(BDT)
+					</>
+				),
+				enableColumnFilter: false,
+				cell: (info) => (
+					<div className='text-right'>
+						{info.getValue().toFixed(4)}
+					</div>
+				),
+			},
+			{
+				accessorKey: 'purchased_quantity_avg_conversion_rate',
+				header: (
+					<>
+						Conversion
+						<br />
+						Rate
 					</>
 				),
 				enableColumnFilter: false,
