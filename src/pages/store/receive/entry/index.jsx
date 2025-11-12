@@ -18,6 +18,7 @@ import {
 	useStoreReceiveEntry,
 	useStoreReceiveEntryByDetails,
 	useStoreStock,
+	useStoreStockMaterialValueLabel,
 } from '@/state/store';
 import { useAuth } from '@context/auth';
 import { format } from 'date-fns';
@@ -65,6 +66,8 @@ export default function Index() {
 	const { data: size } = useOtherSizeValueLabel();
 	const { data: unit } = useOtherUnitValueLabel();
 	const { invalidateQuery: invalidateStock } = useStoreStock();
+	const { invalidateQuery: invalidateStockMaterialValueLabel } =
+		useStoreStockMaterialValueLabel();
 
 	useEffect(() => {
 		receive_entry_description_uuid !== undefined
@@ -866,8 +869,8 @@ export default function Index() {
 					color_uuid: item.color_uuid,
 					size_uuid: item.size_uuid,
 					unit_uuid: item.unit_uuid,
-					quantity: item.quantity,
-					price: item.price,
+					quantity: item.quantity || 0,
+					price: item.price || 0,
 					remarks: item.remarks,
 				};
 			});
