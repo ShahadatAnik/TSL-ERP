@@ -247,7 +247,7 @@ export default function Index() {
 			isOnCloseNeeded: false,
 		});
 		// Create bulk_entry entries
-		const bulk_entry_entries = [...data.bulk_entry].map((item,index) => ({
+		const bulk_entry_entries = [...data.bulk_entry].map((item, index) => ({
 			...item,
 			uuid: nanoid(),
 			index: index,
@@ -605,7 +605,7 @@ export default function Index() {
 	};
 
 	if (isLoading) {
-		return <FileUploading />;
+		return <span>Loading...</span>;
 	}
 
 	// Excel export function with hidden UUID columns

@@ -891,7 +891,7 @@ export default function Index() {
 	};
 
 	if (isLoading) {
-		return <FileUploading />;
+		return <span>Loading...</span>;
 	}
 
 	const csvData = Object.keys(
