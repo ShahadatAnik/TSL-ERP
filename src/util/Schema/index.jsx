@@ -287,7 +287,7 @@ export const RECEIVE_NULL = {
 			size_uuid: null,
 			unit_uuid: null,
 			quantity: null,
-			price: 0.0,
+			price: 0,
 			remarks: null,
 		},
 	],
