@@ -5,6 +5,7 @@ import React, {
 	useMemo,
 	useState,
 } from 'react';
+import { useAccCostCenter } from '@/pages/accounting/cost-center/config/query';
 import {
 	useOtherArticleValueLabel,
 	useOtherCategoryValueLabel,
@@ -58,6 +59,7 @@ export default function Index() {
 		postData,
 		deleteData,
 	} = useStoreReceive();
+	const { invalidateQuery: invalidateCostCenter } = useAccCostCenter();
 
 	const { data: material } = useOtherMaterialValueLabel();
 	const { data: category } = useOtherCategoryValueLabel();
@@ -206,6 +208,7 @@ export default function Index() {
 						invalidateStock();
 						invalidateEntry();
 						invalidateStockMaterialValueLabel();
+						invalidateCostCenter();
 						navigate(
 							`/store/receive/${receive_entry_description_uuid}`
 						);
@@ -269,6 +272,7 @@ export default function Index() {
 					invalidateStock();
 					invalidateEntry();
 					invalidateStockMaterialValueLabel();
+					invalidateCostCenter();
 					navigate(
 						`/store/receive/${new_receive_entry_description_uuid}`
 					);
