@@ -150,6 +150,7 @@ export default function Index() {
 		if (isUpdate) {
 			const receive_entry_description_data = {
 				...data,
+				type: 'store',
 				inventory_date: format(
 					data?.inventory_date,
 					'yyyy-MM-dd HH:mm:ss'
@@ -224,6 +225,7 @@ export default function Index() {
 		// Create receive_entry description
 		const receive_entry_description_data = {
 			...data,
+			type: 'store',
 			inventory_date: format(data?.inventory_date, 'yyyy-MM-dd HH:mm:ss'),
 			uuid: new_receive_entry_description_uuid,
 			created_at,

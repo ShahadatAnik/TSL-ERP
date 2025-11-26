@@ -248,6 +248,7 @@ export const RECEIVE_SCHEMA = {
 	vendor_uuid: STRING_REQUIRED,
 	is_import: NUMBER_REQUIRED,
 	lc_uuid: STRING.nullable(),
+	currency_uuid: STRING_REQUIRED,
 	commercial_invoice_number: STRING.nullable(),
 	commercial_invoice_value: NUMBER_DOUBLE.nullable(),
 	convention_rate: NUMBER_DOUBLE_REQUIRED.default(1),

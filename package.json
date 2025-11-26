@@ -24,6 +24,7 @@
 		"framer-motion": "^11.9.0",
 		"js-cookie": "^3.0.5",
 		"lucide-react": "^0.446.0",
+		"match-sorter": "^8.2.0",
 		"nanoid": "^5.0.7",
 		"numeral": "^2.0.6",
 		"pdfmake": "^0.2.13",
@@ -42,6 +43,7 @@
 		"scheduler": "^0.23.2",
 		"tailwind-merge": "^2.5.2",
 		"to-words": "^4.1.0",
+		"use-debounce": "^10.0.6",
 		"use-react-router-breadcrumbs": "^4.0.1",
 		"xlsx": "^0.18.5",
 		"yup": "^1.4.0"

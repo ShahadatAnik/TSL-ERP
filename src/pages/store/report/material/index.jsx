@@ -3,7 +3,7 @@ import { format } from 'date-fns';
 import DatePicker from 'react-datepicker';
 import { useAccess, useFetch } from '@/hooks';
 
-import Pdf from '@/components/Pdf/Report';
+import Pdf from '@/components/Pdf/report';
 import ReactTable from '@/components/Table';
 import { FormField, SectionEntryBody } from '@/ui';
 

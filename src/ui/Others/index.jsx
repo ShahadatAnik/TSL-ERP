@@ -9,7 +9,12 @@ import {
 import { DateTime } from './DateTime';
 import { DepartmentShow, UserName } from './DepartmentShow';
 import { ItemName } from './ItemName';
-import { LinkCopyOnly, LinkOnly, LinkWithCopy } from './LinkWithCopy';
+import {
+	CustomLink,
+	LinkCopyOnly,
+	LinkOnly,
+	LinkWithCopy,
+} from './LinkWithCopy';
 import { Progress } from './Progress';
 import ReactSelect from './ReactSelect';
 import SectionEntryBody from './SectionEntryBody';
@@ -18,6 +23,7 @@ import { TitleList, TitleValue } from './TitleValue';
 
 export {
 	BadgeCheckbox,
+	CustomLink,
 	DateTime,
 	DepartmentShow,
 	EditDelete,

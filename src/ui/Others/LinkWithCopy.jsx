@@ -2,6 +2,7 @@ import { Clipboard } from 'lucide-react';
 import { Link, useParams } from 'react-router-dom';
 
 import { ShowLocalToast } from '@/components/Toast';
+import cn from '@/lib/cn';
 
 const CopyButton = ({ id }) => {
 	const handleOnClick = () => {
@@ -57,5 +58,41 @@ const LinkCopyOnly = ({ id }) => (
 		<span>{id}</span>
 	</button>
 );
+const CustomLink = ({
+	label = null,
+	url = null,
+	showCopyButton = true,
+	openInNewTab = false,
+	className = '',
+}) => {
+	if (!label) return '--';
 
-export { LinkCopyOnly, LinkOnly, LinkWithCopy };
+	return (
+		<div key={label} className={cn('flex items-center gap-2', className)}>
+			{showCopyButton && (
+				<CopyButton
+					id={label}
+					className='transition-colors duration-300 hover:text-info hover:decoration-info'
+				/>
+			)}
+
+			{url === null ? (
+				<span>{label}</span>
+			) : (
+				<Link
+					to={url}
+					className={cn(
+						'font-semibold underline underline-offset-2 transition-colors duration-300 hover:text-info hover:decoration-info',
+						url !== null
+							? 'cursor-pointer'
+							: 'pointer-events-none cursor-not-allowed'
+					)}
+					target={openInNewTab ? '_blank' : '_self'}>
+					{label}
+				</Link>
+			)}
+		</div>
+	);
+};
+
+export { CustomLink, LinkCopyOnly, LinkOnly, LinkWithCopy };

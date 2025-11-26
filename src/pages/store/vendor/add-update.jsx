@@ -1,4 +1,5 @@
 import { useAuth } from '@/context/auth';
+import { useAccCostCenter } from '@/pages/accounting/cost-center/config/query';
 import { useOtherVendorValueLabel } from '@/state/other';
 import { useStoreVendor } from '@/state/store';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
@@ -23,6 +24,7 @@ export default function Index({
 
 	const { invalidateQuery: invalidateVendorValueLabel } =
 		useOtherVendorValueLabel();
+	const { invalidateQuery: invalidateCostCenter } = useAccCostCenter();
 
 	const { register, handleSubmit, errors, reset, context, control } = useRHF(
 		VENDOR_SCHEMA,
@@ -71,6 +73,7 @@ export default function Index({
 			onClose,
 		});
 		invalidateVendorValueLabel();
+		invalidateCostCenter();
 	};
 
 	return (

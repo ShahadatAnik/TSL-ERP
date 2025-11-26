@@ -1,3 +1,5 @@
+import { useEffect } from 'react';
+import { useOtherCurrency } from '@/pages/accounting/currency/config/query';
 import { useOtherLcValueLabel, useOtherVendorValueLabel } from '@/state/other';
 import { set } from 'date-fns';
 import DatePicker from 'react-datepicker';
@@ -23,12 +25,34 @@ export default function Header({
 }) {
 	const { data: vendor } = useOtherVendorValueLabel();
 	const { data: lc } = useOtherLcValueLabel();
+	const { data: currencyOptions } = useOtherCurrency();
 
 	const purchaseOptions = [
 		{ label: 'Import', value: 1 },
 		{ label: 'Local', value: 0 },
 		{ label: 'Loan', value: 2 },
 	];
+
+	// Set BDT as default currency
+	useEffect(() => {
+		if (currencyOptions && !getValues('currency_uuid')) {
+			const bdtCurrency = currencyOptions.find(
+				(opt) =>
+					opt.label?.toLowerCase() === 'bdt' ||
+					opt.label?.toLowerCase().includes('bdt')
+			);
+			if (bdtCurrency) {
+				setValue('currency_uuid', bdtCurrency.value, {
+					shouldDirty: false,
+					shouldValidate: false,
+				});
+				setValue('convention_rate', bdtCurrency.conversion_rate || 1, {
+					shouldDirty: false,
+					shouldValidate: false,
+				});
+			}
+		}
+	}, [currencyOptions, getValues, setValue]);
 
 	return (
 		<SectionEntryBody title='Information'>
@@ -113,7 +137,10 @@ export default function Header({
 						}}
 					/>
 				</FormField>
-				<FormField label='inventory_date' title='Inventory Date' errors={errors}>
+				<FormField
+					label='inventory_date'
+					title='Inventory Date'
+					errors={errors}>
 					<Controller
 						name={'inventory_date'}
 						control={control}
@@ -143,7 +170,41 @@ export default function Header({
 						{...{ register, errors }}
 					/>
 				</>
-
+				<FormField
+					label='currency_uuid'
+					title='Currency'
+					errors={errors}>
+					<Controller
+						name='currency_uuid'
+						control={control}
+						render={({ field: { onChange, value } }) => {
+							const selectedOption =
+								currencyOptions?.find(
+									(opt) => opt.value === value
+								) || null;
+							return (
+								<ReactSelect
+									placeholder='Select Currency'
+									options={currencyOptions}
+									value={selectedOption}
+									onChange={(opt) => {
+										if (opt) {
+											setValue(
+												'convention_rate',
+												opt.conversion_rate,
+												{
+													shouldDirty: true,
+													shouldValidate: true,
+												}
+											);
+											onChange(opt.value);
+										}
+									}}
+								/>
+							);
+						}}
+					/>
+				</FormField>
 				<JoinInput
 					label='convention_rate'
 					title='Conversion Rate'
