@@ -34,6 +34,8 @@ export default function Information({
 		remarks,
 		updated_at,
 		inventory_date,
+		currency,
+		currency_symbol,
 	} = purchase;
 
 	const renderItems = [
@@ -64,6 +66,10 @@ export default function Information({
 		{
 			label: 'Commercial Invoice Value',
 			value: commercial_invoice_value ? commercial_invoice_value : null,
+		},
+		{
+			label: 'Currency',
+			value: currency + ' (' + currency_symbol + ')',
 		},
 
 		{

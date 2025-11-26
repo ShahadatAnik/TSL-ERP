@@ -5,6 +5,7 @@ import React, {
 	useMemo,
 	useState,
 } from 'react';
+import { useAccCostCenter } from '@/pages/accounting/cost-center/config/query';
 import {
 	useOtherArticleValueLabel,
 	useOtherCategoryValueLabel,
@@ -58,6 +59,7 @@ export default function Index() {
 		postData,
 		deleteData,
 	} = useStoreReceive();
+	const { invalidateQuery: invalidateCostCenter } = useAccCostCenter();
 
 	const { data: material } = useOtherMaterialValueLabel();
 	const { data: category } = useOtherCategoryValueLabel();
@@ -150,6 +152,7 @@ export default function Index() {
 		if (isUpdate) {
 			const receive_entry_description_data = {
 				...data,
+				type: 'store',
 				inventory_date: format(
 					data?.inventory_date,
 					'yyyy-MM-dd HH:mm:ss'
@@ -205,6 +208,7 @@ export default function Index() {
 						invalidateStock();
 						invalidateEntry();
 						invalidateStockMaterialValueLabel();
+						invalidateCostCenter();
 						navigate(
 							`/store/receive/${receive_entry_description_uuid}`
 						);
@@ -224,6 +228,7 @@ export default function Index() {
 		// Create receive_entry description
 		const receive_entry_description_data = {
 			...data,
+			type: 'store',
 			inventory_date: format(data?.inventory_date, 'yyyy-MM-dd HH:mm:ss'),
 			uuid: new_receive_entry_description_uuid,
 			created_at,
@@ -267,6 +272,7 @@ export default function Index() {
 					invalidateStock();
 					invalidateEntry();
 					invalidateStockMaterialValueLabel();
+					invalidateCostCenter();
 					navigate(
 						`/store/receive/${new_receive_entry_description_uuid}`
 					);
