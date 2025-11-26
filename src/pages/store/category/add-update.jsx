@@ -1,12 +1,9 @@
-import { useEffect } from 'react';
 import { useAuth } from '@/context/auth';
 import { useOtherCategoryValueLabel } from '@/state/other';
 import { useStoreCategory } from '@/state/store';
 import { useFetchForRhfReset, useRHF } from '@/hooks';
-
 import { AddModal } from '@/components/Modal';
-import { FormField, Input, JoinInputSelect, ReactSelect, Textarea } from '@/ui';
-
+import {Input, Textarea } from '@/ui';
 import nanoid from '@/lib/nanoid';
 import { DevTool } from '@lib/react-hook-devtool';
 import GetDateTime from '@/util/GetDateTime';
@@ -29,9 +26,7 @@ export default function Index({
 		handleSubmit,
 		errors,
 		reset,
-		Controller,
 		control,
-		getValues,
 		context,
 	} = useRHF(LIBRARY_SCHEMA, LIBRARY_NULL);
 	useFetchForRhfReset(`${url}/${update?.uuid}`, update?.uuid, reset);
