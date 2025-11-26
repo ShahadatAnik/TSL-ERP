@@ -52,14 +52,12 @@ export default function Index({
 				...data,
 				updated_at: GetDateTime(),
 			};
-
 			await updateData.mutateAsync({
 				url: `${url}/${update?.uuid}`,
 				uuid: update?.uuid,
 				updatedData,
 				onClose,
 			});
-
 			return;
 		}
 
