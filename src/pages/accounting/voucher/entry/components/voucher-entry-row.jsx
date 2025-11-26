@@ -72,7 +72,7 @@ function VoucherEntryRow({
 			const costCenters = voucherEntry.voucher_entry_cost_center || [];
 			const entryOrder = voucherEntry.entry_order || []; // Track creation order
 			const ledgerUuid = voucherEntry.ledger_uuid;
-			const selectedLedger = ledgerOptions.find(
+			const selectedLedger = ledgerOptions.filter(
 				(l) => l.value === ledgerUuid
 			);
 
@@ -416,7 +416,7 @@ function VoucherEntryRow({
 																	filteredLedgerOptions
 																}
 																value={
-																	ledgerOptions.find(
+																	ledgerOptions.filter(
 																		(o) =>
 																			o.value ===
 																			value
@@ -470,7 +470,7 @@ function VoucherEntryRow({
 																		paymentTypeOption
 																	}
 																	value={
-																		paymentTypeOption.find(
+																		paymentTypeOption.filter(
 																			(
 																				o
 																			) =>
